@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Typescripts on Iris - Documentation</title>
+    <link>http://iris-go.com/typescript/</link>
+    <description>Recent content in Typescripts on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/typescript/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Typescript</title>
+      <link>http://iris-go.com/typescript/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/typescript/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/iris-contrib/plugin/tree/master/typescript&#34;&gt;This is a plugin&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is an Iris and typescript bridge plugin.&lt;/p&gt;
+
+&lt;h3 id=&#34;what&#34;&gt;What?&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Search for typescript files (.ts)&lt;/li&gt;
+&lt;li&gt;Search for typescript projects (.tsconfig)&lt;/li&gt;
+&lt;li&gt;If 1 || 2 continue else stop&lt;/li&gt;
+&lt;li&gt;Check if typescript is installed, if not then auto-install it (always inside npm global modules, -g)&lt;/li&gt;
+&lt;li&gt;If typescript project then build the project using tsc -p $dir&lt;/li&gt;
+&lt;li&gt;If typescript files and no project then build each typescript using tsc $filename&lt;/li&gt;
+&lt;li&gt;Watch typescript files if any changes happens, then re-build (5|6)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Note: Ignore all typescript files &amp;amp; projects whose path has &amp;lsquo;/node_modules/&amp;rsquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;options&#34;&gt;Options&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Bin&lt;/strong&gt;: string, the typescript installation path/bin/tsc or tsc.cmd, if empty then it will search to the global npm modules&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Dir&lt;/strong&gt;: string, Dir set the root, where to search for typescript files/project. Default &amp;ldquo;./&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ignore&lt;/strong&gt;: string, comma separated ignore typescript files/project from these directories. Default &amp;ldquo;&amp;rdquo; (node_modules are always ignored)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tsconfig&lt;/strong&gt;: config.Tsconfig{}, here you can set all compilerOptions if no tsconfig.json exists inside the &amp;lsquo;Dir&amp;rsquo;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Editor&lt;/strong&gt;: config.Typescript { Editor: config.Editor{}, if setted then alm-tools browser-based typescript IDE will be available. Defailt is nil&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;All these are optional&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;how-to-use&#34;&gt;How to use&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;github.com/kataras/iris&amp;quot;
+    &amp;quot;github.com/iris-contrib/plugin/typescript&amp;quot;
+)
+
+func main(){
+    ts := typescript.Config {
+        Dir: &amp;quot;./scripts/src&amp;quot;,
+        Tsconfig: typescript.Tsconfig{Module: &amp;quot;commonjs&amp;quot;, Target: &amp;quot;es5&amp;quot;}, 
+    }
+    // or typescript.DefaultConfig()
+
+    iris.Plugins.Add(typescript.New(ts)) //or with the default options just: typescript.New()
+
+    iris.Get(&amp;quot;/&amp;quot;, func (ctx *iris.Context){})
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Enable &lt;a href=&#34;plugin-editor.md&#34;&gt;web browser editor&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;ts := typescript.Typescript {
+    //...
+    Editor: typescript.Editor{Username:&amp;quot;admin&amp;quot;, Password: &amp;quot;admin!123&amp;quot;}
+    //...
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

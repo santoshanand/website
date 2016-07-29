@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Features on Iris - Documentation</title>
+    <link>http://iris-go.com/features/</link>
+    <description>Recent content in Features on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Jul 2016 00:00:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/features/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Features</title>
+      <link>http://iris-go.com/features/</link>
+      <pubDate>Fri, 29 Jul 2016 00:00:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/features/</guid>
+      <description>&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Switch between template engines&lt;/strong&gt;: Select the way you like to parse your html files, switchable via one-line configuration, &lt;a href=&#34;render.md&#34;&gt;read more&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Typescript&lt;/strong&gt;: Auto-compile &amp;amp; Watch your client side code via the &lt;a href=&#34;plugin-typescript.md&#34;&gt;typescript plugin&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Online IDE&lt;/strong&gt;: Edit &amp;amp; Compile your client side code when you are not home via the &lt;a href=&#34;plugin-editor.md&#34;&gt;editor plugin&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Iris Online Control&lt;/strong&gt;: Web-based interface to control the basics functionalities of your server via the &lt;a href=&#34;plugin-iriscontrol.md&#34;&gt;iriscontrol plugin&lt;/a&gt;. Note that Iris control is still young&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Subdomains&lt;/strong&gt;: Easy way to express your api via custom and dynamic subdomains&lt;a href=&#34;subdomains.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Named Path Parameters&lt;/strong&gt;: Probably you already know what this means. If not, &lt;a href=&#34;named-parameters.md&#34;&gt;It&amp;rsquo;s easy to learn about&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Custom HTTP Errors&lt;/strong&gt;: Define your own html templates or plain messages when http errors occur&lt;a href=&#34;custom-http-errors.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Internationalization&lt;/strong&gt;: &lt;a href=&#34;middleware-internationalization-and-localization.md&#34;&gt;i18n&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Bindings&lt;/strong&gt;: Need a fast way to convert data from body or form into an object? Take a look &lt;a href=&#34;request-body-bind.md&#34;&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Streaming&lt;/strong&gt;: You have only one option when streaming comes into play&lt;a href=&#34;streaming.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Middlewares&lt;/strong&gt;: Create and/or use global or per route middleware with Iris&amp;rsquo; simplicity&lt;a href=&#34;middlewares.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sessions&lt;/strong&gt;:  Sessions provide a secure way to authenticate your clients/users &lt;a href=&#34;package-sessions.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Realtime&lt;/strong&gt;: Realtime is fun when you use websockets&lt;a href=&#34;package-websocket.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Context&lt;/strong&gt;: &lt;a href=&#34;context.md&#34;&gt;Context&lt;/a&gt; is used for storing route params, storing handlers, sharing variables between middleware, render rich content, send files and much more&lt;a href=&#34;context.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Plugins&lt;/strong&gt;: You can build your own plugins to inject into the Iris framework&lt;a href=&#34;plugins.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Full API&lt;/strong&gt;: All http methods are supported&lt;a href=&#34;api.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Party&lt;/strong&gt;:  Group routes when sharing the same resources or middleware. You can organise a party with domains too! &lt;a href=&#34;party.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Transport Layer Security&lt;/strong&gt;: Provide privacy and data integrity between your server and the client&lt;a href=&#34;tls.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Multi server instances&lt;/strong&gt;: Not only does Iris have a default main server, you can declare as many as you need&lt;a href=&#34;declaration.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Zero configuration&lt;/strong&gt;:  No need to configure anything for typical usage. Well-structured default configurations everywhere, which you can change with ease&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Zero allocations&lt;/strong&gt;: Iris generates zero garbage&lt;/li&gt;
+&lt;li&gt;and much more, take a fast look to all sections&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Oauth_oauth2s on Iris - Documentation</title>
+    <link>http://iris-go.com/oauth_oauth2/</link>
+    <description>Recent content in Oauth_oauth2s on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/oauth_oauth2/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>OAuth,OAuth2</title>
+      <link>http://iris-go.com/oauth_oauth2/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/oauth_oauth2/</guid>
+      <description>
+
+&lt;p&gt;This is a &lt;a href=&#34;https://github.com/iris-contrib/plugin/tree/master/oauth&#34;&gt;plugin&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This plugin helps you to be able to connect your clients using famous websites login APIs, it is a bridge to the &lt;a href=&#34;https://github.com/markbates/goth&#34;&gt;goth&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;supported-providers&#34;&gt;Supported Providers&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;Amazon
+Bitbucket
+Box
+Cloud Foundry
+Digital Ocean
+Dropbox
+Facebook
+GitHub
+Gitlab
+Google+
+Heroku
+InfluxCloud
+Instagram
+Lastfm
+Linkedin
+OneDrive
+Paypal
+SalesForce
+Slack
+Soundcloud
+Spotify
+Steam
+Stripe
+Twitch
+Twitter
+Uber
+Wepay
+Yahoo
+Yammer
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;how-to-use-high-level&#34;&gt;How to use - high level&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;    configs := oauth.Config{
+      Path: &amp;quot;/auth&amp;quot;, //defaults to /auth
+
+      GithubKey:    &amp;quot;YOUR_GITHUB_KEY&amp;quot;,
+      GithubSecret: &amp;quot;YOUR_GITHUB_SECRET&amp;quot;,
+      GithubName:   &amp;quot;github&amp;quot;, // defaults to github
+
+      FacebookKey:    &amp;quot;YOUR_FACEBOOK_KEY&amp;quot;,
+      FacebookSecret: &amp;quot;YOUR_FACEBOOK_KEY&amp;quot;,
+      FacebookName:   &amp;quot;facebook&amp;quot;, // defaults to facebook
+      //and so on... enable as many as you want
+    }
+
+    // create the plugin with our configs
+    authentication := oauth.New(configs)
+    // register the plugin to iris
+    iris.Plugins.Add(authentication)
+
+    // came from yourhost:port/configs.Path/theprovidername
+    // this is the handler inside yourhost:port/configs.Path/theprovidername/callback
+    // you can do redirect to the authenticated url or whatever you want to do
+    authentication.Success(func(ctx *iris.Context) {
+        user := authentication.User(ctx) // returns the goth.User
+    })
+    authentication.Fail(func(ctx *iris.Context){})
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// main.go
+package main
+
+import (
+    &amp;quot;sort&amp;quot;
+    &amp;quot;strings&amp;quot;
+
+    &amp;quot;github.com/iris-contrib/plugin/oauth&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+// register your auth via configs, providers with non-empty values will be registered to goth automatically by Iris
+var configs = oauth.Config{
+    Path: &amp;quot;/auth&amp;quot;, //defaults to /oauth
+
+    GithubKey:    &amp;quot;YOUR_GITHUB_KEY&amp;quot;,
+    GithubSecret: &amp;quot;YOUR_GITHUB_SECRET&amp;quot;,
+    GithubName:   &amp;quot;github&amp;quot;, // defaults to github
+
+    FacebookKey:    &amp;quot;YOUR_FACEBOOK_KEY&amp;quot;,
+    FacebookSecret: &amp;quot;YOUR_FACEBOOK_KEY&amp;quot;,
+    FacebookName:   &amp;quot;facebook&amp;quot;, // defaults to facebook
+}
+
+func init() {
+    iris.Config.Sessions.Provider = &amp;quot;memory&amp;quot;
+}
+
+// ProviderIndex ...
+type ProviderIndex struct {
+    Providers    []string
+    ProvidersMap map[string]string
+}
+
+func main() {
+    // create the plugin with our configs
+    authentication := oauth.New(configs)
+    // register the plugin to iris
+    iris.Plugins.Add(authentication)
+
+    m := make(map[string]string)
+    m[configs.GithubName] = &amp;quot;Github&amp;quot; // same as authentication.Config.GithubName
+    m[configs.FacebookName] = &amp;quot;Facebook&amp;quot;
+
+    var keys []string
+    for k := range m {
+        keys = append(keys, k)
+    }
+    sort.Strings(keys)
+
+    providerIndex := &amp;amp;ProviderIndex{Providers: keys, ProvidersMap: m}
+
+    // set a  login success handler( you can use more than one handler)
+    // if user succeed to logged in
+    // client comes here from: localhost:3000/config.RouteName/lowercase_provider_name/callback &#39;s first handler, but the  previous url is the localhost:3000/config.RouteName/lowercase_provider_name
+    authentication.Success(func(ctx *iris.Context) {
+        // if user couldn&#39;t validate then server sends StatusUnauthorized, which you can handle by:  authentication.Fail OR iris.OnError(iris.StatusUnauthorized, func(ctx *iris.Context){})
+        user := authentication.User(ctx)
+
+        // you can get the url by the named-route &#39;oauth&#39; which you can change by Config&#39;s field: RouteName
+        println(&amp;quot;came from &amp;quot; + authentication.URL(strings.ToLower(user.Provider)))
+        ctx.Render(&amp;quot;user.html&amp;quot;, user)
+    })
+
+    // customize the error page using: authentication.Fail(func(ctx *iris.Context){....})
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;index.html&amp;quot;, providerIndex)
+    })
+
+    iris.Listen(&amp;quot;:3000&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;View:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/index.html --&amp;gt;
+
+{{range $key,$value:=.Providers}}
+    &amp;lt;p&amp;gt;&amp;lt;a href=&amp;quot;{{ url &amp;quot;oauth&amp;quot; $value}}&amp;quot;&amp;gt;Log in with {{index $.ProvidersMap $value}}&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt;
+{{end}}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/user.html --&amp;gt;
+&amp;lt;p&amp;gt;Name: {{.Name}}&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;Email: {{.Email}}&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;NickName: {{.NickName}}&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;Location: {{.Location}}&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;AvatarURL: {{.AvatarURL}} &amp;lt;img src=&amp;quot;{{.AvatarURL}}&amp;quot;&amp;gt;&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;Description: {{.Description}}&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;UserID: {{.UserID}}&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;AccessToken: {{.AccessToken}}&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;ExpiresAt: {{.ExpiresAt}}&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;RefreshToken: {{.RefreshToken}}&amp;lt;/p&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;how-to-use-low-level&#34;&gt;How to use - low level&lt;/h2&gt;
+
+&lt;p&gt;Low-level is just the &lt;a href=&#34;https://github.com/iris-contrib/gothic&#34;&gt;iris-contrib/gothic&lt;/a&gt; which is like the original &lt;a href=&#34;https://github.com/markbates/goth&#34;&gt;goth&lt;/a&gt; but converted to work with Iris.&lt;/p&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;html/template&amp;quot;
+    &amp;quot;os&amp;quot;
+
+    &amp;quot;sort&amp;quot;
+
+    &amp;quot;github.com/iris-contrib/gothic&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+    &amp;quot;github.com/markbates/goth&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/amazon&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/bitbucket&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/box&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/digitalocean&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/dropbox&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/facebook&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/github&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/gitlab&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/gplus&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/heroku&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/instagram&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/lastfm&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/linkedin&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/onedrive&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/paypal&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/salesforce&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/slack&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/soundcloud&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/spotify&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/steam&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/stripe&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/twitch&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/twitter&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/uber&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/wepay&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/yahoo&amp;quot;
+    &amp;quot;github.com/markbates/goth/providers/yammer&amp;quot;
+)
+
+func init() {
+    iris.Config.Sessions.Provider = &amp;quot;memory&amp;quot; // or &amp;quot;redis&amp;quot; and configure the Redis Provider
+}
+
+func main() {
+    goth.UseProviders(
+        twitter.New(os.Getenv(&amp;quot;TWITTER_KEY&amp;quot;), os.Getenv(&amp;quot;TWITTER_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/twitter/callback&amp;quot;),
+        // If you&#39;d like to use authenticate instead of authorize in Twitter provider, use this instead.
+        // twitter.NewAuthenticate(os.Getenv(&amp;quot;TWITTER_KEY&amp;quot;), os.Getenv(&amp;quot;TWITTER_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/twitter/callback&amp;quot;),
+
+        facebook.New(os.Getenv(&amp;quot;FACEBOOK_KEY&amp;quot;), os.Getenv(&amp;quot;FACEBOOK_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/facebook/callback&amp;quot;),
+        gplus.New(os.Getenv(&amp;quot;GPLUS_KEY&amp;quot;), os.Getenv(&amp;quot;GPLUS_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/gplus/callback&amp;quot;),
+        github.New(os.Getenv(&amp;quot;GITHUB_KEY&amp;quot;), os.Getenv(&amp;quot;GITHUB_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/github/callback&amp;quot;),
+        spotify.New(os.Getenv(&amp;quot;SPOTIFY_KEY&amp;quot;), os.Getenv(&amp;quot;SPOTIFY_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/spotify/callback&amp;quot;),
+        linkedin.New(os.Getenv(&amp;quot;LINKEDIN_KEY&amp;quot;), os.Getenv(&amp;quot;LINKEDIN_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/linkedin/callback&amp;quot;),
+        lastfm.New(os.Getenv(&amp;quot;LASTFM_KEY&amp;quot;), os.Getenv(&amp;quot;LASTFM_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/lastfm/callback&amp;quot;),
+        twitch.New(os.Getenv(&amp;quot;TWITCH_KEY&amp;quot;), os.Getenv(&amp;quot;TWITCH_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/twitch/callback&amp;quot;),
+        dropbox.New(os.Getenv(&amp;quot;DROPBOX_KEY&amp;quot;), os.Getenv(&amp;quot;DROPBOX_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/dropbox/callback&amp;quot;),
+        digitalocean.New(os.Getenv(&amp;quot;DIGITALOCEAN_KEY&amp;quot;), os.Getenv(&amp;quot;DIGITALOCEAN_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/digitalocean/callback&amp;quot;, &amp;quot;read&amp;quot;),
+        bitbucket.New(os.Getenv(&amp;quot;BITBUCKET_KEY&amp;quot;), os.Getenv(&amp;quot;BITBUCKET_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/bitbucket/callback&amp;quot;),
+        instagram.New(os.Getenv(&amp;quot;INSTAGRAM_KEY&amp;quot;), os.Getenv(&amp;quot;INSTAGRAM_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/instagram/callback&amp;quot;),
+        box.New(os.Getenv(&amp;quot;BOX_KEY&amp;quot;), os.Getenv(&amp;quot;BOX_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/box/callback&amp;quot;),
+        salesforce.New(os.Getenv(&amp;quot;SALESFORCE_KEY&amp;quot;), os.Getenv(&amp;quot;SALESFORCE_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/salesforce/callback&amp;quot;),
+        amazon.New(os.Getenv(&amp;quot;AMAZON_KEY&amp;quot;), os.Getenv(&amp;quot;AMAZON_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/amazon/callback&amp;quot;),
+        yammer.New(os.Getenv(&amp;quot;YAMMER_KEY&amp;quot;), os.Getenv(&amp;quot;YAMMER_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/yammer/callback&amp;quot;),
+        onedrive.New(os.Getenv(&amp;quot;ONEDRIVE_KEY&amp;quot;), os.Getenv(&amp;quot;ONEDRIVE_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/onedrive/callback&amp;quot;),
+
+        //Pointed localhost.com to http://localhost:3000/auth/yahoo/callback through proxy as yahoo
+        // does not allow to put custom ports in redirection uri
+        yahoo.New(os.Getenv(&amp;quot;YAHOO_KEY&amp;quot;), os.Getenv(&amp;quot;YAHOO_SECRET&amp;quot;), &amp;quot;http://localhost.com&amp;quot;),
+        slack.New(os.Getenv(&amp;quot;SLACK_KEY&amp;quot;), os.Getenv(&amp;quot;SLACK_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/slack/callback&amp;quot;),
+        stripe.New(os.Getenv(&amp;quot;STRIPE_KEY&amp;quot;), os.Getenv(&amp;quot;STRIPE_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/stripe/callback&amp;quot;),
+        wepay.New(os.Getenv(&amp;quot;WEPAY_KEY&amp;quot;), os.Getenv(&amp;quot;WEPAY_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/wepay/callback&amp;quot;, &amp;quot;view_user&amp;quot;),
+        //By default paypal production auth urls will be used, please set PAYPAL_ENV=sandbox as environment variable for testing
+        //in sandbox environment
+        paypal.New(os.Getenv(&amp;quot;PAYPAL_KEY&amp;quot;), os.Getenv(&amp;quot;PAYPAL_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/paypal/callback&amp;quot;),
+        steam.New(os.Getenv(&amp;quot;STEAM_KEY&amp;quot;), &amp;quot;http://localhost:3000/auth/steam/callback&amp;quot;),
+        heroku.New(os.Getenv(&amp;quot;HEROKU_KEY&amp;quot;), os.Getenv(&amp;quot;HEROKU_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/heroku/callback&amp;quot;),
+        uber.New(os.Getenv(&amp;quot;UBER_KEY&amp;quot;), os.Getenv(&amp;quot;UBER_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/uber/callback&amp;quot;),
+        soundcloud.New(os.Getenv(&amp;quot;SOUNDCLOUD_KEY&amp;quot;), os.Getenv(&amp;quot;SOUNDCLOUD_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/soundcloud/callback&amp;quot;),
+        gitlab.New(os.Getenv(&amp;quot;GITLAB_KEY&amp;quot;), os.Getenv(&amp;quot;GITLAB_SECRET&amp;quot;), &amp;quot;http://localhost:3000/auth/gitlab/callback&amp;quot;),
+    )
+
+    m := make(map[string]string)
+    m[&amp;quot;amazon&amp;quot;] = &amp;quot;Amazon&amp;quot;
+    m[&amp;quot;bitbucket&amp;quot;] = &amp;quot;Bitbucket&amp;quot;
+    m[&amp;quot;box&amp;quot;] = &amp;quot;Box&amp;quot;
+    m[&amp;quot;digitalocean&amp;quot;] = &amp;quot;Digital Ocean&amp;quot;
+    m[&amp;quot;dropbox&amp;quot;] = &amp;quot;Dropbox&amp;quot;
+    m[&amp;quot;facebook&amp;quot;] = &amp;quot;Facebook&amp;quot;
+    m[&amp;quot;github&amp;quot;] = &amp;quot;Github&amp;quot;
+    m[&amp;quot;gitlab&amp;quot;] = &amp;quot;Gitlab&amp;quot;
+    m[&amp;quot;soundcloud&amp;quot;] = &amp;quot;SoundCloud&amp;quot;
+    m[&amp;quot;spotify&amp;quot;] = &amp;quot;Spotify&amp;quot;
+    m[&amp;quot;steam&amp;quot;] = &amp;quot;Steam&amp;quot;
+    m[&amp;quot;stripe&amp;quot;] = &amp;quot;Stripe&amp;quot;
+    m[&amp;quot;twitch&amp;quot;] = &amp;quot;Twitch&amp;quot;
+    m[&amp;quot;uber&amp;quot;] = &amp;quot;Uber&amp;quot;
+    m[&amp;quot;wepay&amp;quot;] = &amp;quot;Wepay&amp;quot;
+    m[&amp;quot;yahoo&amp;quot;] = &amp;quot;Yahoo&amp;quot;
+    m[&amp;quot;yammer&amp;quot;] = &amp;quot;Yammer&amp;quot;
+    m[&amp;quot;gplus&amp;quot;] = &amp;quot;Google Plus&amp;quot;
+    m[&amp;quot;heroku&amp;quot;] = &amp;quot;Heroku&amp;quot;
+    m[&amp;quot;instagram&amp;quot;] = &amp;quot;Instagram&amp;quot;
+    m[&amp;quot;lastfm&amp;quot;] = &amp;quot;Last FM&amp;quot;
+    m[&amp;quot;linkedin&amp;quot;] = &amp;quot;Linkedin&amp;quot;
+    m[&amp;quot;onedrive&amp;quot;] = &amp;quot;Onedrive&amp;quot;
+    m[&amp;quot;paypal&amp;quot;] = &amp;quot;Paypal&amp;quot;
+    m[&amp;quot;twitter&amp;quot;] = &amp;quot;Twitter&amp;quot;
+    m[&amp;quot;salesforce&amp;quot;] = &amp;quot;Salesforce&amp;quot;
+    m[&amp;quot;slack&amp;quot;] = &amp;quot;Slack&amp;quot;
+
+    var keys []string
+    for k := range m {
+        keys = append(keys, k)
+    }
+    sort.Strings(keys)
+
+    providerIndex := &amp;amp;ProviderIndex{Providers: keys, ProvidersMap: m}
+
+    iris.Get(&amp;quot;/auth/:provider/callback&amp;quot;, func(ctx *iris.Context) {
+
+        user, err := gothic.CompleteUserAuth(ctx)
+        if err != nil {
+            ctx.SetStatusCode(iris.StatusUnauthorized)
+            ctx.Write(err.Error())
+            return
+        }
+
+        t, _ := template.New(&amp;quot;foo&amp;quot;).Parse(userTemplate)
+        ctx.ExecuteTemplate(t, user)
+    })
+
+    iris.Get(&amp;quot;/auth/:provider&amp;quot;, func(ctx *iris.Context) {
+        err := gothic.BeginAuthHandler(ctx)
+        if err != nil {
+            ctx.Log(err.Error())
+        }
+    })
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        t, _ := template.New(&amp;quot;foo&amp;quot;).Parse(indexTemplate)
+        ctx.ExecuteTemplate(t, providerIndex)
+    })
+    iris.Listen(&amp;quot;:3000&amp;quot;)
+}
+
+// ProviderIndex ...
+type ProviderIndex struct {
+    Providers    []string
+    ProvidersMap map[string]string
+}
+
+var indexTemplate = `{{range $key,$value:=.Providers}}
+    &amp;lt;p&amp;gt;&amp;lt;a href=&amp;quot;/auth/{{$value}}&amp;quot;&amp;gt;Log in with {{index $.ProvidersMap $value}}&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt;
+{{end}}`
+
+var userTemplate = `
+&amp;lt;p&amp;gt;Name: {{.Name}}&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;Email: {{.Email}}&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;NickName: {{.NickName}}&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;Location: {{.Location}}&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;AvatarURL: {{.AvatarURL}} &amp;lt;img src=&amp;quot;{{.AvatarURL}}&amp;quot;&amp;gt;&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;Description: {{.Description}}&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;UserID: {{.UserID}}&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;AccessToken: {{.AccessToken}}&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;ExpiresAt: {{.ExpiresAt}}&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;RefreshToken: {{.RefreshToken}}&amp;lt;/p&amp;gt;
+`
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;high level and low level, no performance differences&lt;/em&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Websockets on Iris - Documentation</title>
+    <link>http://iris-go.com/websockets/</link>
+    <description>Recent content in Websockets on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/websockets/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Websockets</title>
+      <link>http://iris-go.com/websockets/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/websockets/</guid>
+      <description>
+
+&lt;p&gt;&lt;strong&gt;WebSocket is a protocol providing full-duplex communication channels over a single TCP connection&lt;/strong&gt;. The WebSocket protocol was standardized by the IETF as RFC 6455 in 2011, and the WebSocket API in Web IDL is being standardized by the W3C.&lt;/p&gt;
+
+&lt;p&gt;WebSocket is designed to be implemented in web browsers and web servers, but it can be used by any client or server application. The WebSocket Protocol is an independent TCP-based protocol. Its only relationship to HTTP is that its handshake is interpreted by HTTP servers as an Upgrade request. The WebSocket protocol makes more interaction between a browser and a website possible, &lt;strong&gt;facilitating the real-time data transfer from and to the server&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/WebSocket&#34;&gt;Read more about Websockets via wikipedia&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;type Websocket struct {
+    // WriteTimeout time allowed to write a message to the connection.
+    // Default value is 15 * time.Second
+    WriteTimeout time.Duration
+    // PongTimeout allowed to read the next pong message from the connection
+    // Default value is 60 * time.Second
+    PongTimeout time.Duration
+    // PingPeriod send ping messages to the connection with this period. Must be less than PongTimeout
+    // Default value is (PongTimeout * 9) / 10
+    PingPeriod time.Duration
+    // MaxMessageSize max message size allowed from connection
+    // Default value is 1024
+    MaxMessageSize int64
+    // Endpoint is the path which the websocket server will listen for clients/connections
+    // Default value is empty string, if you don&#39;t set it the Websocket server is disabled.
+    Endpoint string
+    // Headers  the response headers before upgrader
+    // Default is empty
+    Headers map[string]string
+    // ReadBufferSize is the buffer size for the underline reader
+    ReadBufferSize int
+    // WriteBufferSize is the buffer size for the underline writer
+    WriteBufferSize int
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;iris.Config.Websocket.Endpoint = &amp;quot;/myEndpoint&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;outline&#34;&gt;Outline&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt; iris.Websocket.OnConnection(func(c iris.WebsocketConnection){})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;WebsocketConnection&amp;rsquo;s methods&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+// Receive from the client
+On(&amp;quot;anyCustomEvent&amp;quot;, func(message string) {})
+On(&amp;quot;anyCustomEvent&amp;quot;, func(message int){})
+On(&amp;quot;anyCustomEvent&amp;quot;, func(message bool){})
+On(&amp;quot;anyCustomEvent&amp;quot;, func(message anyCustomType){})
+On(&amp;quot;anyCustomEvent&amp;quot;, func(){})
+
+// Receive a native websocket message from the client
+// compatible without need of import the iris-ws.js to the .html
+OnMessage(func(message []byte){})
+
+// Send to the client
+Emit(&amp;quot;anyCustomEvent&amp;quot;, string)
+Emit(&amp;quot;anyCustomEvent&amp;quot;, int)
+Emit(&amp;quot;anyCustomEvent&amp;quot;, bool)
+Emit(&amp;quot;anyCustomEvent&amp;quot;, anyCustomType)
+
+// Send via native websocket way, compatible without need of import the iris-ws.js to the .html
+EmitMessage([]byte(&amp;quot;anyMessage&amp;quot;))
+
+// Send to specific client(s)
+To(&amp;quot;otherConnectionId&amp;quot;).Emit/EmitMessage...
+To(&amp;quot;anyCustomRoom&amp;quot;).Emit/EmitMessage...
+
+// Send to all opened connections/clients
+To(websocket.All).Emit/EmitMessage...
+
+// Send to all opened connections/clients EXCEPT this client(c)
+To(websocket.NotMe).Emit/EmitMessage...
+
+// Rooms, group of connections/clients
+Join(&amp;quot;anyCustomRoom&amp;quot;)
+Leave(&amp;quot;anyCustomRoom&amp;quot;)
+
+
+// Fired when the connection is closed
+OnDisconnect(func(){})
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;how-to-use&#34;&gt;How to use&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Server-side&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+package main
+
+import (
+    &amp;quot;fmt&amp;quot;
+
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+type clientPage struct {
+    Title string
+    Host  string
+}
+
+func main() {
+    iris.Static(&amp;quot;/js&amp;quot;, &amp;quot;./static/js&amp;quot;, 1)
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;client.html&amp;quot;, clientPage{&amp;quot;Client Page&amp;quot;, ctx.HostString()})
+    })
+
+    // the path which the websocket client should listen/registed to -&amp;gt;
+    iris.Config.Websocket.Endpoint = &amp;quot;/my_endpoint&amp;quot;
+    // for Allow origin you can make use of the middleware
+    //iris.Config().Websocket.Headers[&amp;quot;Access-Control-Allow-Origin&amp;quot;] = &amp;quot;*&amp;quot;
+
+    var myChatRoom = &amp;quot;room1&amp;quot;
+    iris.Websocket.OnConnection(func(c iris.WebsocketConnection) {
+
+        c.Join(myChatRoom)
+
+        c.On(&amp;quot;chat&amp;quot;, func(message string) {
+            // to all except this connection -&amp;gt;
+            //c.To(websocket.Broadcast).Emit(&amp;quot;chat&amp;quot;, &amp;quot;Message from: &amp;quot;+c.ID()+&amp;quot;-&amp;gt; &amp;quot;+message)
+
+            // to the client -&amp;gt;
+            //c.Emit(&amp;quot;chat&amp;quot;, &amp;quot;Message from myself: &amp;quot;+message)
+
+            //send the message to the whole room,
+            //all connections are inside this room will receive this message
+            c.To(myChatRoom).Emit(&amp;quot;chat&amp;quot;, &amp;quot;From: &amp;quot;+c.ID()+&amp;quot;: &amp;quot;+message)
+        })
+
+        c.OnDisconnect(func() {
+            fmt.Printf(&amp;quot;\nConnection with ID: %s has been disconnected!&amp;quot;, c.ID())
+        })
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Client-side&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// js/chat.js
+var messageTxt;
+var messages;
+
+$(function () {
+
+    messageTxt = $(&amp;quot;#messageTxt&amp;quot;);
+    messages = $(&amp;quot;#messages&amp;quot;);
+
+
+    ws = new Ws(&amp;quot;ws://&amp;quot; + HOST + &amp;quot;/my_endpoint&amp;quot;);
+    ws.OnConnect(function () {
+        console.log(&amp;quot;Websocket connection enstablished&amp;quot;);
+    });
+
+    ws.OnDisconnect(function () {
+        appendMessage($(&amp;quot;&amp;lt;div&amp;gt;&amp;lt;center&amp;gt;&amp;lt;h3&amp;gt;Disconnected&amp;lt;/h3&amp;gt;&amp;lt;/center&amp;gt;&amp;lt;/div&amp;gt;&amp;quot;));
+    });
+
+    ws.On(&amp;quot;chat&amp;quot;, function (message) {
+        appendMessage($(&amp;quot;&amp;lt;div&amp;gt;&amp;quot; + message + &amp;quot;&amp;lt;/div&amp;gt;&amp;quot;));
+    })
+
+    $(&amp;quot;#sendBtn&amp;quot;).click(function () {
+        //ws.EmitMessage(messageTxt.val());
+        ws.Emit(&amp;quot;chat&amp;quot;, messageTxt.val().toString());
+        messageTxt.val(&amp;quot;&amp;quot;);
+    })
+
+})
+
+
+function appendMessage(messageDiv) {
+    var theDiv = messages[0]
+    var doScroll = theDiv.scrollTop == theDiv.scrollHeight - theDiv.clientHeight;
+    messageDiv.appendTo(messages)
+    if (doScroll) {
+        theDiv.scrollTop = theDiv.scrollHeight - theDiv.clientHeight;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;
+&amp;lt;html&amp;gt;
+
+&amp;lt;head&amp;gt;
+    &amp;lt;title&amp;gt;My iris-ws&amp;lt;/title&amp;gt;
+&amp;lt;/head&amp;gt;
+
+&amp;lt;body&amp;gt;
+    &amp;lt;div id=&amp;quot;messages&amp;quot; style=&amp;quot;border-width:1px;border-style:solid;height:400px;width:375px;&amp;quot;&amp;gt;
+
+    &amp;lt;/div&amp;gt;
+    &amp;lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;messageTxt&amp;quot; /&amp;gt;
+    &amp;lt;button type=&amp;quot;button&amp;quot; id=&amp;quot;sendBtn&amp;quot;&amp;gt;Send&amp;lt;/button&amp;gt;
+    &amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt;
+        var HOST = {{.Host}}
+    &amp;lt;/script&amp;gt;
+    &amp;lt;script src=&amp;quot;js/vendor/jquery-2.2.3.min.js&amp;quot; type=&amp;quot;text/javascript&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;!-- /iris-ws.js is served automatically by the server --&amp;gt;
+    &amp;lt;script src=&amp;quot;/iris-ws.js&amp;quot; type=&amp;quot;text/javascript&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;!-- --&amp;gt;
+    &amp;lt;script src=&amp;quot;js/chat.js&amp;quot; type=&amp;quot;text/javascript&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;/body&amp;gt;
+
+&amp;lt;/html&amp;gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;View a working example by navigating &lt;a href=&#34;https://github.com/iris-contrib/examples/tree/master/websocket&#34;&gt;here&lt;/a&gt; and if you need more than one websocket server &lt;a href=&#34;https://github.com/iris-contrib/examples/tree/master/websocket_unlimited_servers&#34;&gt;click here&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

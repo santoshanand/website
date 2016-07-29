@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Apis on Iris - Documentation</title>
+    <link>http://iris-go.com/api/</link>
+    <description>Recent content in Apis on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/api/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>API</title>
+      <link>http://iris-go.com/api/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/api/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Use of GET,  POST,  PUT,  DELETE, HEAD, PATCH &amp;amp; OPTIONS&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+    iris.Get(&amp;quot;/home&amp;quot;, testGet)
+    iris.Post(&amp;quot;/login&amp;quot;, testPost)
+    iris.Put(&amp;quot;/add&amp;quot;, testPut)
+    iris.Delete(&amp;quot;/remove&amp;quot;, testDelete)
+    iris.Head(&amp;quot;/testHead&amp;quot;, testHead)
+    iris.Patch(&amp;quot;/testPatch&amp;quot;, testPatch)
+    iris.Options(&amp;quot;/testOptions&amp;quot;, testOptions)
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+func testGet(c *iris.Context) {
+    //...
+}
+func testPost(c *iris.Context) {
+    //...
+}
+
+//and so on....
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

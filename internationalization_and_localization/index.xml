@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Internationalization_and_localizations on Iris - Documentation</title>
+    <link>http://iris-go.com/internationalization_and_localization/</link>
+    <description>Recent content in Internationalization_and_localizations on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/internationalization_and_localization/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Internationalization and Localization</title>
+      <link>http://iris-go.com/internationalization_and_localization/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/internationalization_and_localization/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/iris-contrib/middleware/tree/master/i18n&#34;&gt;This is a middleware&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;tutorial&#34;&gt;Tutorial&lt;/h2&gt;
+
+&lt;p&gt;Create folder named &amp;lsquo;locales&amp;rsquo;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;///Files: 
+
+./locales/locale_en-US.ini 
+./locales/locale_el-US.ini 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Contents on locale_en-US:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hi = hello, %s
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Contents on locale_el-GR:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hi = Γειά, %s
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+    package main
+
+    import (
+        &amp;quot;fmt&amp;quot;
+        &amp;quot;github.com/kataras/iris&amp;quot;
+        &amp;quot;github.com/iris-contrib/middleware/i18n&amp;quot;
+    )
+
+    func main() {
+
+        iris.Use(i18n.New(i18n.Config{Default: &amp;quot;en-US&amp;quot;,
+            Languages: map[string]string{
+                &amp;quot;en-US&amp;quot;: &amp;quot;./locales/locale_en-US.ini&amp;quot;,
+                &amp;quot;el-GR&amp;quot;: &amp;quot;./locales/locale_el-GR.ini&amp;quot;,
+                &amp;quot;zh-CN&amp;quot;: &amp;quot;./locales/locale_zh-CN.ini&amp;quot;}}))   
+        
+        iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+            hi := ctx.GetFmt(&amp;quot;translate&amp;quot;)(&amp;quot;hi&amp;quot;, &amp;quot;maki&amp;quot;) // hi is the key, &#39;maki&#39; is the %s, the second parameter is optional
+            language := ctx.Get(&amp;quot;language&amp;quot;) // language is the language key, example &#39;en-US&#39;
+
+            ctx.Write(&amp;quot;From the language %s translated output: %s&amp;quot;, language, hi)
+        })
+
+        iris.Listen(&amp;quot;:8080&amp;quot;)
+
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

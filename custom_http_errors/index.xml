@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Custom_http_errors on Iris - Documentation</title>
+    <link>http://iris-go.com/custom_http_errors/</link>
+    <description>Recent content in Custom_http_errors on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/custom_http_errors/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Custom Http Errors</title>
+      <link>http://iris-go.com/custom_http_errors/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/custom_http_errors/</guid>
+      <description>&lt;p&gt;You can define your own handlers when http error occurs.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+
+    iris.OnError(iris.StatusInternalServerError, func(ctx *iris.Context) {
+        ctx.Write(&amp;quot;CUSTOM 500 INTERNAL SERVER ERROR PAGE&amp;quot;)
+        iris.Logger.Printf(&amp;quot;http status: 500 happened!&amp;quot;)
+    })
+
+    iris.OnError(iris.StatusNotFound, func(ctx *iris.Context) {
+        ctx.Write(&amp;quot;CUSTOM 404 NOT FOUND ERROR PAGE&amp;quot;)
+        iris.Logger.Printf(&amp;quot;http status: 404 happened!&amp;quot;)
+    })
+
+    // emit the errors to test them
+    iris.Get(&amp;quot;/500&amp;quot;, func(ctx *iris.Context) {
+        ctx.EmitError(iris.StatusInternalServerError) // ctx.Panic()
+    })
+
+    iris.Get(&amp;quot;/404&amp;quot;, func(ctx *iris.Context) {
+        ctx.EmitError(iris.StatusNotFound) // ctx.NotFound()
+    })
+
+    println(&amp;quot;Server is running at: 80&amp;quot;)
+    iris.Listen(&amp;quot;:80&amp;quot;)
+
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Installs on Iris - Documentation</title>
+    <link>http://iris-go.com/install/</link>
+    <description>Recent content in Installs on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/install/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Install</title>
+      <link>http://iris-go.com/install/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/install/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Compatible with go1.6+&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ go get -u github.com/kataras/iris/iris
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;this will update the dependencies also.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If you are connected to the Internet through &lt;strong&gt;China&lt;/strong&gt;, according to &lt;a href=&#34;https://github.com/kataras/iris/issues/98&#34;&gt;this&lt;/a&gt; you may having problem install Iris. &lt;strong&gt;Follow the below steps&lt;/strong&gt;:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/northbright/Notes/blob/master/Golang/china/get-golang-packages-on-golang-org-in-china.md&#34;&gt;https://github.com/northbright/Notes/blob/master/Golang/china/get-golang-packages-on-golang-org-in-china.md&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$ go get github.com/kataras/iris/iris&lt;/code&gt; &lt;strong&gt;without -u&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If you have any problems installing Iris, just delete the directory &lt;code&gt;$GOPATH/src/github.com/kataras/iris&lt;/code&gt; , open your shell and run &lt;code&gt;go get -u github.com/kataras/iris/iris&lt;/code&gt; .
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

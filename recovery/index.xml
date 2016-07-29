@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Recoveries on Iris - Documentation</title>
+    <link>http://iris-go.com/recovery/</link>
+    <description>Recent content in Recoveries on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/recovery/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Recovery</title>
+      <link>http://iris-go.com/recovery/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/recovery/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/iris-contrib/middleware/tree/master/recovery&#34;&gt;This is a middleware&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Safety recover the server from panic.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;recovery.New(...*logger.Logger)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+package main
+
+import (
+    &amp;quot;github.com/kataras/iris&amp;quot;
+    &amp;quot;github.com/iris-contrib/middleware/recovery&amp;quot;
+)
+
+func main() {
+
+    iris.Use(recovery.New(iris.Logger)) // optional parameter is the logger which the stack of the panic will be printed, here we&#39;re using the default station&#39;s Logger.
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.Write(&amp;quot;Hi, let&#39;s panic&amp;quot;)
+        panic(&amp;quot;errorrrrrrrrrrrrrrr&amp;quot;)
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

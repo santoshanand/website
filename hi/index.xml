@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>His on Iris - Documentation</title>
+    <link>http://iris-go.com/hi/</link>
+    <description>Recent content in His on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Jul 2016 00:00:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/hi/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Hi</title>
+      <link>http://iris-go.com/hi/</link>
+      <pubDate>Fri, 29 Jul 2016 00:00:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/hi/</guid>
+      <description>&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+    iris.Get(&amp;quot;/hi&amp;quot;, func(ctx *iris.Context) {
+        ctx.Write(&amp;quot;Hi %s&amp;quot;, &amp;quot;iris&amp;quot;)
+    })
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The same&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+    api := iris.New()
+    api.Get(&amp;quot;/hi&amp;quot;, hi)
+    api.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+func hi(ctx *iris.Context){
+   ctx.Write(&amp;quot;Hi %s&amp;quot;, &amp;quot;iris&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Rich Hi with &lt;strong&gt;html\/template&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/hi.html --&amp;gt;
+&amp;lt;html&amp;gt;&amp;lt;head&amp;gt; &amp;lt;title&amp;gt; Hi Iris [THE TITLE] &amp;lt;/title&amp;gt; &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;h1&amp;gt; Hi {{.Name}} &amp;lt;/h1&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+    iris.Get(&amp;quot;/hi&amp;quot;, hi)
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+func hi(ctx *iris.Context){
+   ctx.Render(&amp;quot;hi.html&amp;quot;, struct { Name string }{ Name: &amp;quot;iris&amp;quot; })
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Rich Hi with &lt;strong&gt;Django-syntax&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./mytemplates/hi.html --&amp;gt;
+&amp;lt;html&amp;gt;&amp;lt;head&amp;gt; &amp;lt;title&amp;gt; Hi Iris &amp;lt;/title&amp;gt; &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;h1&amp;gt; Hi {{ Name }}
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+import (
+    &amp;quot;github.com/kataras/iris&amp;quot;
+    &amp;quot;github.com/iris-contrib/template/django&amp;quot;
+)
+
+func main() {
+    iris.UseTemplate(django.New()).Directory(&amp;quot;./mytemplates&amp;quot;, &amp;quot;.html&amp;quot;)
+    iris.Get(&amp;quot;/hi&amp;quot;, hi)
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+func hi(ctx *iris.Context){
+   ctx.Render(&amp;quot;hi.html&amp;quot;, map[string]interface{}{&amp;quot;Name&amp;quot;: &amp;quot;iris&amp;quot;}, iris.RenderOptions{&amp;quot;gzip&amp;quot;:true})
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;More about render and template engines &lt;a href=&#34;render.md&#34;&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

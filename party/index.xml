@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Parties on Iris - Documentation</title>
+    <link>http://iris-go.com/party/</link>
+    <description>Recent content in Parties on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Jul 2016 03:13:00 +0200</lastBuildDate>
+    <atom:link href="http://iris-go.com/party/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Party</title>
+      <link>http://iris-go.com/party/</link>
+      <pubDate>Fri, 29 Jul 2016 03:13:00 +0200</pubDate>
+      
+      <guid>http://iris-go.com/party/</guid>
+      <description>&lt;p&gt;Let&amp;rsquo;s party with Iris web framework!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+    admin := iris.Party(&amp;quot;/admin&amp;quot;, func(ctx *iris.Context){ ctx.Write(&amp;quot;Middleware for all party&#39;s routes!&amp;quot;) })
+    {
+        // add a silly middleware
+        admin.UseFunc(func(c *iris.Context) {
+            //your authentication logic here...
+            println(&amp;quot;from &amp;quot;, c.PathString())
+            authorized := true
+            if authorized {
+                c.Next()
+            } else {
+                c.Text(401, c.PathString()+&amp;quot; is not authorized for you&amp;quot;)
+            }
+
+        })
+        admin.Get(&amp;quot;/&amp;quot;, func(c *iris.Context) {
+            c.Write(&amp;quot;from /admin/ or /admin if you pathcorrection on&amp;quot;)
+        })
+        admin.Get(&amp;quot;/dashboard&amp;quot;, func(c *iris.Context) {
+            c.Write(&amp;quot;/admin/dashboard&amp;quot;)
+        })
+        admin.Delete(&amp;quot;/delete/:userId&amp;quot;, func(c *iris.Context) {
+            c.Write(&amp;quot;admin/delete/%s&amp;quot;, c.Param(&amp;quot;userId&amp;quot;))
+        })
+    }
+
+
+    beta := admin.Party(&amp;quot;/beta&amp;quot;)
+    beta.Get(&amp;quot;/hey&amp;quot;, func(c *iris.Context) { c.Write(&amp;quot;hey from /admin/beta/hey&amp;quot;) })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

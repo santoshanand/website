@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Static_files on Iris - Documentation</title>
+    <link>http://iris-go.com/static_files/</link>
+    <description>Recent content in Static_files on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Jul 2016 03:13:00 +0200</lastBuildDate>
+    <atom:link href="http://iris-go.com/static_files/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Static Files</title>
+      <link>http://iris-go.com/static_files/</link>
+      <pubDate>Fri, 29 Jul 2016 03:13:00 +0200</pubDate>
+      
+      <guid>http://iris-go.com/static_files/</guid>
+      <description>
+
+&lt;p&gt;Serve a static directory&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+// StaticHandler returns a HandlerFunc to serve static system directory
+// Accepts 5 parameters
+//
+// first is the systemPath (string)
+// Path to the root directory to serve files from.
+//
+// second is the  stripSlashes (int) level
+// * stripSlashes = 0, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;/foo/bar&amp;quot;
+// * stripSlashes = 1, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;/bar&amp;quot;
+// * stripSlashes = 2, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;&amp;quot;
+//
+// third is the compress (bool)
+// Transparently compresses responses if set to true.
+//
+// The server tries minimizing CPU usage by caching compressed files.
+// It adds FSCompressedFileSuffix suffix to the original file name and
+// tries saving the resulting compressed file under the new file name.
+// So it is advisable to give the server write access to Root
+// and to all inner folders in order to minimze CPU usage when serving
+// compressed responses.
+//
+// fourth is the generateIndexPages (bool)
+// Index pages for directories without files matching IndexNames
+// are automatically generated if set.
+//
+// Directory index generation may be quite slow for directories
+// with many files (more than 1K), so it is discouraged enabling
+// index pages&#39; generation for such directories.
+//
+// fifth is the indexNames ([]string)
+// List of index file names to try opening during directory access.
+//
+// For example:
+//
+//     * index.html
+//     * index.htm
+//     * my-super-index.xml
+//
+StaticHandler(systemPath string, stripSlashes int, compress bool,
+                  generateIndexPages bool, indexNames []string) HandlerFunc 
+
+// Static registers a route which serves a system directory
+// this doesn&#39;t generates an index page which list all files
+// no compression is used also, for these features look at StaticFS func
+// accepts three parameters
+// first parameter is the request url path (string)
+// second parameter is the system directory (string)
+// third parameter is the level (int) of stripSlashes
+// * stripSlashes = 0, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;/foo/bar&amp;quot;
+// * stripSlashes = 1, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;/bar&amp;quot;
+// * stripSlashes = 2, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;&amp;quot;
+Static(relative string, systemPath string, stripSlashes int)
+
+// StaticFS registers a route which serves a system directory
+// generates an index page which list all files
+// uses compression which file cache, if you use this method it will generate compressed files also
+// think this function as small fileserver with http
+// accepts three parameters
+// first parameter is the request url path (string)
+// second parameter is the system directory (string)
+// third parameter is the level (int) of stripSlashes
+// * stripSlashes = 0, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;/foo/bar&amp;quot;
+// * stripSlashes = 1, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;/bar&amp;quot;
+// * stripSlashes = 2, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;&amp;quot;
+StaticFS(relative string, systemPath string, stripSlashes int)
+
+// StaticWeb same as Static but if index.html e
+// xists and request uri is &#39;/&#39; then display the index.html&#39;s contents
+// accepts three parameters
+// first parameter is the request url path (string)
+// second parameter is the system directory (string)
+// third parameter is the level (int) of stripSlashes
+// * stripSlashes = 0, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;/foo/bar&amp;quot;
+// * stripSlashes = 1, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;/bar&amp;quot;
+// * stripSlashes = 2, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;&amp;quot;
+StaticWeb(relative string, systemPath string, stripSlashes int)
+
+// StaticServe serves a directory as web resource
+// it&#39;s the simpliest form of the Static* functions
+// Almost same usage as StaticWeb
+// accepts only one required parameter which is the systemPath 
+// ( the same path will be used to register the GET&amp;amp;HEAD routes)
+// if second parameter is empty, otherwise the requestPath is the second parameter
+// it uses gzip compression (compression on each request, no file cache)
+StaticServe(systemPath string, requestPath ...string)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+iris.Static(&amp;quot;/public&amp;quot;, &amp;quot;./static/assets/&amp;quot;, 1)
+//-&amp;gt; /public/assets/favicon.ico
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;iris.StaticFS(&amp;quot;/ftp&amp;quot;, &amp;quot;./myfiles/public&amp;quot;, 1)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;iris.StaticWeb(&amp;quot;/&amp;quot;,&amp;quot;./my_static_html_website&amp;quot;, 1)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;StaticServe(systemPath string, requestPath ...string)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;manual-static-file-serving&#34;&gt;Manual static file serving&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ServeFile serves a view file, to send a file
+// to the client you should use the SendFile(serverfilename,clientfilename)
+// receives two parameters
+// filename/path (string)
+// gzipCompression (bool)
+//
+// You can define your own &amp;quot;Content-Type&amp;quot; header also, after this function call
+ServeFile(filename string, gzipCompression bool) error 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Serve static individual file&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+iris.Get(&amp;quot;/txt&amp;quot;, func(ctx *iris.Context) {
+    ctx.ServeFile(&amp;quot;./myfolder/staticfile.txt&amp;quot;, false)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For example if you want manual serve static individual files dynamically you can do something like that:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;strings&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+    &amp;quot;github.com/kataras/iris/utils&amp;quot;
+)
+
+func main() {
+
+    iris.Get(&amp;quot;/*file&amp;quot;, func(ctx *iris.Context) {
+            requestpath := ctx.Param(&amp;quot;file&amp;quot;)
+
+            path := strings.Replace(requestpath, &amp;quot;/&amp;quot;, utils.PathSeperator, -1)
+
+            if !utils.DirectoryExists(path) {
+                ctx.NotFound()
+                return
+            }
+
+            ctx.ServeFile(path, false) // make this true to use gzip compression
+    }
+}
+
+iris.Listen(&amp;quot;:8080&amp;quot;)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The previous example is almost identical with&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;StaticServe(systemPath string, requestPath ...string)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func main() {
+  iris.StaticServe(&amp;quot;./mywebpage&amp;quot;)
+  // Serves all files inside this directory to the GET&amp;amp;HEAD route: 0.0.0.0:8080/mywebpage
+  // using gzip compression ( no file cache, for file cache with zipped files use the StaticFS)
+  iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func main() {
+  iris.StaticServe(&amp;quot;./static/mywebpage&amp;quot;,&amp;quot;/webpage&amp;quot;)
+  // Serves all files inside filesystem path ./static/mywebpage to the GET&amp;amp;HEAD route: 0.0.0.0:8080/webpage
+  iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;favicon&#34;&gt;Favicon&lt;/h2&gt;
+
+&lt;p&gt;Imagine that we have a folder named &lt;code&gt;static&lt;/code&gt; which has subfolder &lt;code&gt;favicons&lt;/code&gt; and this folder contains a favicon, for example &lt;code&gt;iris_favicon_32_32.ico&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+    iris.Favicon(&amp;quot;./static/favicons/iris_favicon_32_32.ico&amp;quot;)
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.HTML(iris.StatusOK, &amp;quot;You should see the favicon now at the side of your browser.&amp;quot;)
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Practical example &lt;a href=&#34;https://github.com/iris-contrib/examples/tree/master/favicon&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

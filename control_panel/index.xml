@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Control_panels on Iris - Documentation</title>
+    <link>http://iris-go.com/control_panel/</link>
+    <description>Recent content in Control_panels on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/control_panel/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Control panel</title>
+      <link>http://iris-go.com/control_panel/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/control_panel/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/iris-contrib/plugin/tree/master/iriscontrol&#34;&gt;This is a plugin&lt;/a&gt; which is working but not finished yet.&lt;/p&gt;
+
+&lt;p&gt;Which gives  access to your iris server&amp;rsquo;s information via a web interface.
+&amp;gt; You need internet connection the first time you will run this plugin, because the assets don&amp;rsquo;t exists to this repository but &lt;a href=&#34;https://github.com/iris-contrib/iris-control-assets&#34;&gt;here&lt;/a&gt;. The plugin will install these for you at the first run.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;How to use&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;iriscontrol.New(port int, authenticatedUsers map[string]string) iris.IPlugin
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Example&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;github.com/kataras/iris&amp;quot;
+    &amp;quot;github.com/iris-contrib/plugin/iriscontrol&amp;quot;
+)
+
+func main() {
+
+    iris.Plugins.Add(iriscontrol.New(9090, map[string]string{
+        &amp;quot;irisusername1&amp;quot;: &amp;quot;irispassword1&amp;quot;,
+        &amp;quot;irisusername2&amp;quot;: &amp;quot;irispassowrd2&amp;quot;,
+    }))
+    //or
+    // ....
+    // iriscontrol.New(iriscontrol.Config{...})
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+    })
+
+    iris.Post(&amp;quot;/something&amp;quot;, func(ctx *iris.Context) {
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

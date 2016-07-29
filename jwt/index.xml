@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jwts on Iris - Documentation</title>
+    <link>http://iris-go.com/jwt/</link>
+    <description>Recent content in Jwts on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/jwt/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>JSON Web Tokens</title>
+      <link>http://iris-go.com/jwt/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/jwt/</guid>
+      <description>
+
+&lt;p&gt;This is a &lt;a href=&#34;https://github.com/iris-contrib/middleware/tree/master/jwt&#34;&gt;middleware&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;what-is-it&#34;&gt;What is it?&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://jwt.io&#34;&gt;JWT.io&lt;/a&gt; has a great &lt;a href=&#34;https://jwt.io/introduction/&#34;&gt;introduction&lt;/a&gt; to JSON Web Tokens.&lt;/p&gt;
+
+&lt;p&gt;In short, it&amp;rsquo;s a signed JSON object that does something useful (for example, authentication). It&amp;rsquo;s commonly used for Bearer tokens in Oauth 2. A token is made of three parts, separated by .&amp;rsquo;s. The first two parts are JSON objects, that have been base64url encoded. The last part is the signature, encoded the same way.&lt;/p&gt;
+
+&lt;p&gt;The first part is called the header. It contains the necessary information for verifying the last part, the signature. For example, which encryption method was used for signing and what key was used.&lt;/p&gt;
+
+&lt;p&gt;The part in the middle is the interesting bit. It&amp;rsquo;s called the Claims and contains the actual stuff you care about. Refer to the RFC for information about reserved keys and the proper way to add your own.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;github.com/dgrijalva/jwt-go&amp;quot;
+    jwtmiddleware &amp;quot;github.com/iris-contrib/middleware/jwt&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+
+    myJwtMiddleware := jwtmiddleware.New(jwtmiddleware.Config{
+        ValidationKeyGetter: func(token *jwt.Token) (interface{}, error) {
+            return []byte(&amp;quot;My Secret&amp;quot;), nil
+        },
+        SigningMethod: jwt.SigningMethodHS256,
+    })
+
+    iris.Get(&amp;quot;/ping&amp;quot;, PingHandler)
+
+    iris.Get(&amp;quot;/secured/ping&amp;quot;, myJwtMiddleware.Serve, SecuredPingHandler)
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+
+}
+
+type Response struct {
+    Text string `json:&amp;quot;text&amp;quot;`
+}
+
+func PingHandler(ctx *iris.Context) {
+    response := Response{&amp;quot;All good. You don&#39;t need to be authenticated to call this&amp;quot;}
+    ctx.JSON(iris.StatusOK, response)
+}
+
+func SecuredPingHandler(ctx *iris.Context) {
+    response := Response{&amp;quot;All good. You only get this message if you&#39;re authenticated&amp;quot;}
+    // get the *jwt.Token which contains user information using:
+    // user:= myJwtMiddleware.Get(ctx) or context.Get(&amp;quot;jwt&amp;quot;).(*jwt.Token)
+    ctx.JSON(iris.StatusOK, response)
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

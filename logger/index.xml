@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Loggers on Iris - Documentation</title>
+    <link>http://iris-go.com/logger/</link>
+    <description>Recent content in Loggers on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/logger/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Logger</title>
+      <link>http://iris-go.com/logger/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/logger/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/iris-contrib/middleware/tree/master/logger&#34;&gt;This is a middleware&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Logs the incoming requests&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt; New(theLogger *logger.Logger, config ...Config) iris.HandlerFunc
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;How to use&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;github.com/kataras/iris&amp;quot;
+    &amp;quot;github.com/iris-contrib/middleware/logger&amp;quot;
+)
+
+/*
+With configs:
+
+errorLogger := logger.New(iris.Logger, logger.Config{
+        EnableColors: false, //enable it to enable colors for all, disable colors by iris.Logger.ResetColors(), defaults to false
+        // Status displays status code
+        Status: true,
+        // IP displays request&#39;s remote address
+        IP: true,
+        // Method displays the http method
+        Method: true,
+        // Path displays the request path
+        Path: true,
+})
+
+iris.Use(errorLogger)
+
+With default configs:
+
+iris.Use(logger.New(iris.Logger))
+*/
+func main() {
+
+    iris.Use(logger.New(iris.Logger))
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.Write(&amp;quot;hello&amp;quot;)
+    })
+
+    iris.Get(&amp;quot;/1&amp;quot;, func(ctx *iris.Context) {
+        ctx.Write(&amp;quot;hello&amp;quot;)
+    })
+
+    iris.Get(&amp;quot;/2&amp;quot;, func(ctx *iris.Context) {
+        ctx.Write(&amp;quot;hello&amp;quot;)
+    })
+
+    // log http errors
+    errorLogger := logger.New(iris.Logger)
+
+
+    iris.OnError(iris.StatusNotFound, func(ctx *iris.Context) {
+        errorLogger.Serve(ctx)
+        ctx.Write(&amp;quot;My Custom 404 error page &amp;quot;)
+    })
+    //
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can create your &lt;strong&gt;own &lt;a href=&#34;https://github.com/iris-contrib/logger&#34;&gt;Logger instance&lt;/a&gt;&lt;/strong&gt; to use&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+import (
+    &amp;quot;github.com/iris-contrib/logger&amp;quot;
+     mLogger &amp;quot;github.com/iris-contrib/middleware/logger&amp;quot;
+)
+
+theLogger := logger.New(logger.DefaultConfig())
+
+iris.Use(mLogger.New(theLogger))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Note that: The logger middleware uses the ColorBgOther and ColorFgOther fields.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The configuration struct for the &lt;code&gt;iris-contrib/logger&lt;/code&gt; is the &lt;code&gt;iris-contrib/logger/config.go&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;    Logger struct {
+        // Out the (file) writer which the messages/logs will printed to
+        // Default is os.Stdout
+        Out *os.File
+        // Prefix the prefix for each message
+        // Default is &amp;quot;&amp;quot;
+        Prefix string
+        // Disabled default is false
+        Disabled bool
+
+        // foreground colors single SGR Code
+
+        // ColorFgDefault the foreground color for the normal message bodies
+        ColorFgDefault int
+        // ColorFgInfo the foreground  color for info messages
+        ColorFgInfo int
+        // ColorFgSuccess the foreground color for success messages
+        ColorFgSuccess int
+        // ColorFgWarning the foreground color for warning messages
+        ColorFgWarning int
+        // ColorFgDanger the foreground color for error messages
+        ColorFgDanger int
+        // OtherFgColor the foreground color for the rest of the message types
+        ColorFgOther int
+
+        // background colors single SGR Code
+
+        // ColorBgDefault the background color for the normal messages
+        ColorBgDefault int
+        // ColorBgInfo the background  color for info messages
+        ColorBgInfo int
+        // ColorBgSuccess the background color for success messages
+        ColorBgSuccess int
+        // ColorBgWarning the background color for warning messages
+        ColorBgWarning int
+        // ColorBgDanger the background color for error messages
+        ColorBgDanger int
+        // OtherFgColor the background color for the rest of the message types
+        ColorBgOther int
+
+        // banners are the force printed/written messages, doesn&#39;t care about Disabled field
+
+        // ColorFgBanner the foreground color for the banner
+        ColorFgBanner int
+    }
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;logger.DefaultConfig()&lt;/code&gt;  returns &lt;code&gt;logger.Config&lt;/code&gt; :&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;    return Config{
+        Out:      os.Stdout,
+        Prefix:   &amp;quot;&amp;quot;,
+        Disabled: false,
+        // foreground colors
+        ColorFgDefault: int(color.FgHiWhite),
+        ColorFgInfo:    int(color.FgHiCyan),
+        ColorFgSuccess: int(color.FgHiGreen),
+        ColorFgWarning: int(color.FgHiMagenta),
+        ColorFgDanger:  int(color.FgHiRed),
+        ColorFgOther:   int(color.FgHiYellow),
+        // background colors
+        ColorBgDefault: 0,
+        ColorBgInfo:    0,
+        ColorBgSuccess: 0,
+        ColorBgWarning: 0,
+        ColorBgDanger:  0,
+        ColorBgOther:   0,
+        // banner color
+        ColorFgBanner: int(color.FgHiBlue),
+    }
+
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

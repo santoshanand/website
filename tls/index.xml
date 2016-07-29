@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tls on Iris - Documentation</title>
+    <link>http://iris-go.com/tls/</link>
+    <description>Recent content in Tls on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Jul 2016 00:00:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/tls/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>TLS</title>
+      <link>http://iris-go.com/tls/</link>
+      <pubDate>Fri, 29 Jul 2016 00:00:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/tls/</guid>
+      <description>&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// Listen starts the standalone http server
+// which listens to the addr parameter which as the form of
+// host:port
+//
+// It panics on error if you need a func to return an error, use the ListenTo
+// ex: err := iris.ListenTo(config.Server{ListeningAddr:&amp;quot;:8080&amp;quot;})
+Listen(addr string) 
+
+// ListenTLS Starts a https server with certificates,
+// if you use this method the requests of the form of &#39;http://&#39; will fail
+// only https:// connections are allowed
+// which listens to the addr parameter which as the form of
+// host:port
+//
+// It panics on error if you need a func to return an error, use the ListenTo
+// ex: err := iris.ListenTo(&amp;quot;:8080&amp;quot;,&amp;quot;yourfile.cert&amp;quot;,&amp;quot;yourfile.key&amp;quot;)
+ListenTLS(addr string, certFile string, keyFile string)
+
+// ListenTLSAuto starts a server listening at the specific nat address
+// using key &amp;amp; certification taken from the letsencrypt.org &#39;s servers
+// it also starts a second &#39;http&#39; server to redirect all &#39;http://$ADDR_HOSTNAME:80&#39; to the&#39; https://$ADDR&#39;
+//
+// Notes:
+// if you don&#39;t want the last feature you should use this method:
+// iris.ListenTo(config.Server{ListeningAddr: &amp;quot;mydomain.com:443&amp;quot;, AutoTLS: true})
+// it&#39;s a blocking function
+// Limit : https://github.com/iris-contrib/letsencrypt/blob/master/lets.go#L142
+//
+// example: https://github.com/iris-contrib/examples/blob/master/letsencyrpt/main.go
+ListenTLSAuto(addr string)
+
+// ListenUNIX starts the process of listening to the new requests using a &#39;socket file&#39;, this works only on unix
+//
+// It panics on error if you need a func to return an error, use the ListenTo
+// ex: err := iris.ListenTo(&amp;quot;:8080&amp;quot;, Mode: os.FileMode)
+ListenUNIX(addr string, mode os.FileMode)
+
+// ListenVirtual is useful only when you want to test Iris, it doesn&#39;t starts the server but it configures and returns it
+// initializes the whole framework but server doesn&#39;t listens to a specific net.Listener
+// it is not blocking the app
+ListenVirtual(optionalAddr ...string) *Server
+
+// ListenTo listens to a server but acceots the full server&#39;s configuration
+// returns an error, you&#39;re responsible to handle that
+// or use the iris.Must(iris.ListenTo(config.Server{}))
+//
+// it&#39;s a blocking func
+ListenTo(cfg config.Server) (err error) 
+
+// Close terminates all the registered servers and returns an error if any
+// if you want to panic on this error use the iris.Must(iris.Close())
+Close() error 
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;iris.Listen(&amp;quot;:8080&amp;quot;)
+err := iris.ListenTo(config.Server{ListeningAddr: &amp;quot;:8080&amp;quot;})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;iris.ListenTLS(&amp;quot;:8080&amp;quot;, &amp;quot;myCERTfile.cert&amp;quot;, &amp;quot;myKEYfile.key&amp;quot;)
+err := iris.ListenTo(config.Server{ListeningAddr: &amp;quot;:8080&amp;quot;, CertFile: &amp;quot;myCERTfile.cert&amp;quot;, KeyFile: &amp;quot;myKEYfile.key&amp;quot;})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// Package main provide one-line integration with letsencrypt.org
+package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.Write(&amp;quot;Hello from SECURE SERVER!&amp;quot;)
+    })
+
+    iris.Get(&amp;quot;/test2&amp;quot;, func(ctx *iris.Context) {
+        ctx.Write(&amp;quot;Welcome to secure server from /test2!&amp;quot;)
+    })
+
+    // This will provide you automatic certification &amp;amp; key from letsencrypt.org&#39;s servers
+    // it also starts a second &#39;http://&#39; server which will redirect all &#39;http://$PATH&#39; requests to &#39;https://$PATH&#39;
+    iris.ListenTLSAuto(&amp;quot;127.0.0.1:443&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Streamings on Iris - Documentation</title>
+    <link>http://iris-go.com/streaming/</link>
+    <description>Recent content in Streamings on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Jul 2016 03:13:00 +0200</lastBuildDate>
+    <atom:link href="http://iris-go.com/streaming/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Streaming</title>
+      <link>http://iris-go.com/streaming/</link>
+      <pubDate>Fri, 29 Jul 2016 03:13:00 +0200</pubDate>
+      
+      <guid>http://iris-go.com/streaming/</guid>
+      <description>
+
+&lt;p&gt;Do  progressive rendering via multiple flushes, streaming.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// StreamWriter registers the given stream writer for populating
+// response body.
+//
+//
+// This function may be used in the following cases:
+//
+//     * if response body is too big (more than 10MB).
+//     * if response body is streamed from slow external sources.
+//     * if response body must be streamed to the client in chunks.
+//     (aka `http server push`).
+StreamWriter(cb func(writer *bufio.Writer))
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;usage-example&#34;&gt;Usage example&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+package main
+
+import(
+    &amp;quot;github.com/kataras/iris&amp;quot;
+    &amp;quot;bufio&amp;quot;
+    &amp;quot;time&amp;quot;
+    &amp;quot;fmt&amp;quot;
+)
+
+func main() {
+    iris.Any(&amp;quot;/stream&amp;quot;,func (ctx *iris.Context){
+        ctx.StreamWriter(stream)
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+func stream(w *bufio.Writer) {
+    for i := 0; i &amp;lt; 10; i++ {
+            fmt.Fprintf(w, &amp;quot;this is a message number %d&amp;quot;, i)
+
+            // Do not forget flushing streamed data to the client.
+            if err := w.Flush(); err != nil {
+                return
+            }
+            time.Sleep(time.Second)
+        }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To achieve the oposite make use of the &lt;code&gt;StreamReader&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// StreamReader sets response body stream and, optionally body size.
+//
+// If bodySize is &amp;gt;= 0, then the bodyStream must provide exactly bodySize bytes
+// before returning io.EOF.
+//
+// If bodySize &amp;lt; 0, then bodyStream is read until io.EOF.
+//
+// bodyStream.Close() is called after finishing reading all body data
+// if it implements io.Closer.
+//
+// See also StreamReader.
+StreamReader(bodyStream io.Reader, bodySize int)
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

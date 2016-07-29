@@ -8,18 +8,18 @@
   <head lang="en-us">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
-    <title>Iris - Documentation</title>
+    <title>Control panel - Iris - Documentation</title>
     <meta name="generator" content="Hugo 0.16" />
 
     
     <meta name="description" content="The fastest web framework.">
     
-    <link rel="canonical" href="http://iris-go.com/">
+    <link rel="canonical" href="http://iris-go.com/control_panel/">
     
     <meta name="author" content="kataras">
     
 
-    <meta property="og:url" content="http://iris-go.com/">
+    <meta property="og:url" content="http://iris-go.com/control_panel/">
     <meta property="og:title" content="Iris - Documentation">
     <meta property="og:image" content="http://iris-go.com/images/logo.png">
     <meta name="apple-mobile-web-app-title" content="Iris - Documentation">
@@ -68,9 +68,6 @@
     <script src="http://iris-go.com/javascripts/modernizr.js"></script>
 
     
-    <link href="http://iris-go.com/index.xml" rel="alternate" type="application/rss+xml" title="Iris - Documentation" />
-    <link href="http://iris-go.com/index.xml" rel="feed" type="application/rss+xml" title="Iris - Documentation" />
-    
 
   </head>
   <body class="palette-primary-cyan palette-accent-deep orange">
@@ -99,7 +96,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        Iris - Documentation
+        Control panel
       </div>
     </div>
 
@@ -186,14 +183,11 @@
 
 
 
-<a class="current" title="Introduction" href="http://iris-go.com/">
+<a  title="Introduction" href="http://iris-go.com/">
 	
 	Introduction
 </a>
 
-
-<ul id="scrollspy">
-</ul>
 
   
 </li>
@@ -852,11 +846,14 @@
 
 
 
-<a  title="Control panel" href="http://iris-go.com/control_panel/">
+<a class="current" title="Control panel" href="http://iris-go.com/control_panel/">
 	
 	Control panel
 </a>
 
+
+<ul id="scrollspy">
+</ul>
 
   
 </li>
@@ -913,140 +910,50 @@
 
 	<article class="article">
 		<div class="wrapper">
-			
-				<h1>Introduction </h1>
+			<h1>Control panel </h1>
 
-				
+			<p><a href="https://github.com/iris-contrib/plugin/tree/master/iriscontrol">This is a plugin</a> which is working but not finished yet.</p>
 
-<p><a href ="https://github.com/kataras/iris"> <img src="http://iris-go.com/assets/book/cover_4.jpg" /> </a></p>
+<p>Which gives  access to your iris server&rsquo;s information via a web interface.
+&gt; You need internet connection the first time you will run this plugin, because the assets don&rsquo;t exists to this repository but <a href="https://github.com/iris-contrib/iris-control-assets">here</a>. The plugin will install these for you at the first run.</p>
 
-<h2 id="table-of-contents">Table of Contents</h2>
+<hr />
 
-<ul>
-<li><a href="http://iris-go.com/">Introduction</a>
+<p>How to use</p>
 
-<ul>
-<li><a href="#why">Why</a></li>
-</ul></li>
-<li><a href="features/">Features</a></li>
-<li><a href="versioning/">Versioning</a></li>
-<li><a href="install/">Install</a></li>
-<li><a href="hi/">Hi</a></li>
-<li><a href="tls/">Transport Layer Security</a></li>
-<li><a href="handlers/">Handlers</a>
+<pre><code class="language-go">iriscontrol.New(port int, authenticatedUsers map[string]string) iris.IPlugin
+</code></pre>
 
-<ul>
-<li><a href="handlers/#using-handlers">Using Handlers</a></li>
-<li><a href="handlers/#using-handlerfuncs">Using HandlerFuncs</a></li>
-<li><a href="handlers/#using-handlerapi">Using custom struct for a complete API</a></li>
-<li><a href="handlers/#using-native-httphandler">Using native http.Handler</a>
+<p>Example</p>
 
-<ul>
-<li><a href="handlers/#using-native-httphandler-via-tohandlerfunc">Using native http.Handler via iris.ToHandlerFunc()</a></li>
-</ul></li>
-<li><a href="handlers/#routing">Routing and reverse lookups</a></li>
-</ul></li>
-<li><a href="middleware/">Middleware</a></li>
-<li><a href="api/">API</a></li>
-<li><a href="declaration/">Declaration</a></li>
-<li><a href="configuration/">Configuration</a></li>
-<li><a href="party/">Party</a></li>
-<li><a href="subdomains/">Subdomains</a></li>
-<li><a href="named_parameters/">Named Parameters</a></li>
-<li><a href="static_files/">Static files</a></li>
-<li><a href="send_files/">Send files</a></li>
-<li><a href="send_emails/">Send e-mails</a></li>
-<li><a href="render/">Render</a>
+<pre><code class="language-go">package main
 
-<ul>
-<li><a href="render/#response-engines">Response Engines</a></li>
-<li><a href="render/#template-engines">Template Engines</a></li>
-</ul></li>
-<li><a href="gzip/">Gzip</a></li>
-<li><a href="streaming/">Streaming</a></li>
-<li><a href="flash_messages/">Flash messages</a></li>
-<li><a href="body_binder/">Body binder</a></li>
-<li><a href="custom_http_errors/">Custom HTTP Errors</a></li>
-<li><a href="context/">Context</a></li>
-<li><a href="logger/">Logger</a></li>
-<li><a href="http_access_control/">HTTP access control</a></li>
-<li><a href="basic_authentication/">Basic Authentication</a></li>
-<li><a href="oauth_oauth2/">OAuth, OAuth2</a></li>
-<li><a href="jwt/">JSON Web Tokens(JWT)</a></li>
-<li><a href="secure/">Secure</a></li>
-<li><a href="sessions/">Sessions</a></li>
-<li><a href="websockets/">Websockets</a></li>
-<li><a href="graceful/">Graceful</a></li>
-<li><a href="recovery/">Recovery</a></li>
-<li><a href="plugins/">Plugins</a></li>
-<li><a href="internationalization_and_localization/">Internationalization and Localization</a></li>
-<li><a href="typescript/">Easy Typescript</a></li>
-<li><a href="browser_based_editor/">Browser based Editor</a></li>
-<li><a href="control_panel/">Control panel</a></li>
-<li><a href="examples/">Examples</a></li>
-</ul>
+import (
+    &quot;github.com/kataras/iris&quot;
+    &quot;github.com/iris-contrib/plugin/iriscontrol&quot;
+)
 
-<h2 id="why">Why</h2>
+func main() {
 
-<p>Go is a great technology stack for building scalable, web-based, back-end systems for web
-applications.</p>
+    iris.Plugins.Add(iriscontrol.New(9090, map[string]string{
+        &quot;irisusername1&quot;: &quot;irispassword1&quot;,
+        &quot;irisusername2&quot;: &quot;irispassowrd2&quot;,
+    }))
+    //or
+    // ....
+    // iriscontrol.New(iriscontrol.Config{...})
 
-<p>When you think about building web applications and web APIs, or simply building HTTP servers in Go, does your mind go to the standard net/http package?
-Then you have to deal with some common situations like dynamic routing (a.k.a parameterized), security and authentication, real-time communication and many other issues that net/http doesn&rsquo;t solve.</p>
+    iris.Get(&quot;/&quot;, func(ctx *iris.Context) {
+    })
 
-<p>The net/http package is not complete enough to quickly build well-designed back-end web systems. When you realize this, you might be thinking along these lines:</p>
+    iris.Post(&quot;/something&quot;, func(ctx *iris.Context) {
+    })
 
-<ul>
-<li>Ok, the net/http package doesn&rsquo;t suit me, but there are so many frameworks, which one will work for me?!</li>
-<li>Each one of them tells me that it is the best. I don&rsquo;t know what to do!</li>
-</ul>
+    iris.Listen(&quot;:8080&quot;)
+}
 
-<h5 id="the-truth">The truth</h5>
+</code></pre>
 
-<p>I did some deep research and benchmarks with &lsquo;wrk&rsquo; and &lsquo;ab&rsquo; in order to choose which framework would suit me and my new project. The results, sadly, were really disappointing to me.</p>
-
-<p>I started wondering if golang wasn&rsquo;t as fast on the web as I had read&hellip; but, before I let Golang go and continued to develop with nodejs, I told myself:</p>
-
-<blockquote>
-<p>&lsquo;<strong>Makis, don&rsquo;t lose hope, give at least a chance to Golang. Try to build something totally new without basing it off the &ldquo;slow&rdquo; code you saw earlier; learn the secrets of this language and make <em>others</em> follow your steps!</strong>&rsquo;.</p>
-</blockquote>
-
-<p>These are the words I told myself that day [<strong>13 March 2016</strong>].</p>
-
-<p>The same day, later the night, I was reading a book about Greek mythology. I saw an ancient goddess&rsquo; name and was inspired immediately to give a name to this new web framework (which I had already started writing) - <strong>Iris</strong>.</p>
-
-<p><strong>Two months later</strong>, I&rsquo;m writing this intro.</p>
-
-<p>I&rsquo;m still here <a href="https://github.com/kataras/iris#benchmarks">because Iris has succeed in being the fastest go web framework</a></p>
-
-<p><img src="comment1.png" alt="" />
-<img src="comment2.png" alt="" />
-<img src="comment3.png" alt="" />
-<img src="comment4.png" alt="" />
-<img src="comment5.png" alt="" />
-<img src="comment6.png" alt="" />
-<img src="comment7.png" alt="" />
-<img src="comment8.png" alt="" /></p>
-
-<p><img src="comment10.png" alt="" /></p>
-
-<p><img src="comment12.png" alt="" /></p>
-
-<p><img src="comment13.png" alt="" /></p>
-
-<p><img src="comment14.png" alt="" /></p>
-
-<p><img src="comment17.png" alt="" /></p>
-
-<p><img src="comment21.png" alt="" /></p>
-
-<p><img src="comment22.png" alt="" /></p>
-
-<p><img src="comment24.png" alt="" /></p>
-
-<p><img src="comment23.png" alt="" /></p>
-
-			
 
 			<aside class="copyright" role="note">
 				
@@ -1061,23 +968,37 @@ Then you have to deal with some common situations like dynamic routing (a.k.a pa
 			<footer class="footer">
 				
 
-
-
 <nav class="pagination" aria-label="Footer">
   <div class="previous">
+  
+      <a href="http://iris-go.com/browser_based_editor/" title="Browser based Editor">
+        <span class="direction">
+          Previous
+        </span>
+        <div class="page">
+          <div class="button button-previous" role="button" aria-label="Previous">
+            <i class="icon icon-back"></i>
+          </div>
+          <div class="stretch">
+            <div class="title">
+              Browser based Editor
+            </div>
+          </div>
+        </div>
+      </a>
+  
   </div>
 
-  
-  
   <div class="next">
-      <a href="http://iris-go.com/install/" title="Install">
+  
+      <a href="http://iris-go.com/examples/" title="Examples">
         <span class="direction">
           Next
         </span>
         <div class="page">
           <div class="stretch">
             <div class="title">
-              Install
+              Examples
             </div>
           </div>
           <div class="button button-next" role="button" aria-label="Next">
@@ -1085,8 +1006,11 @@ Then you have to deal with some common situations like dynamic routing (a.k.a pa
           </div>
         </div>
       </a>
+  
   </div>
 </nav>
+
+
 
 
 

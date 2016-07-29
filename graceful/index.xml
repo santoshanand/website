@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gracefuls on Iris - Documentation</title>
+    <link>http://iris-go.com/graceful/</link>
+    <description>Recent content in Gracefuls on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/graceful/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Graceful</title>
+      <link>http://iris-go.com/graceful/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/graceful/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/iris-contrib/graceful&#34;&gt;This is a package&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Enables graceful shutdown.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+package main
+
+import (
+    &amp;quot;time&amp;quot;
+        &amp;quot;github.com/kataras/iris&amp;quot;
+    &amp;quot;github.com/iris-contrib/graceful&amp;quot;
+)
+
+func main() {
+    api := iris.New()
+    api.Get(&amp;quot;/&amp;quot;, func(c *iris.Context) {
+        c.Write(&amp;quot;Welcome to the home page!&amp;quot;)
+    })
+
+    graceful.Run(&amp;quot;:3001&amp;quot;, time.Duration(10)*time.Second, api)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

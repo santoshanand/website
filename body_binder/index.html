@@ -8,18 +8,18 @@
   <head lang="en-us">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
-    <title>Iris - Documentation</title>
+    <title>Body Binder - Iris - Documentation</title>
     <meta name="generator" content="Hugo 0.16" />
 
     
     <meta name="description" content="The fastest web framework.">
     
-    <link rel="canonical" href="http://iris-go.com/">
+    <link rel="canonical" href="http://iris-go.com/body_binder/">
     
     <meta name="author" content="kataras">
     
 
-    <meta property="og:url" content="http://iris-go.com/">
+    <meta property="og:url" content="http://iris-go.com/body_binder/">
     <meta property="og:title" content="Iris - Documentation">
     <meta property="og:image" content="http://iris-go.com/images/logo.png">
     <meta name="apple-mobile-web-app-title" content="Iris - Documentation">
@@ -68,9 +68,6 @@
     <script src="http://iris-go.com/javascripts/modernizr.js"></script>
 
     
-    <link href="http://iris-go.com/index.xml" rel="alternate" type="application/rss+xml" title="Iris - Documentation" />
-    <link href="http://iris-go.com/index.xml" rel="feed" type="application/rss+xml" title="Iris - Documentation" />
-    
 
   </head>
   <body class="palette-primary-cyan palette-accent-deep orange">
@@ -99,7 +96,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        Iris - Documentation
+        Body Binder
       </div>
     </div>
 
@@ -186,14 +183,11 @@
 
 
 
-<a class="current" title="Introduction" href="http://iris-go.com/">
+<a  title="Introduction" href="http://iris-go.com/">
 	
 	Introduction
 </a>
 
-
-<ul id="scrollspy">
-</ul>
 
   
 </li>
@@ -563,11 +557,14 @@
 
 
 
-<a  title="Body Binder" href="http://iris-go.com/body_binder/">
+<a class="current" title="Body Binder" href="http://iris-go.com/body_binder/">
 	
 	Body Binder
 </a>
 
+
+<ul id="scrollspy">
+</ul>
 
   
 </li>
@@ -913,140 +910,264 @@
 
 	<article class="article">
 		<div class="wrapper">
-			
-				<h1>Introduction </h1>
-
-				
-
-<p><a href ="https://github.com/kataras/iris"> <img src="http://iris-go.com/assets/book/cover_4.jpg" /> </a></p>
-
-<h2 id="table-of-contents">Table of Contents</h2>
-
-<ul>
-<li><a href="http://iris-go.com/">Introduction</a>
-
-<ul>
-<li><a href="#why">Why</a></li>
-</ul></li>
-<li><a href="features/">Features</a></li>
-<li><a href="versioning/">Versioning</a></li>
-<li><a href="install/">Install</a></li>
-<li><a href="hi/">Hi</a></li>
-<li><a href="tls/">Transport Layer Security</a></li>
-<li><a href="handlers/">Handlers</a>
-
-<ul>
-<li><a href="handlers/#using-handlers">Using Handlers</a></li>
-<li><a href="handlers/#using-handlerfuncs">Using HandlerFuncs</a></li>
-<li><a href="handlers/#using-handlerapi">Using custom struct for a complete API</a></li>
-<li><a href="handlers/#using-native-httphandler">Using native http.Handler</a>
-
-<ul>
-<li><a href="handlers/#using-native-httphandler-via-tohandlerfunc">Using native http.Handler via iris.ToHandlerFunc()</a></li>
-</ul></li>
-<li><a href="handlers/#routing">Routing and reverse lookups</a></li>
-</ul></li>
-<li><a href="middleware/">Middleware</a></li>
-<li><a href="api/">API</a></li>
-<li><a href="declaration/">Declaration</a></li>
-<li><a href="configuration/">Configuration</a></li>
-<li><a href="party/">Party</a></li>
-<li><a href="subdomains/">Subdomains</a></li>
-<li><a href="named_parameters/">Named Parameters</a></li>
-<li><a href="static_files/">Static files</a></li>
-<li><a href="send_files/">Send files</a></li>
-<li><a href="send_emails/">Send e-mails</a></li>
-<li><a href="render/">Render</a>
-
-<ul>
-<li><a href="render/#response-engines">Response Engines</a></li>
-<li><a href="render/#template-engines">Template Engines</a></li>
-</ul></li>
-<li><a href="gzip/">Gzip</a></li>
-<li><a href="streaming/">Streaming</a></li>
-<li><a href="flash_messages/">Flash messages</a></li>
-<li><a href="body_binder/">Body binder</a></li>
-<li><a href="custom_http_errors/">Custom HTTP Errors</a></li>
-<li><a href="context/">Context</a></li>
-<li><a href="logger/">Logger</a></li>
-<li><a href="http_access_control/">HTTP access control</a></li>
-<li><a href="basic_authentication/">Basic Authentication</a></li>
-<li><a href="oauth_oauth2/">OAuth, OAuth2</a></li>
-<li><a href="jwt/">JSON Web Tokens(JWT)</a></li>
-<li><a href="secure/">Secure</a></li>
-<li><a href="sessions/">Sessions</a></li>
-<li><a href="websockets/">Websockets</a></li>
-<li><a href="graceful/">Graceful</a></li>
-<li><a href="recovery/">Recovery</a></li>
-<li><a href="plugins/">Plugins</a></li>
-<li><a href="internationalization_and_localization/">Internationalization and Localization</a></li>
-<li><a href="typescript/">Easy Typescript</a></li>
-<li><a href="browser_based_editor/">Browser based Editor</a></li>
-<li><a href="control_panel/">Control panel</a></li>
-<li><a href="examples/">Examples</a></li>
-</ul>
-
-<h2 id="why">Why</h2>
-
-<p>Go is a great technology stack for building scalable, web-based, back-end systems for web
-applications.</p>
-
-<p>When you think about building web applications and web APIs, or simply building HTTP servers in Go, does your mind go to the standard net/http package?
-Then you have to deal with some common situations like dynamic routing (a.k.a parameterized), security and authentication, real-time communication and many other issues that net/http doesn&rsquo;t solve.</p>
-
-<p>The net/http package is not complete enough to quickly build well-designed back-end web systems. When you realize this, you might be thinking along these lines:</p>
-
-<ul>
-<li>Ok, the net/http package doesn&rsquo;t suit me, but there are so many frameworks, which one will work for me?!</li>
-<li>Each one of them tells me that it is the best. I don&rsquo;t know what to do!</li>
-</ul>
-
-<h5 id="the-truth">The truth</h5>
-
-<p>I did some deep research and benchmarks with &lsquo;wrk&rsquo; and &lsquo;ab&rsquo; in order to choose which framework would suit me and my new project. The results, sadly, were really disappointing to me.</p>
-
-<p>I started wondering if golang wasn&rsquo;t as fast on the web as I had read&hellip; but, before I let Golang go and continued to develop with nodejs, I told myself:</p>
-
-<blockquote>
-<p>&lsquo;<strong>Makis, don&rsquo;t lose hope, give at least a chance to Golang. Try to build something totally new without basing it off the &ldquo;slow&rdquo; code you saw earlier; learn the secrets of this language and make <em>others</em> follow your steps!</strong>&rsquo;.</p>
-</blockquote>
-
-<p>These are the words I told myself that day [<strong>13 March 2016</strong>].</p>
-
-<p>The same day, later the night, I was reading a book about Greek mythology. I saw an ancient goddess&rsquo; name and was inspired immediately to give a name to this new web framework (which I had already started writing) - <strong>Iris</strong>.</p>
-
-<p><strong>Two months later</strong>, I&rsquo;m writing this intro.</p>
-
-<p>I&rsquo;m still here <a href="https://github.com/kataras/iris#benchmarks">because Iris has succeed in being the fastest go web framework</a></p>
-
-<p><img src="comment1.png" alt="" />
-<img src="comment2.png" alt="" />
-<img src="comment3.png" alt="" />
-<img src="comment4.png" alt="" />
-<img src="comment5.png" alt="" />
-<img src="comment6.png" alt="" />
-<img src="comment7.png" alt="" />
-<img src="comment8.png" alt="" /></p>
-
-<p><img src="comment10.png" alt="" /></p>
-
-<p><img src="comment12.png" alt="" /></p>
-
-<p><img src="comment13.png" alt="" /></p>
-
-<p><img src="comment14.png" alt="" /></p>
-
-<p><img src="comment17.png" alt="" /></p>
-
-<p><img src="comment21.png" alt="" /></p>
-
-<p><img src="comment22.png" alt="" /></p>
-
-<p><img src="comment24.png" alt="" /></p>
-
-<p><img src="comment23.png" alt="" /></p>
+			<h1>Body Binder </h1>
 
 			
+
+<p>Body binder reads values from the body and set them to a specific object.</p>
+
+<pre><code class="language-go">// ReadJSON reads JSON from request's body
+ReadJSON(jsonObject interface{}) error
+
+// ReadXML reads XML from request's body
+ReadXML(xmlObject interface{}) error
+
+// ReadForm binds the formObject  to the requeste's form data
+ReadForm(formObject interface{}) error
+</code></pre>
+
+<p>How to use</p>
+
+<h3 id="json">JSON</h3>
+
+<pre><code class="language-go">package main
+
+import &quot;github.com/kataras/iris&quot;
+
+type Company struct {
+   Public     bool      `form:&quot;public&quot;`
+   Website    url.URL   `form:&quot;website&quot;`
+   Foundation time.Time `form:&quot;foundation&quot;`
+   Name       string
+   Location   struct {
+     Country  string
+     City     string
+   }
+   Products   []struct {
+     Name string
+     Type string
+   }
+   Founders   []string
+   Employees  int64
+}
+
+func MyHandler(c *iris.Context) {
+  if err := c.ReadJSON(&amp;Company{}); err != nil {
+    panic(err.Error())
+  }
+}
+  
+func main() {
+  iris.Get(&quot;/bind_json&quot;, MyHandler)
+  iris.Listen(&quot;:8080&quot;)
+}
+
+</code></pre>
+
+<h3 id="xml">XML</h3>
+
+<pre><code class="language-go">package main
+
+import &quot;github.com/kataras/iris&quot;
+
+type Company struct {
+   Public     bool      
+   Website    url.URL   
+   Foundation time.Time
+   Name       string
+   Location   struct {
+     Country  string
+     City     string
+   }
+   Products   []struct {
+     Name string
+     Type string
+   }
+   Founders   []string
+   Employees  int64
+}
+  
+func MyHandler(c *iris.Context) {  
+  if err := c.ReadXML(&amp;Company{}); err != nil {
+    panic(err.Error())
+  }
+}
+  
+func main() {
+  iris.Get(&quot;/bind_xml&quot;, MyHandler)
+  iris.Listen(&quot;:8080&quot;)
+}
+
+</code></pre>
+
+<h3 id="form">Form</h3>
+
+<h4 id="types">Types</h4>
+
+<p>The supported field types in the destination struct are:</p>
+
+<ul>
+<li><code>string</code></li>
+<li><code>bool</code></li>
+<li><code>int</code>, <code>int8</code>, <code>int16</code>, <code>int32</code>, <code>int64</code></li>
+<li><code>uint</code>, <code>uint8</code>, <code>uint16</code>, <code>uint32</code>, <code>uint64</code></li>
+<li><code>float32</code>, <code>float64</code></li>
+<li><code>slice</code>, <code>array</code></li>
+<li><code>struct</code> and <code>struct anonymous</code></li>
+<li><code>map</code></li>
+<li><code>interface{}</code></li>
+<li><code>time.Time</code></li>
+<li><code>url.URL</code></li>
+<li>slices []string</li>
+<li><code>custom types</code> to one of the above types</li>
+<li>a <code>pointer</code> to one of the above types</li>
+</ul>
+
+<h4 id="custom-marshaling">Custom Marshaling</h4>
+
+<p>Is possible unmarshaling data and the key of a map by the <code>encoding.TextUnmarshaler</code> interface.</p>
+
+<hr />
+
+<h4 id="example">Example</h4>
+
+<pre><code class="language-go"> //./main.go
+
+package main
+
+import (
+    &quot;fmt&quot;
+
+    &quot;github.com/kataras/iris&quot;
+)
+
+type Visitor struct {
+    Username string
+    Mail     string
+    Data     []string `form:&quot;mydata&quot;`
+}
+
+func main() {
+
+    iris.Get(&quot;/&quot;, func(ctx *iris.Context) {
+        ctx.Render(&quot;form.html&quot;, nil)
+    })
+
+    iris.Post(&quot;/form_action&quot;, func(ctx *iris.Context) {
+        visitor := Visitor{}
+        err := ctx.ReadForm(&amp;visitor)
+        if err != nil {
+            fmt.Println(&quot;Error when reading form: &quot; + err.Error())
+        }
+        fmt.Printf(&quot;\n Visitor: %v&quot;, visitor)
+    })
+
+    iris.Listen(&quot;:8080&quot;)
+}
+
+</code></pre>
+
+<pre><code class="language-html">
+&lt;!-- ./templates/form.html --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;form action=&quot;/form_action&quot; method=&quot;post&quot;&gt;
+&lt;input type=&quot;text&quot; name=&quot;Username&quot; /&gt;
+&lt;br/&gt;
+&lt;input type=&quot;text&quot; name=&quot;Mail&quot; /&gt;&lt;br/&gt;
+&lt;select multiple=&quot;multiple&quot; name=&quot;mydata&quot;&gt;
+&lt;option value='one'&gt;One&lt;/option&gt;
+&lt;option value='two'&gt;Two&lt;/option&gt;
+&lt;option value='three'&gt;Three&lt;/option&gt;
+&lt;option value='four'&gt;Four&lt;/option&gt;
+&lt;/select&gt;
+&lt;hr/&gt;
+&lt;input type=&quot;submit&quot; value=&quot;Send data&quot; /&gt;
+
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+</code></pre>
+
+<h4 id="example-1">Example</h4>
+
+<h5 id="in-form-html">In form html</h5>
+
+<ul>
+<li>Use symbol <code>.</code> for access a field/key of a structure or map. (i.e, <code>struct.key</code>)</li>
+<li>Use <code>[int_here]</code> for access to index of a slice/array. (i.e, <code>struct.array[0]</code>)</li>
+</ul>
+
+<pre><code class="language-html">&lt;form method=&quot;POST&quot;&gt;
+  &lt;input type=&quot;text&quot; name=&quot;Name&quot; value=&quot;Sony&quot;/&gt;
+  &lt;input type=&quot;text&quot; name=&quot;Location.Country&quot; value=&quot;Japan&quot;/&gt;
+  &lt;input type=&quot;text&quot; name=&quot;Location.City&quot; value=&quot;Tokyo&quot;/&gt;
+  &lt;input type=&quot;text&quot; name=&quot;Products[0].Name&quot; value=&quot;Playstation 4&quot;/&gt;
+  &lt;input type=&quot;text&quot; name=&quot;Products[0].Type&quot; value=&quot;Video games&quot;/&gt;
+  &lt;input type=&quot;text&quot; name=&quot;Products[1].Name&quot; value=&quot;TV Bravia 32&quot;/&gt;
+  &lt;input type=&quot;text&quot; name=&quot;Products[1].Type&quot; value=&quot;TVs&quot;/&gt;
+  &lt;input type=&quot;text&quot; name=&quot;Founders[0]&quot; value=&quot;Masaru Ibuka&quot;/&gt;
+  &lt;input type=&quot;text&quot; name=&quot;Founders[0]&quot; value=&quot;Akio Morita&quot;/&gt;
+  &lt;input type=&quot;text&quot; name=&quot;Employees&quot; value=&quot;90000&quot;/&gt;
+  &lt;input type=&quot;text&quot; name=&quot;public&quot; value=&quot;true&quot;/&gt;
+  &lt;input type=&quot;url&quot; name=&quot;website&quot; value=&quot;http://www.sony.net&quot;/&gt;
+  &lt;input type=&quot;date&quot; name=&quot;foundation&quot; value=&quot;1946-05-07&quot;/&gt;
+  &lt;input type=&quot;text&quot; name=&quot;Interface.ID&quot; value=&quot;12&quot;/&gt;
+  &lt;input type=&quot;text&quot; name=&quot;Interface.Name&quot; value=&quot;Go Programming Language&quot;/&gt;
+  &lt;input type=&quot;submit&quot;/&gt;
+&lt;/form&gt;
+</code></pre>
+
+<h5 id="backend">Backend</h5>
+
+<p>You can use the tag <code>form</code> if the name of a input of form starts lowercase.</p>
+
+<pre><code class="language-go">package main
+
+type InterfaceStruct struct {
+    ID   int
+    Name string
+}
+
+type Company struct {
+  Public     bool      `form:&quot;public&quot;`
+  Website    url.URL   `form:&quot;website&quot;`
+  Foundation time.Time `form:&quot;foundation&quot;`
+  Name       string
+  Location   struct {
+    Country  string
+    City     string
+  }
+  Products   []struct {
+    Name string
+    Type string
+  }
+  Founders   []string
+  Employees  int64
+  
+  Interface interface{}
+}
+
+func MyHandler(c *iris.Context) {
+  m := Company{
+      Interface: &amp;InterfaceStruct{},
+  }
+  
+  if err := c.ReadForm(&amp;m); err != nil {
+        panic(err.Error())
+  }
+}
+  
+func main() {
+  iris.Get(&quot;/bind_form&quot;, MyHandler)
+  iris.Listen(&quot;:8080&quot;)
+}
+</code></pre>
+
 
 			<aside class="copyright" role="note">
 				
@@ -1061,23 +1182,37 @@ Then you have to deal with some common situations like dynamic routing (a.k.a pa
 			<footer class="footer">
 				
 
-
-
 <nav class="pagination" aria-label="Footer">
   <div class="previous">
+  
+      <a href="http://iris-go.com/flash_messages/" title="Flash Messages">
+        <span class="direction">
+          Previous
+        </span>
+        <div class="page">
+          <div class="button button-previous" role="button" aria-label="Previous">
+            <i class="icon icon-back"></i>
+          </div>
+          <div class="stretch">
+            <div class="title">
+              Flash Messages
+            </div>
+          </div>
+        </div>
+      </a>
+  
   </div>
 
-  
-  
   <div class="next">
-      <a href="http://iris-go.com/install/" title="Install">
+  
+      <a href="http://iris-go.com/custom_http_errors/" title="Custom Http Errors">
         <span class="direction">
           Next
         </span>
         <div class="page">
           <div class="stretch">
             <div class="title">
-              Install
+              Custom Http Errors
             </div>
           </div>
           <div class="button button-next" role="button" aria-label="Next">
@@ -1085,8 +1220,11 @@ Then you have to deal with some common situations like dynamic routing (a.k.a pa
           </div>
         </div>
       </a>
+  
   </div>
 </nav>
+
+
 
 
 

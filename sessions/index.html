@@ -8,18 +8,18 @@
   <head lang="en-us">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
-    <title>Iris - Documentation</title>
+    <title>Sessions - Iris - Documentation</title>
     <meta name="generator" content="Hugo 0.16" />
 
     
     <meta name="description" content="The fastest web framework.">
     
-    <link rel="canonical" href="http://iris-go.com/">
+    <link rel="canonical" href="http://iris-go.com/sessions/">
     
     <meta name="author" content="kataras">
     
 
-    <meta property="og:url" content="http://iris-go.com/">
+    <meta property="og:url" content="http://iris-go.com/sessions/">
     <meta property="og:title" content="Iris - Documentation">
     <meta property="og:image" content="http://iris-go.com/images/logo.png">
     <meta name="apple-mobile-web-app-title" content="Iris - Documentation">
@@ -68,9 +68,6 @@
     <script src="http://iris-go.com/javascripts/modernizr.js"></script>
 
     
-    <link href="http://iris-go.com/index.xml" rel="alternate" type="application/rss+xml" title="Iris - Documentation" />
-    <link href="http://iris-go.com/index.xml" rel="feed" type="application/rss+xml" title="Iris - Documentation" />
-    
 
   </head>
   <body class="palette-primary-cyan palette-accent-deep orange">
@@ -99,7 +96,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        Iris - Documentation
+        Session
       </div>
     </div>
 
@@ -186,14 +183,11 @@
 
 
 
-<a class="current" title="Introduction" href="http://iris-go.com/">
+<a  title="Introduction" href="http://iris-go.com/">
 	
 	Introduction
 </a>
 
-
-<ul id="scrollspy">
-</ul>
 
   
 </li>
@@ -716,11 +710,14 @@
 
 
 
-<a  title="Sessions" href="http://iris-go.com/sessions/">
+<a class="current" title="Sessions" href="http://iris-go.com/sessions/">
 	
 	Sessions
 </a>
 
+
+<ul id="scrollspy">
+</ul>
 
   
 </li>
@@ -913,140 +910,159 @@
 
 	<article class="article">
 		<div class="wrapper">
-			
-				<h1>Introduction </h1>
-
-				
-
-<p><a href ="https://github.com/kataras/iris"> <img src="http://iris-go.com/assets/book/cover_4.jpg" /> </a></p>
-
-<h2 id="table-of-contents">Table of Contents</h2>
-
-<ul>
-<li><a href="http://iris-go.com/">Introduction</a>
-
-<ul>
-<li><a href="#why">Why</a></li>
-</ul></li>
-<li><a href="features/">Features</a></li>
-<li><a href="versioning/">Versioning</a></li>
-<li><a href="install/">Install</a></li>
-<li><a href="hi/">Hi</a></li>
-<li><a href="tls/">Transport Layer Security</a></li>
-<li><a href="handlers/">Handlers</a>
-
-<ul>
-<li><a href="handlers/#using-handlers">Using Handlers</a></li>
-<li><a href="handlers/#using-handlerfuncs">Using HandlerFuncs</a></li>
-<li><a href="handlers/#using-handlerapi">Using custom struct for a complete API</a></li>
-<li><a href="handlers/#using-native-httphandler">Using native http.Handler</a>
-
-<ul>
-<li><a href="handlers/#using-native-httphandler-via-tohandlerfunc">Using native http.Handler via iris.ToHandlerFunc()</a></li>
-</ul></li>
-<li><a href="handlers/#routing">Routing and reverse lookups</a></li>
-</ul></li>
-<li><a href="middleware/">Middleware</a></li>
-<li><a href="api/">API</a></li>
-<li><a href="declaration/">Declaration</a></li>
-<li><a href="configuration/">Configuration</a></li>
-<li><a href="party/">Party</a></li>
-<li><a href="subdomains/">Subdomains</a></li>
-<li><a href="named_parameters/">Named Parameters</a></li>
-<li><a href="static_files/">Static files</a></li>
-<li><a href="send_files/">Send files</a></li>
-<li><a href="send_emails/">Send e-mails</a></li>
-<li><a href="render/">Render</a>
-
-<ul>
-<li><a href="render/#response-engines">Response Engines</a></li>
-<li><a href="render/#template-engines">Template Engines</a></li>
-</ul></li>
-<li><a href="gzip/">Gzip</a></li>
-<li><a href="streaming/">Streaming</a></li>
-<li><a href="flash_messages/">Flash messages</a></li>
-<li><a href="body_binder/">Body binder</a></li>
-<li><a href="custom_http_errors/">Custom HTTP Errors</a></li>
-<li><a href="context/">Context</a></li>
-<li><a href="logger/">Logger</a></li>
-<li><a href="http_access_control/">HTTP access control</a></li>
-<li><a href="basic_authentication/">Basic Authentication</a></li>
-<li><a href="oauth_oauth2/">OAuth, OAuth2</a></li>
-<li><a href="jwt/">JSON Web Tokens(JWT)</a></li>
-<li><a href="secure/">Secure</a></li>
-<li><a href="sessions/">Sessions</a></li>
-<li><a href="websockets/">Websockets</a></li>
-<li><a href="graceful/">Graceful</a></li>
-<li><a href="recovery/">Recovery</a></li>
-<li><a href="plugins/">Plugins</a></li>
-<li><a href="internationalization_and_localization/">Internationalization and Localization</a></li>
-<li><a href="typescript/">Easy Typescript</a></li>
-<li><a href="browser_based_editor/">Browser based Editor</a></li>
-<li><a href="control_panel/">Control panel</a></li>
-<li><a href="examples/">Examples</a></li>
-</ul>
-
-<h2 id="why">Why</h2>
-
-<p>Go is a great technology stack for building scalable, web-based, back-end systems for web
-applications.</p>
-
-<p>When you think about building web applications and web APIs, or simply building HTTP servers in Go, does your mind go to the standard net/http package?
-Then you have to deal with some common situations like dynamic routing (a.k.a parameterized), security and authentication, real-time communication and many other issues that net/http doesn&rsquo;t solve.</p>
-
-<p>The net/http package is not complete enough to quickly build well-designed back-end web systems. When you realize this, you might be thinking along these lines:</p>
-
-<ul>
-<li>Ok, the net/http package doesn&rsquo;t suit me, but there are so many frameworks, which one will work for me?!</li>
-<li>Each one of them tells me that it is the best. I don&rsquo;t know what to do!</li>
-</ul>
-
-<h5 id="the-truth">The truth</h5>
-
-<p>I did some deep research and benchmarks with &lsquo;wrk&rsquo; and &lsquo;ab&rsquo; in order to choose which framework would suit me and my new project. The results, sadly, were really disappointing to me.</p>
-
-<p>I started wondering if golang wasn&rsquo;t as fast on the web as I had read&hellip; but, before I let Golang go and continued to develop with nodejs, I told myself:</p>
-
-<blockquote>
-<p>&lsquo;<strong>Makis, don&rsquo;t lose hope, give at least a chance to Golang. Try to build something totally new without basing it off the &ldquo;slow&rdquo; code you saw earlier; learn the secrets of this language and make <em>others</em> follow your steps!</strong>&rsquo;.</p>
-</blockquote>
-
-<p>These are the words I told myself that day [<strong>13 March 2016</strong>].</p>
-
-<p>The same day, later the night, I was reading a book about Greek mythology. I saw an ancient goddess&rsquo; name and was inspired immediately to give a name to this new web framework (which I had already started writing) - <strong>Iris</strong>.</p>
-
-<p><strong>Two months later</strong>, I&rsquo;m writing this intro.</p>
-
-<p>I&rsquo;m still here <a href="https://github.com/kataras/iris#benchmarks">because Iris has succeed in being the fastest go web framework</a></p>
-
-<p><img src="comment1.png" alt="" />
-<img src="comment2.png" alt="" />
-<img src="comment3.png" alt="" />
-<img src="comment4.png" alt="" />
-<img src="comment5.png" alt="" />
-<img src="comment6.png" alt="" />
-<img src="comment7.png" alt="" />
-<img src="comment8.png" alt="" /></p>
-
-<p><img src="comment10.png" alt="" /></p>
-
-<p><img src="comment12.png" alt="" /></p>
-
-<p><img src="comment13.png" alt="" /></p>
-
-<p><img src="comment14.png" alt="" /></p>
-
-<p><img src="comment17.png" alt="" /></p>
-
-<p><img src="comment21.png" alt="" /></p>
-
-<p><img src="comment22.png" alt="" /></p>
-
-<p><img src="comment24.png" alt="" /></p>
-
-<p><img src="comment23.png" alt="" /></p>
+			<h1>Sessions </h1>
 
 			
+
+<p>If you notice a bug or issue <a href="https://github.com/kataras/iris/issues">post it here</a></p>
+
+<ul>
+<li><p>Cleans the temp memory when a sessions is iddle, and re-allocate it , fast, to the temp memory when it&rsquo;s necessary. Also most used/regular sessions are going front in the memory&rsquo;s list.</p></li>
+
+<li><p>Supports any type of database, currently only <a href="https://github.com/iris-contrib/sessiondb/">redis</a>.</p></li>
+</ul>
+
+<p><strong>A session can be defined as a server-side storage of information that is desired to persist throughout the user&rsquo;s interaction with the web site</strong> or web application.</p>
+
+<p>Instead of storing large and constantly changing information via cookies in the user&rsquo;s browser, <strong>only a unique identifier is stored on the client side</strong> (called a &ldquo;session id&rdquo;). This session id is passed to the web server every time the browser makes an HTTP request (ie a page link or AJAX request). The web application pairs this session id with it&rsquo;s internal database/memory and retrieves the stored variables for use by the requested page.</p>
+
+<hr />
+
+<p>You will see two different ways to use the sessions, I&rsquo;m using the first. No performance differences.</p>
+
+<h3 id="how-to-use">How to use</h3>
+
+<pre><code class="language-go">package main
+
+import  &quot;github.com/kataras/iris&quot;
+
+func main() {
+
+    /*  These are the optionally fields to configurate the sessions, using the station's Config field (iris.Config.Sessions)
+
+    // Cookie string, the session's client cookie name, for example: &quot;irissessionid&quot;
+    Cookie string
+    // DecodeCookie set it to true to decode the cookie key with base64 URLEncoding
+    // Defaults to false
+    DecodeCookie bool
+    // Expires the duration of which the cookie must expires (created_time.Add(Expires)).
+    // Default infinitive/unlimited life duration(0)
+    Expires time.Duration
+    // GcDuration every how much duration(GcDuration) the memory should be clear for unused cookies (GcDuration)
+    // for example: time.Duration(2)*time.Hour. it will check every 2 hours if cookie hasn't be used for 2 hours,
+    // deletes it from backend memory until the user comes back, then the session continue to work as it was
+    //
+    // Default 2 hours
+    GcDuration time.Duration
+    // DisableSubdomainPersistence set it to true in order dissallow your iris subdomains to have access to the session cookie
+    // defaults to false
+    DisableSubdomainPersistence bool
+    */
+    iris.Get(&quot;/&quot;, func(c *iris.Context) {
+        c.Write(&quot;You should navigate to the /set, /get, /delete, /clear,/destroy instead&quot;)
+    })
+    iris.Get(&quot;/set&quot;, func(c *iris.Context) {
+
+        //set session values
+        c.Session().Set(&quot;name&quot;, &quot;iris&quot;)
+
+        //test if setted here
+        c.Write(&quot;All ok session setted to: %s&quot;, c.Session().GetString(&quot;name&quot;))
+    })
+
+    iris.Get(&quot;/get&quot;, func(c *iris.Context) {
+        // get a specific key, as string, if no found returns just an empty string
+        name := c.Session().GetString(&quot;name&quot;)
+
+        c.Write(&quot;The name on the /set was: %s&quot;, name)
+    })
+
+    iris.Get(&quot;/delete&quot;, func(c *iris.Context) {
+        // delete a specific key
+        c.Session().Delete(&quot;name&quot;)
+    })
+
+    iris.Get(&quot;/clear&quot;, func(c *iris.Context) {
+        // removes all entries
+        c.Session().Clear()
+    })
+
+    iris.Get(&quot;/destroy&quot;, func(c *iris.Context) {
+        //destroy, removes the entire session and cookie
+        c.SessionDestroy()
+        c.Log(&quot;You have to refresh the page to completely remove the session (on browsers), so the name should NOT be empty NOW, is it?\n ame: %s\n\nAlso check your cookies in your browser's cookies, should be no field for localhost/127.0.0.1 (or what ever you use)&quot;, c.Session().GetString(&quot;name&quot;))
+        c.Write(&quot;You have to refresh the page to completely remove the session (on browsers), so the name should NOT be empty NOW, is it?\nName: %s\n\nAlso check your cookies in your browser's cookies, should be no field for localhost/127.0.0.1 (or what ever you use)&quot;, c.Session().GetString(&quot;name&quot;))
+    })
+
+    iris.Listen(&quot;:8080&quot;)
+    //iris.ListenTLS(&quot;0.0.0.0:443&quot;, &quot;mycert.cert&quot;, &quot;mykey.key&quot;)
+}
+
+
+</code></pre>
+
+<p>Example with <strong>redis session database</strong>, which located <a href="https://github.com/iris-contrib/sessiondb/tree/master/redis">here</a></p>
+
+<pre><code class="language-go">package main
+
+import (
+    &quot;github.com/iris-contrib/sessiondb/redis&quot;
+    &quot;github.com/iris-contrib/sessiondb/redis/service&quot;
+    &quot;github.com/kataras/iris&quot;
+)
+
+func main() {
+    db := redis.New(service.Config{Network: service.DefaultRedisNetwork,
+        Addr:          service.DefaultRedisAddr,
+        Password:      &quot;&quot;,
+        Database:      &quot;&quot;,
+        MaxIdle:       0,
+        MaxActive:     0,
+        IdleTimeout:   service.DefaultRedisIdleTimeout,
+        Prefix:        &quot;&quot;,
+        MaxAgeSeconds: service.DefaultRedisMaxAgeSeconds}) // optionally configure the bridge between your redis server
+
+    iris.UseSessionDB(db)
+
+    iris.Get(&quot;/set&quot;, func(c *iris.Context) {
+
+        //set session values
+        c.Session().Set(&quot;name&quot;, &quot;iris&quot;)
+
+        //test if setted here
+        c.Write(&quot;All ok session setted to: %s&quot;, c.Session().GetString(&quot;name&quot;))
+    })
+
+    iris.Get(&quot;/get&quot;, func(c *iris.Context) {
+        // get a specific key, as string, if no found returns just an empty string
+        name := c.Session().GetString(&quot;name&quot;)
+
+        c.Write(&quot;The name on the /set was: %s&quot;, name)
+    })
+
+    iris.Get(&quot;/delete&quot;, func(c *iris.Context) {
+        // delete a specific key
+        c.Session().Delete(&quot;name&quot;)
+    })
+
+    iris.Get(&quot;/clear&quot;, func(c *iris.Context) {
+        // removes all entries
+        c.Session().Clear()
+    })
+
+    iris.Get(&quot;/destroy&quot;, func(c *iris.Context) {
+        //destroy, removes the entire session and cookie
+        c.SessionDestroy()
+        c.Log(&quot;You have to refresh the page to completely remove the session (on browsers), so the name should NOT be empty NOW, is it?\n ame: %s\n\nAlso check your cookies in your browser's cookies, should be no field for localhost/127.0.0.1 (or what ever you use)&quot;, c.Session().GetString(&quot;name&quot;))
+        c.Write(&quot;You have to refresh the page to completely remove the session (on browsers), so the name should NOT be empty NOW, is it?\nName: %s\n\nAlso check your cookies in your browser's cookies, should be no field for localhost/127.0.0.1 (or what ever you use)&quot;, c.Session().GetString(&quot;name&quot;))
+
+    })
+
+    iris.Listen(&quot;:8080&quot;)
+}
+
+</code></pre>
+
 
 			<aside class="copyright" role="note">
 				
@@ -1061,23 +1077,37 @@ Then you have to deal with some common situations like dynamic routing (a.k.a pa
 			<footer class="footer">
 				
 
-
-
 <nav class="pagination" aria-label="Footer">
   <div class="previous">
+  
+      <a href="http://iris-go.com/secure/" title="Secure">
+        <span class="direction">
+          Previous
+        </span>
+        <div class="page">
+          <div class="button button-previous" role="button" aria-label="Previous">
+            <i class="icon icon-back"></i>
+          </div>
+          <div class="stretch">
+            <div class="title">
+              Secure
+            </div>
+          </div>
+        </div>
+      </a>
+  
   </div>
 
-  
-  
   <div class="next">
-      <a href="http://iris-go.com/install/" title="Install">
+  
+      <a href="http://iris-go.com/websockets/" title="Websockets">
         <span class="direction">
           Next
         </span>
         <div class="page">
           <div class="stretch">
             <div class="title">
-              Install
+              Websockets
             </div>
           </div>
           <div class="button button-next" role="button" aria-label="Next">
@@ -1085,8 +1115,11 @@ Then you have to deal with some common situations like dynamic routing (a.k.a pa
           </div>
         </div>
       </a>
+  
   </div>
 </nav>
+
+
 
 
 

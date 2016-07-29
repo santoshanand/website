@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Declarations on Iris - Documentation</title>
+    <link>http://iris-go.com/declaration/</link>
+    <description>Recent content in Declarations on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/declaration/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Declaration</title>
+      <link>http://iris-go.com/declaration/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/declaration/</guid>
+      <description>&lt;p&gt;You have wondered this:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Q: Other frameworks need more lines to start a server, why is Iris different?&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;A: Iris gives you the freedom to choose between three ways to use Iris&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;global &lt;strong&gt;iris.&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;declare a new iris station with default config: &lt;strong&gt;iris.New()&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;declare a new iris station with custom config: ** api := iris.New(config.Iris{&amp;hellip;})**&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Config can change after declaration with 1&amp;amp;2. &lt;code&gt;iris.Config.&lt;/code&gt; 3. \/ &lt;code&gt;api.Config.&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;import &amp;quot;github.com/kataras/iris&amp;quot;
+
+// 1.
+func firstWay() {
+
+    iris.Get(&amp;quot;/home&amp;quot;,func(c *iris.Context){})
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+// 2.
+func secondWay() {
+
+    api := iris.New()
+    api.Get(&amp;quot;/home&amp;quot;,func(c *iris.Context){})
+    api.Listen(&amp;quot;:8080&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Before looking at the 3rd way, let&amp;rsquo;s take a quick look at the &lt;a href=&#34;configuration.md&#34;&gt;&lt;strong&gt;config&lt;/strong&gt;&lt;/a&gt;&lt;strong&gt;**&lt;/strong&gt;.Iris**:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;type (
+    // Iris configs for the station
+    Iris struct {
+
+        // DisablePathCorrection corrects and redirects the requested path to the registed path
+        // for example, if /home/ path is requested but no handler for this Route found,
+        // then the Router checks if /home handler exists, if yes,
+        // (permant)redirects the client to the correct path /home
+        //
+        // Default is false
+        DisablePathCorrection bool
+
+        // DisablePathEscape when is false then its escapes the path, the named parameters (if any).
+        // Change to true it if you want something like this https://github.com/kataras/iris/issues/135 to work
+        //
+        // When do you need to Disable(true) it:
+        // accepts parameters with slash &#39;/&#39;
+        // Request: http://localhost:8080/details/Project%2FDelta
+        // ctx.Param(&amp;quot;project&amp;quot;) returns the raw named parameter: Project%2FDelta
+        // which you can escape it manually with net/url:
+        // projectName, _ := url.QueryUnescape(c.Param(&amp;quot;project&amp;quot;).
+        // Look here: https://github.com/kataras/iris/issues/135 for more
+        //
+        // Default is false
+        DisablePathEscape bool
+
+        // DisableBanner outputs the iris banner at startup
+        //
+        // Default is false
+        DisableBanner bool
+
+        // ProfilePath a the route path, set it to enable http pprof tool
+        // Default is empty, if you set it to a $path, these routes will handled:
+        // $path/cmdline
+        // $path/profile
+        // $path/symbol
+        // $path/goroutine
+        // $path/heap
+        // $path/threadcreate
+        // $path/pprof/block
+        // for example if &#39;/debug/pprof&#39;
+        // http://yourdomain:PORT/debug/pprof/
+        // http://yourdomain:PORT/debug/pprof/cmdline
+        // http://yourdomain:PORT/debug/pprof/profile
+        // http://yourdomain:PORT/debug/pprof/symbol
+        // http://yourdomain:PORT/debug/pprof/goroutine
+        // http://yourdomain:PORT/debug/pprof/heap
+        // http://yourdomain:PORT/debug/pprof/threadcreate
+        // http://yourdomain:PORT/debug/pprof/pprof/block
+        // it can be a subdomain also, for example, if &#39;debug.&#39;
+        // http://debug.yourdomain:PORT/
+        // http://debug.yourdomain:PORT/cmdline
+        // http://debug.yourdomain:PORT/profile
+        // http://debug.yourdomain:PORT/symbol
+        // http://debug.yourdomain:PORT/goroutine
+        // http://debug.yourdomain:PORT/heap
+        // http://debug.yourdomain:PORT/threadcreate
+        // http://debug.yourdomain:PORT/pprof/block
+        ProfilePath string
+        // DisableTemplateEngines set to true to disable loading the default template engine (html/template) and disallow the use of iris.UseEngine
+        // default is false
+        DisableTemplateEngines bool
+        // IsDevelopment iris will act like a developer, for example
+        // If true then re-builds the templates on each request
+        // default is false
+        IsDevelopment bool
+
+        // Charset character encoding for various rendering
+        // used for templates and the rest of the responses
+        // defaults to &amp;quot;UTF-8&amp;quot;
+        Charset string
+
+        // Gzip enables gzip compression on your Render actions, this includes any type of render, templates and pure/raw content
+        // If you don&#39;t want to enable it globaly, you could just use the third parameter on context.Render(&amp;quot;myfileOrResponse&amp;quot;, structBinding{}, iris.RenderOptions{&amp;quot;gzip&amp;quot;: true})
+        // defaults to false
+        Gzip bool
+
+        // Sessions contains the configs for sessions
+        Sessions Sessions
+
+        // Websocket contains the configs for Websocket&#39;s server integration
+        Websocket *Websocket
+
+        // Tester contains the configs for the test framework, so far we have only one because all test framework&#39;s configs are setted by the iris itself
+        // You can find example on the https://github.com/kataras/iris/glob/master/context_test.go
+        Tester Tester
+    }
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// 3.
+package main 
+
+import (
+  &amp;quot;github.com/kataras/iris&amp;quot;
+  &amp;quot;github.com/kataras/iris/config&amp;quot;
+)
+
+func main() {
+    c := config.Iris{
+        ProfilePath:        &amp;quot;/mypath/debug&amp;quot;,
+    }
+    // to get the default: c := config.Default()
+
+    api := iris.New(c)
+    api.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Note that with 2. &amp;amp; 3. you &lt;strong&gt;can define and Listen with more than one Iris server&lt;/strong&gt; in the
+same app, when it&amp;rsquo;s necessary.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;For profiling there are eight (8) generated routes with pages filled with info:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;\/mypath\/debug\/&lt;/li&gt;
+&lt;li&gt;\/mypath\/debug\/cmdline&lt;/li&gt;
+&lt;li&gt;\/mypath\/debug\/profile&lt;/li&gt;
+&lt;li&gt;\/mypath\/debug\/symbol&lt;/li&gt;
+&lt;li&gt;\/mypath\/debug\/goroutine&lt;/li&gt;
+&lt;li&gt;\/mypath\/debug\/heap&lt;/li&gt;
+&lt;li&gt;\/mypath\/debug\/threadcreate&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;\/mypath\/debug\/pprof\/block&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;More about configuration &lt;a href=&#34;configuration.md&#34;&gt;here&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

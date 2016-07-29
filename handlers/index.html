@@ -8,18 +8,18 @@
   <head lang="en-us">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
-    <title>Iris - Documentation</title>
+    <title>Handlers - Iris - Documentation</title>
     <meta name="generator" content="Hugo 0.16" />
 
     
     <meta name="description" content="The fastest web framework.">
     
-    <link rel="canonical" href="http://iris-go.com/">
+    <link rel="canonical" href="http://iris-go.com/handlers/">
     
     <meta name="author" content="kataras">
     
 
-    <meta property="og:url" content="http://iris-go.com/">
+    <meta property="og:url" content="http://iris-go.com/handlers/">
     <meta property="og:title" content="Iris - Documentation">
     <meta property="og:image" content="http://iris-go.com/images/logo.png">
     <meta name="apple-mobile-web-app-title" content="Iris - Documentation">
@@ -68,9 +68,6 @@
     <script src="http://iris-go.com/javascripts/modernizr.js"></script>
 
     
-    <link href="http://iris-go.com/index.xml" rel="alternate" type="application/rss+xml" title="Iris - Documentation" />
-    <link href="http://iris-go.com/index.xml" rel="feed" type="application/rss+xml" title="Iris - Documentation" />
-    
 
   </head>
   <body class="palette-primary-cyan palette-accent-deep orange">
@@ -99,7 +96,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        Iris - Documentation
+        Handler
       </div>
     </div>
 
@@ -186,14 +183,11 @@
 
 
 
-<a class="current" title="Introduction" href="http://iris-go.com/">
+<a  title="Introduction" href="http://iris-go.com/">
 	
 	Introduction
 </a>
 
-
-<ul id="scrollspy">
-</ul>
 
   
 </li>
@@ -291,11 +285,14 @@
 
 
 
-<a  title="Handlers" href="http://iris-go.com/handlers/">
+<a class="current" title="Handlers" href="http://iris-go.com/handlers/">
 	
 	Handlers
 </a>
 
+
+<ul id="scrollspy">
+</ul>
 
   
 </li>
@@ -913,140 +910,278 @@
 
 	<article class="article">
 		<div class="wrapper">
+			<h1>Handlers </h1>
+
 			
-				<h1>Introduction </h1>
 
-				
+<p>Handlers, as the name implies, handle requests. Each of the handler registration methods described in the following subchapters returns a <a href="https://godoc.org/github.com/kataras/iris#RouteNameFunc"><code>RouteNameFunc</code></a> type.</p>
 
-<p><a href ="https://github.com/kataras/iris"> <img src="http://iris-go.com/assets/book/cover_4.jpg" /> </a></p>
+<p>Handlers must implement the Handler interface:</p>
 
-<h2 id="table-of-contents">Table of Contents</h2>
+<pre><code class="language-go">type Handler interface {
+    Serve(*Context)
+}
+</code></pre>
+
+<p>Once the handler is registered, we can use the returned <a href="https://godoc.org/github.com/kataras/iris#RouteNameFunc"><code>RouteNameFunc</code></a> type (which is actually a <code>func</code> type) to give name to the this handler registration for easier lookup in code or in templates. For more information, checkout the <a href="routing.md">Routing and reverse lookups</a> section.</p>
+
+<h2 id="using-handlers">Using Handlers</h2>
+
+<pre><code class="language-go">
+type myHandlerGet struct {
+}
+
+func (m myHandlerGet) Serve(c *iris.Context) {
+    c.Write(&quot;From %s&quot;, c.PathString())
+}
+
+//and so on
+
+
+iris.Handle(&quot;GET&quot;, &quot;/get&quot;, myHandlerGet{})
+iris.Handle(&quot;POST&quot;, &quot;/post&quot;, post)
+iris.Handle(&quot;PUT&quot;, &quot;/put&quot;, put)
+iris.Handle(&quot;DELETE&quot;, &quot;/delete&quot;, del)
+</code></pre>
+
+<h2 id="using-handlerfuncs">Using HandlerFuncs</h2>
+
+<p>HandlerFuncs should implement the Serve(*Context) func.
+HandlerFunc is most simple method to register a route or a middleware, but under the hood it acts like a Handler. It implements the Handler interface as well:</p>
+
+<pre><code class="language-go">type HandlerFunc func(*Context)
+
+func (h HandlerFunc) Serve(c *Context) {
+    h(c)
+}
+
+</code></pre>
+
+<p>HandlerFuncs shoud have this function signature:</p>
+
+<pre><code class="language-go">func handlerFunc(c *iris.Context)  {
+    c.Write(&quot;Hello&quot;)
+}
+
+
+iris.HandleFunc(&quot;GET&quot;,&quot;/letsgetit&quot;,handlerFunc)
+//OR
+iris.Get(&quot;/letsgetit&quot;, handlerFunc)
+iris.Post(&quot;/letspostit&quot;, handlerFunc)
+iris.Put(&quot;/letputit&quot;, handlerFunc)
+iris.Delete(&quot;/letsdeleteit&quot;, handlerFunc)
+</code></pre>
+
+<h2 id="using-handler-api">Using Handler API</h2>
+
+<p>HandlerAPI is any custom struct which has an <code>*iris.Context</code> field and known methods signatures.</p>
+
+<p>Before continue I will liked to notice you that this method is slower than <code>iris.Get, Post..., Handle, HandleFunc</code>.</p>
+
+<p>I know maybe sounds awful but I, my self not using it, I did it because developers used to use frameworks with the &lsquo;MVC&rsquo; pattern, so think it like the &lsquo;C|Controller&rsquo;. If you don&rsquo;t care about routing performance(~ms) and you like to spent some code time, you&rsquo;re free to use it.</p>
+
+<p>Instead of writing Handlers\/HandlerFuncs for eachone API routes, you can use the <code>iris.API</code> function.</p>
+
+<pre><code class="language-go">API(path string, api HandlerAPI, middleware ...HandlerFunc) error
+</code></pre>
+
+<p><strong>For example</strong>, for a user API you need some of these routes:</p>
 
 <ul>
-<li><a href="http://iris-go.com/">Introduction</a>
-
-<ul>
-<li><a href="#why">Why</a></li>
-</ul></li>
-<li><a href="features/">Features</a></li>
-<li><a href="versioning/">Versioning</a></li>
-<li><a href="install/">Install</a></li>
-<li><a href="hi/">Hi</a></li>
-<li><a href="tls/">Transport Layer Security</a></li>
-<li><a href="handlers/">Handlers</a>
-
-<ul>
-<li><a href="handlers/#using-handlers">Using Handlers</a></li>
-<li><a href="handlers/#using-handlerfuncs">Using HandlerFuncs</a></li>
-<li><a href="handlers/#using-handlerapi">Using custom struct for a complete API</a></li>
-<li><a href="handlers/#using-native-httphandler">Using native http.Handler</a>
-
-<ul>
-<li><a href="handlers/#using-native-httphandler-via-tohandlerfunc">Using native http.Handler via iris.ToHandlerFunc()</a></li>
-</ul></li>
-<li><a href="handlers/#routing">Routing and reverse lookups</a></li>
-</ul></li>
-<li><a href="middleware/">Middleware</a></li>
-<li><a href="api/">API</a></li>
-<li><a href="declaration/">Declaration</a></li>
-<li><a href="configuration/">Configuration</a></li>
-<li><a href="party/">Party</a></li>
-<li><a href="subdomains/">Subdomains</a></li>
-<li><a href="named_parameters/">Named Parameters</a></li>
-<li><a href="static_files/">Static files</a></li>
-<li><a href="send_files/">Send files</a></li>
-<li><a href="send_emails/">Send e-mails</a></li>
-<li><a href="render/">Render</a>
-
-<ul>
-<li><a href="render/#response-engines">Response Engines</a></li>
-<li><a href="render/#template-engines">Template Engines</a></li>
-</ul></li>
-<li><a href="gzip/">Gzip</a></li>
-<li><a href="streaming/">Streaming</a></li>
-<li><a href="flash_messages/">Flash messages</a></li>
-<li><a href="body_binder/">Body binder</a></li>
-<li><a href="custom_http_errors/">Custom HTTP Errors</a></li>
-<li><a href="context/">Context</a></li>
-<li><a href="logger/">Logger</a></li>
-<li><a href="http_access_control/">HTTP access control</a></li>
-<li><a href="basic_authentication/">Basic Authentication</a></li>
-<li><a href="oauth_oauth2/">OAuth, OAuth2</a></li>
-<li><a href="jwt/">JSON Web Tokens(JWT)</a></li>
-<li><a href="secure/">Secure</a></li>
-<li><a href="sessions/">Sessions</a></li>
-<li><a href="websockets/">Websockets</a></li>
-<li><a href="graceful/">Graceful</a></li>
-<li><a href="recovery/">Recovery</a></li>
-<li><a href="plugins/">Plugins</a></li>
-<li><a href="internationalization_and_localization/">Internationalization and Localization</a></li>
-<li><a href="typescript/">Easy Typescript</a></li>
-<li><a href="browser_based_editor/">Browser based Editor</a></li>
-<li><a href="control_panel/">Control panel</a></li>
-<li><a href="examples/">Examples</a></li>
+<li>GET <code>/users</code> , for selecting all</li>
+<li>GET<code>/users/:id</code> , for selecting specific</li>
+<li>PUT <code>/users</code> , for inserting</li>
+<li>POST <code>/users/:id</code> , for updating</li>
+<li>DELETE <code>/users/:id</code> , for deleting</li>
 </ul>
 
-<h2 id="why">Why</h2>
+<p>Normally, with HandlerFuncs you should do something like this:</p>
 
-<p>Go is a great technology stack for building scalable, web-based, back-end systems for web
-applications.</p>
+<pre><code class="language-go">iris.Get(&quot;/users&quot;, func(ctx *iris.Context){})
+iris.Get(&quot;/users/:id&quot;, func(ctx *iris.Context){ id := ctx.Param(&quot;id) })
 
-<p>When you think about building web applications and web APIs, or simply building HTTP servers in Go, does your mind go to the standard net/http package?
-Then you have to deal with some common situations like dynamic routing (a.k.a parameterized), security and authentication, real-time communication and many other issues that net/http doesn&rsquo;t solve.</p>
+iris.Put(&quot;/users&quot;,...)
 
-<p>The net/http package is not complete enough to quickly build well-designed back-end web systems. When you realize this, you might be thinking along these lines:</p>
+iris.Post(&quot;/users/:id&quot;, ...)
 
-<ul>
-<li>Ok, the net/http package doesn&rsquo;t suit me, but there are so many frameworks, which one will work for me?!</li>
-<li>Each one of them tells me that it is the best. I don&rsquo;t know what to do!</li>
-</ul>
+iris.Delete(&quot;/users/:id&quot;, ...)
+</code></pre>
 
-<h5 id="the-truth">The truth</h5>
+<p><strong>But</strong> with API you can do this instead:</p>
 
-<p>I did some deep research and benchmarks with &lsquo;wrk&rsquo; and &lsquo;ab&rsquo; in order to choose which framework would suit me and my new project. The results, sadly, were really disappointing to me.</p>
+<pre><code class="language-go">package main
 
-<p>I started wondering if golang wasn&rsquo;t as fast on the web as I had read&hellip; but, before I let Golang go and continued to develop with nodejs, I told myself:</p>
+import (
+    &quot;github.com/kataras/iris&quot;
+)
+
+type UserAPI struct {
+    *iris.Context
+}
+
+// GET /users
+func (u UserAPI) Get() {
+    u.Write(&quot;Get from /users&quot;)
+    // u.JSON(iris.StatusOK,myDb.AllUsers())
+}
+
+// GET /:param1 which its value passed to the id argument
+func (u UserAPI) GetBy(id string) { // id equals to u.Param(&quot;param1&quot;)
+    u.Write(&quot;Get from /users/%s&quot;, id)
+    // u.JSON(iris.StatusOK, myDb.GetUserById(id))
+
+}
+
+// PUT /users
+func (u UserAPI) Put() {
+    name := u.FormValue(&quot;name&quot;)
+    // myDb.InsertUser(...)
+    println(string(name))
+    println(&quot;Put from /users&quot;)
+}
+
+// POST /users/:param1
+func (u UserAPI) PostBy(id string) {
+    name := u.FormValue(&quot;name&quot;) // you can still use the whole Context's features!
+    // myDb.UpdateUser(...)
+    println(string(name))
+    println(&quot;Post from /users/&quot; + id)
+}
+
+// DELETE /users/:param1
+func (u UserAPI) DeleteBy(id string) {
+    // myDb.DeleteUser(id)
+    println(&quot;Delete from /&quot; + id)
+}
+
+func main() {
+    iris.API(&quot;/users&quot;, UserAPI{})
+    iris.Listen(&quot;:8080&quot;)
+}
+
+</code></pre>
+
+<p>As you saw you can still get other request values via the *iris.Context, API has all the  flexibility of handler\/handlerfunc.</p>
+
+<p>If you want to use <strong>more than one named parameter</strong>, simply do this:</p>
+
+<pre><code class="language-go">// users/:param1/:param2
+func (u UserAPI) GetBy(id string, otherParameter string) {}
+</code></pre>
+
+<p>API receives a third parameter which are the middlewares, is optional parameter:</p>
+
+<pre><code class="language-go">func main() {
+    iris.API(&quot;/users&quot;, UserAPI{}, myUsersMiddleware1, myUsersMiddleware2)
+    iris.Listen(&quot;:8080&quot;)
+}
+
+func myUsersMiddleware1(ctx *iris.Context) {
+    println(&quot;From users middleware 1 &quot;)
+    ctx.Next()
+}
+func myUsersMiddleware2(ctx *iris.Context) {
+    println(&quot;From users middleware 2 &quot;)
+    ctx.Next()
+}
+
+</code></pre>
+
+<p>Available methods: &ldquo;GET&rdquo;, &ldquo;POST&rdquo;, &ldquo;PUT&rdquo;, &ldquo;DELETE&rdquo;, &ldquo;CONNECT&rdquo;, &ldquo;HEAD&rdquo;, &ldquo;PATCH&rdquo;, &ldquo;OPTIONS&rdquo;, &ldquo;TRACE&rdquo; should use this <strong>naming conversion</strong>:  <strong>Get\/GetBy, Post\/PostBy, Put\/PutBy</strong> and so on&hellip;</p>
+
+<h2 id="using-native-http-handler">Using native http.Handler</h2>
 
 <blockquote>
-<p>&lsquo;<strong>Makis, don&rsquo;t lose hope, give at least a chance to Golang. Try to build something totally new without basing it off the &ldquo;slow&rdquo; code you saw earlier; learn the secrets of this language and make <em>others</em> follow your steps!</strong>&rsquo;.</p>
+<p>Not recommended and I will not help you if any issue comes up, it is just there for your first conversional steps.
+Note also that using native http handler you cannot access url params.</p>
 </blockquote>
 
-<p>These are the words I told myself that day [<strong>13 March 2016</strong>].</p>
+<pre><code class="language-go">
+type nativehandler struct {}
 
-<p>The same day, later the night, I was reading a book about Greek mythology. I saw an ancient goddess&rsquo; name and was inspired immediately to give a name to this new web framework (which I had already started writing) - <strong>Iris</strong>.</p>
+func (_ nativehandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 
-<p><strong>Two months later</strong>, I&rsquo;m writing this intro.</p>
+}
 
-<p>I&rsquo;m still here <a href="https://github.com/kataras/iris#benchmarks">because Iris has succeed in being the fastest go web framework</a></p>
+func main() {
+    iris.Handle(&quot;&quot;, &quot;/path&quot;, iris.ToHandler(nativehandler{}))
+    //&quot;&quot; means ANY(GET,POST,PUT,DELETE and so on)
+}
 
-<p><img src="comment1.png" alt="" />
-<img src="comment2.png" alt="" />
-<img src="comment3.png" alt="" />
-<img src="comment4.png" alt="" />
-<img src="comment5.png" alt="" />
-<img src="comment6.png" alt="" />
-<img src="comment7.png" alt="" />
-<img src="comment8.png" alt="" /></p>
 
-<p><img src="comment10.png" alt="" /></p>
+</code></pre>
 
-<p><img src="comment12.png" alt="" /></p>
+<h2 id="using-native-http-handler-via-iris-tohandlerfunc">Using native http.Handler via iris.ToHandlerFunc()</h2>
 
-<p><img src="comment13.png" alt="" /></p>
+<pre><code class="language-go">iris.Get(&quot;/letsget&quot;, iris.ToHandlerFunc(nativehandler{}))
+iris.Post(&quot;/letspost&quot;, iris.ToHandlerFunc(nativehandler{}))
+iris.Put(&quot;/letsput&quot;, iris.ToHandlerFunc(nativehandler{}))
+iris.Delete(&quot;/letsdelete&quot;, iris.ToHandlerFunc(nativehandler{}))
 
-<p><img src="comment14.png" alt="" /></p>
+</code></pre>
 
-<p><img src="comment17.png" alt="" /></p>
+<h2 id="routing">Routing</h2>
 
-<p><img src="comment21.png" alt="" /></p>
+<p>As mentioned in the <a href="handlers.md">Handlers</a> chapter, Iris provides several handler registration methods, each of which returns a <a href="https://godoc.org/github.com/kataras/iris#RouteNameFunc"><code>RouteNameFunc</code></a> type.</p>
 
-<p><img src="comment22.png" alt="" /></p>
+<h3 id="route-naming">Route naming</h3>
 
-<p><img src="comment24.png" alt="" /></p>
+<p>Route naming is easy, since we just call the returned <code>RouteNameFunc</code> with a string parameter to define a name:</p>
 
-<p><img src="comment23.png" alt="" /></p>
+<pre><code class="language-go">package main
 
-			
+import (
+    &quot;github.com/kataras/iris&quot;
+)
+
+func main() {
+
+    // define a function
+    render := func(ctx *iris.Context) {
+        ctx.Render(&quot;index.html&quot;, nil)
+    }
+
+    // handler registration and naming
+    iris.Get(&quot;/&quot;, render)(&quot;home&quot;)
+    iris.Get(&quot;/about&quot;, render)(&quot;about&quot;)
+    iris.Get(&quot;/page/:id&quot;, render)(&quot;page&quot;)
+
+    iris.Listen(&quot;:8080&quot;)
+}
+</code></pre>
+
+<h3 id="route-reversing-aka-generating-urls-from-the-route-name">Route reversing AKA generating URLs from the route name</h3>
+
+<p>When we register the handlers for a specific path, we get the ability to create URLs based on the structured data we pass to Iris. In the example above, we&rsquo;ve named three routers, one of which even takes parameters. If we&rsquo;re using the default <code>html/template</code> templating engine, we can use a simple action to reverse the routes (and generae actual URLs):</p>
+
+<pre><code>Home: {{ url &quot;home&quot; }}
+About: {{ url &quot;about&quot; }}
+Page 17: {{ url &quot;page&quot; &quot;17&quot; }}
+</code></pre>
+
+<p>Above code would generate the following output:</p>
+
+<pre><code>Home: http://0.0.0.0:8080/ 
+About: http://0.0.0.0:8080/about
+Page 17: http://0.0.0.0:8080/page/17
+</code></pre>
+
+<h3 id="using-route-names-in-code">Using route names in code</h3>
+
+<p>We can use the following methods/functions to work with named routes (and their parameters):</p>
+
+<ul>
+<li>global <a href="https://godoc.org/github.com/kataras/iris#Lookups"><code>Lookups</code></a> function to get all registered routes</li>
+<li><a href="https://godoc.org/github.com/kataras/iris#Framework.Lookup"><code>Lookup(routeName string)</code></a> framework method to retrieve a route by name</li>
+<li><a href="https://godoc.org/github.com/kataras/iris#Framework.URL"><code>URL(routeName string, args ...interface{})</code></a> framework method to generate url string based on supplied parameters</li>
+<li><a href="https://godoc.org/github.com/kataras/iris#Framework.Path"><code>Path(routeName string, args ...interface{}</code></a> framework method to generate just the path (without host and protocol) portion of the URL based on provided values</li>
+<li><a href="https://godoc.org/github.com/kataras/iris#Context.RedirectTo"><code>RedirectTo(routeName string, args ...interface{})</code></a> context method to return a redirect response to a URL defined by the named route and optional parameters</li>
+</ul>
+
+<h3 id="examples">Examples</h3>
+
+<p>Check out the <a href="https://github.com/iris-contrib/examples/blob/master/template_engines/template_html_4/"><code>template_engines/template_html_4</code></a> example in the <code>iris-contrib/examples</code> repository.</p>
+
 
 			<aside class="copyright" role="note">
 				
@@ -1061,23 +1196,37 @@ Then you have to deal with some common situations like dynamic routing (a.k.a pa
 			<footer class="footer">
 				
 
-
-
 <nav class="pagination" aria-label="Footer">
   <div class="previous">
+  
+      <a href="http://iris-go.com/tls/" title="TLS">
+        <span class="direction">
+          Previous
+        </span>
+        <div class="page">
+          <div class="button button-previous" role="button" aria-label="Previous">
+            <i class="icon icon-back"></i>
+          </div>
+          <div class="stretch">
+            <div class="title">
+              TLS
+            </div>
+          </div>
+        </div>
+      </a>
+  
   </div>
 
-  
-  
   <div class="next">
-      <a href="http://iris-go.com/install/" title="Install">
+  
+      <a href="http://iris-go.com/middleware/" title="Middleware">
         <span class="direction">
           Next
         </span>
         <div class="page">
           <div class="stretch">
             <div class="title">
-              Install
+              Middleware
             </div>
           </div>
           <div class="button button-next" role="button" aria-label="Next">
@@ -1085,8 +1234,11 @@ Then you have to deal with some common situations like dynamic routing (a.k.a pa
           </div>
         </div>
       </a>
+  
   </div>
 </nav>
+
+
 
 
 

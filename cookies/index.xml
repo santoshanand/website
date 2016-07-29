@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cookies on Iris - Documentation</title>
+    <link>http://iris-go.com/cookies/</link>
+    <description>Recent content in Cookies on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/cookies/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Cookies</title>
+      <link>http://iris-go.com/cookies/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/cookies/</guid>
+      <description>&lt;p&gt;Cookie management, even your little brother can do this!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// SetCookie adds a cookie
+SetCookie(cookie *fasthttp.Cookie)
+
+// SetCookieKV adds a cookie, receives just a key(string) and a value(string)
+SetCookieKV(key, value string)
+
+// GetCookie returns cookie&#39;s value by it&#39;s name
+// returns empty string if nothing was found
+GetCookie(name string) string 
+
+// RemoveCookie removes a cookie by it&#39;s name/key
+RemoveCookie(name string) 
+
+
+// VisitAllCookies takes a visitor which loops on each (request&#39;s) cookie key and value
+//
+// Note: the method ctx.Request.Header.VisitAllCookie by fasthttp, has a strange bug which I cannot solve at the moment.
+// This is the reason which this function exists and should be used instead of fasthttp&#39;s built&#39;n.
+VisitAllCookies(visitor func(key string, value string))
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;How to use&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+iris.Get(&amp;quot;/set&amp;quot;, func(c *iris.Context){
+    c.SetCookieKV(&amp;quot;name&amp;quot;,&amp;quot;iris&amp;quot;)
+    c.Write(&amp;quot;Cookie has been setted.&amp;quot;)
+})
+
+iris.Get(&amp;quot;/get&amp;quot;, func(c *iris.Context){
+    name := c.GetCookie(&amp;quot;name&amp;quot;)
+    c.Write(&amp;quot;Cookie&#39;s value: %s&amp;quot;, name)
+})
+
+iris.Get(&amp;quot;/remove&amp;quot;, func(c *iris.Context){
+    if name := c.GetCookie(&amp;quot;name&amp;quot;); name != &amp;quot;&amp;quot; {
+       c.RemoveCookie(&amp;quot;name&amp;quot;)  
+    }
+    c.Write(&amp;quot;Cookie has been removed.&amp;quot;)
+})
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

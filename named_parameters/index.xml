@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Named_parameters on Iris - Documentation</title>
+    <link>http://iris-go.com/named_parameters/</link>
+    <description>Recent content in Named_parameters on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/named_parameters/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Named Parametes</title>
+      <link>http://iris-go.com/named_parameters/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/named_parameters/</guid>
+      <description>
+
+&lt;p&gt;Named parameters are just custom paths to your routes, you can access them for each request using context&amp;rsquo;s &lt;strong&gt;c.Param(&amp;ldquo;nameoftheparameter&amp;rdquo;)&lt;/strong&gt;. Get all, as array (&lt;strong&gt;{Key,Value}&lt;/strong&gt;) using &lt;strong&gt;c.Params&lt;/strong&gt; property.&lt;/p&gt;
+
+&lt;p&gt;No limit on how long a path can be.&lt;/p&gt;
+
+&lt;p&gt;Usage:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;strconv&amp;quot;
+
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+    // Match to /hello/iris,  (if PathCorrection:true match also /hello/iris/)
+    // Not match to /hello or /hello/ or /hello/iris/something
+    iris.Get(&amp;quot;/hello/:name&amp;quot;, func(c *iris.Context) {
+        // Retrieve the parameter name
+        name := c.Param(&amp;quot;name&amp;quot;)
+        c.Write(&amp;quot;Hello %s&amp;quot;, name)
+    })
+
+    // Match to /profile/iris/friends/1, (if PathCorrection:true match also /profile/iris/friends/1/)
+    // Not match to /profile/ , /profile/iris ,
+    // Not match to /profile/iris/friends,  /profile/iris/friends ,
+    // Not match to /profile/iris/friends/2/something
+    iris.Get(&amp;quot;/profile/:fullname/friends/:friendID&amp;quot;, func(c *iris.Context) {
+        // Retrieve the parameters fullname and friendID
+        fullname := c.Param(&amp;quot;fullname&amp;quot;)
+        friendID, err := c.ParamInt(&amp;quot;friendID&amp;quot;)
+        if err != nil {
+            // Do something with the error
+        }
+        c.HTML(iris.StatusOK, &amp;quot;&amp;lt;b&amp;gt; Hello &amp;lt;/b&amp;gt;&amp;quot;+fullname+&amp;quot;&amp;lt;b&amp;gt; with friends ID &amp;lt;/b&amp;gt;&amp;quot;+strconv.Itoa(friendID))
+    })
+
+    /* Example: /posts/:id and /posts/new (dynamic value conficts with the static &#39;new&#39;) for performance reasons and simplicity
+       but if you need to have them you can do that: */
+
+    iris.Get(&amp;quot;/posts/*action&amp;quot;, func(ctx *iris.Context) {
+        action := ctx.Param(&amp;quot;action&amp;quot;)
+        if action == &amp;quot;/new&amp;quot; {
+            // it&#39;s posts/new page
+            ctx.Write(&amp;quot;POSTS NEW&amp;quot;)
+        } else {
+            ctx.Write(&amp;quot;OTHER POSTS&amp;quot;)
+            // it&#39;s posts/:id page
+            //doSomething with the action which is the id
+        }
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;match-anything&#34;&gt;Match anything&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// Will match any request which url&#39;s preffix is &amp;quot;/anything/&amp;quot; and has content after that
+iris.Get(&amp;quot;/anything/*randomName&amp;quot;, func(c *iris.Context) { } )
+// Match: /anything/whateverhere/whateveragain , /anything/blablabla
+// c.Param(&amp;quot;randomName&amp;quot;) will be /whateverhere/whateveragain, blablabla
+// Not Match: /anything , /anything/ , /something
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -8,18 +8,18 @@
   <head lang="en-us">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
-    <title>Iris - Documentation</title>
+    <title>Secure - Iris - Documentation</title>
     <meta name="generator" content="Hugo 0.16" />
 
     
     <meta name="description" content="The fastest web framework.">
     
-    <link rel="canonical" href="http://iris-go.com/">
+    <link rel="canonical" href="http://iris-go.com/secure/">
     
     <meta name="author" content="kataras">
     
 
-    <meta property="og:url" content="http://iris-go.com/">
+    <meta property="og:url" content="http://iris-go.com/secure/">
     <meta property="og:title" content="Iris - Documentation">
     <meta property="og:image" content="http://iris-go.com/images/logo.png">
     <meta name="apple-mobile-web-app-title" content="Iris - Documentation">
@@ -68,9 +68,6 @@
     <script src="http://iris-go.com/javascripts/modernizr.js"></script>
 
     
-    <link href="http://iris-go.com/index.xml" rel="alternate" type="application/rss+xml" title="Iris - Documentation" />
-    <link href="http://iris-go.com/index.xml" rel="feed" type="application/rss+xml" title="Iris - Documentation" />
-    
 
   </head>
   <body class="palette-primary-cyan palette-accent-deep orange">
@@ -99,7 +96,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        Iris - Documentation
+        Secure
       </div>
     </div>
 
@@ -186,14 +183,11 @@
 
 
 
-<a class="current" title="Introduction" href="http://iris-go.com/">
+<a  title="Introduction" href="http://iris-go.com/">
 	
 	Introduction
 </a>
 
-
-<ul id="scrollspy">
-</ul>
 
   
 </li>
@@ -699,11 +693,14 @@
 
 
 
-<a  title="Secure" href="http://iris-go.com/secure/">
+<a class="current" title="Secure" href="http://iris-go.com/secure/">
 	
 	Secure
 </a>
 
+
+<ul id="scrollspy">
+</ul>
 
   
 </li>
@@ -913,140 +910,119 @@
 
 	<article class="article">
 		<div class="wrapper">
-			
-				<h1>Introduction </h1>
+			<h1>Secure </h1>
 
-				
+			<p><a href="https://github.com/iris-contrib/middleware/tree/master/secure">This is a middleware</a></p>
 
-<p><a href ="https://github.com/kataras/iris"> <img src="http://iris-go.com/assets/book/cover_4.jpg" /> </a></p>
+<p>Secure is an HTTP middleware for Go that facilitates some quick security wins.</p>
 
-<h2 id="table-of-contents">Table of Contents</h2>
+<pre><code class="language-go">import &quot;github.com/iris-contrib/middleware/secure&quot;
 
-<ul>
-<li><a href="http://iris-go.com/">Introduction</a>
+secure.New(secure.Options{}) // options here
 
-<ul>
-<li><a href="#why">Why</a></li>
-</ul></li>
-<li><a href="features/">Features</a></li>
-<li><a href="versioning/">Versioning</a></li>
-<li><a href="install/">Install</a></li>
-<li><a href="hi/">Hi</a></li>
-<li><a href="tls/">Transport Layer Security</a></li>
-<li><a href="handlers/">Handlers</a>
+</code></pre>
 
-<ul>
-<li><a href="handlers/#using-handlers">Using Handlers</a></li>
-<li><a href="handlers/#using-handlerfuncs">Using HandlerFuncs</a></li>
-<li><a href="handlers/#using-handlerapi">Using custom struct for a complete API</a></li>
-<li><a href="handlers/#using-native-httphandler">Using native http.Handler</a>
+<p>Example</p>
 
-<ul>
-<li><a href="handlers/#using-native-httphandler-via-tohandlerfunc">Using native http.Handler via iris.ToHandlerFunc()</a></li>
-</ul></li>
-<li><a href="handlers/#routing">Routing and reverse lookups</a></li>
-</ul></li>
-<li><a href="middleware/">Middleware</a></li>
-<li><a href="api/">API</a></li>
-<li><a href="declaration/">Declaration</a></li>
-<li><a href="configuration/">Configuration</a></li>
-<li><a href="party/">Party</a></li>
-<li><a href="subdomains/">Subdomains</a></li>
-<li><a href="named_parameters/">Named Parameters</a></li>
-<li><a href="static_files/">Static files</a></li>
-<li><a href="send_files/">Send files</a></li>
-<li><a href="send_emails/">Send e-mails</a></li>
-<li><a href="render/">Render</a>
+<pre><code class="language-go">package main
 
-<ul>
-<li><a href="render/#response-engines">Response Engines</a></li>
-<li><a href="render/#template-engines">Template Engines</a></li>
-</ul></li>
-<li><a href="gzip/">Gzip</a></li>
-<li><a href="streaming/">Streaming</a></li>
-<li><a href="flash_messages/">Flash messages</a></li>
-<li><a href="body_binder/">Body binder</a></li>
-<li><a href="custom_http_errors/">Custom HTTP Errors</a></li>
-<li><a href="context/">Context</a></li>
-<li><a href="logger/">Logger</a></li>
-<li><a href="http_access_control/">HTTP access control</a></li>
-<li><a href="basic_authentication/">Basic Authentication</a></li>
-<li><a href="oauth_oauth2/">OAuth, OAuth2</a></li>
-<li><a href="jwt/">JSON Web Tokens(JWT)</a></li>
-<li><a href="secure/">Secure</a></li>
-<li><a href="sessions/">Sessions</a></li>
-<li><a href="websockets/">Websockets</a></li>
-<li><a href="graceful/">Graceful</a></li>
-<li><a href="recovery/">Recovery</a></li>
-<li><a href="plugins/">Plugins</a></li>
-<li><a href="internationalization_and_localization/">Internationalization and Localization</a></li>
-<li><a href="typescript/">Easy Typescript</a></li>
-<li><a href="browser_based_editor/">Browser based Editor</a></li>
-<li><a href="control_panel/">Control panel</a></li>
-<li><a href="examples/">Examples</a></li>
-</ul>
+import (
+    &quot;github.com/kataras/iris&quot;
+    &quot;github.com/iris-contrib/middleware/secure&quot;
+)
 
-<h2 id="why">Why</h2>
+func main() {
+    s := secure.New(secure.Options{
+        AllowedHosts:            []string{&quot;ssl.example.com&quot;},                                                                                                                         
+        // AllowedHosts is a list of fully qualified domain names
+        //that are allowed. Default is empty list, 
+        //which allows any and all host names.
+        SSLRedirect:             true,     
+        
+        // If SSLRedirect is set to true, then only allow HTTPS requests.
+        //Default is false.
+        SSLTemporaryRedirect:    false,    
+        
+        // If SSLTemporaryRedirect is true, 
+        //the a 302 will be used while redirecting.
+        //Default is false (301).
+        SSLHost:                 &quot;ssl.example.com&quot;,
+        
+        // SSLHost is the host name that is used to 
+        //redirect HTTP requests to HTTPS.
+        //Default is &quot;&quot;, which indicates to use the same host.
+        SSLProxyHeaders:         map[string]string{&quot;X-Forwarded-Proto&quot;: &quot;https&quot;},
+        
+        // SSLProxyHeaders is set of header keys with associated values 
+        //that would indicate a 
+        //valid HTTPS request. Useful when using Nginx: 
+        //`map[string]string{&quot;X-Forwarded-
+        //Proto&quot;: &quot;https&quot;}`. Default is blank map.
+        STSSeconds:              315360000,                                                                                                                                           
+        // STSSeconds is the max-age of the Strict-Transport-Security header.
+        //Default is 0, which would NOT include the header.
+        STSIncludeSubdomains:    true,                                                                                                                                                
+        // If STSIncludeSubdomains is set to true, 
+        //the `includeSubdomains`
+        //will be appended to the Strict-Transport-Security header. Default is false.
+        STSPreload:              true,    
+        
+        // If STSPreload is set to true, the `preload`
+        //flag will be appended to the Strict-Transport-Security header.
+        //Default is false.
+        ForceSTSHeader:          false,  
+        
+        // STS header is only included when the connection is HTTPS. 
+        //If you want to force it to always be added, set to true. 
+        //`IsDevelopment` still overrides this. Default is false.
+        FrameDeny:               true,    
+        // If FrameDeny is set to true, adds the X-Frame-Options header with
+        //the value of `DENY`. Default is false.
+        CustomFrameOptionsValue: &quot;SAMEORIGIN&quot;,
+        // CustomFrameOptionsValue allows the X-Frame-Options header 
+        //value to be set with
+        //a custom value. This overrides the FrameDeny option.
+        ContentTypeNosniff:      true,  
+        // If ContentTypeNosniff is true, adds the X-Content-Type-Options
+        //header with the value `nosniff`. Default is false.
+        BrowserXSSFilter:        true,
+        // If BrowserXssFilter is true, adds the X-XSS-Protection header 
+        //with the value `1;mode=block`. Default is false.
+        ContentSecurityPolicy:   &quot;default-src 'self'&quot;,   
+        // ContentSecurityPolicy allows the Content-Security-Policy
+        //header value to be set with a custom value. Default is &quot;&quot;.
+        PublicKey:               `pin-sha256=&quot;base64+primary==&quot;; pin-sha256=&quot;base64+backup==&quot;; max-age=5184000; includeSubdomains; report-uri=&quot;https://www.example.com/hpkp-report&quot;`,
+        // PublicKey implements HPKP to prevent 
+        //MITM attacks with forged certificates. Default is &quot;&quot;.
 
-<p>Go is a great technology stack for building scalable, web-based, back-end systems for web
-applications.</p>
+        IsDevelopment: true,
+        // This will cause the AllowedHosts, SSLRedirect, 
+        //..and STSSeconds/STSIncludeSubdomains options to be 
+        //ignored during development. 
+        //When deploying to production, be sure to set this to false.
+    })
 
-<p>When you think about building web applications and web APIs, or simply building HTTP servers in Go, does your mind go to the standard net/http package?
-Then you have to deal with some common situations like dynamic routing (a.k.a parameterized), security and authentication, real-time communication and many other issues that net/http doesn&rsquo;t solve.</p>
+    iris.UseFunc(func(c *iris.Context) {
+        err := s.Process(c)
 
-<p>The net/http package is not complete enough to quickly build well-designed back-end web systems. When you realize this, you might be thinking along these lines:</p>
+        // If there was an error, do not continue.
+        if err != nil {
+            return
+        }
 
-<ul>
-<li>Ok, the net/http package doesn&rsquo;t suit me, but there are so many frameworks, which one will work for me?!</li>
-<li>Each one of them tells me that it is the best. I don&rsquo;t know what to do!</li>
-</ul>
+        c.Next()
+    })
 
-<h5 id="the-truth">The truth</h5>
+    iris.Get(&quot;/home&quot;, func(c *iris.Context) {
+        c.Write(&quot;Hello from /home&quot;)
+    })
 
-<p>I did some deep research and benchmarks with &lsquo;wrk&rsquo; and &lsquo;ab&rsquo; in order to choose which framework would suit me and my new project. The results, sadly, were really disappointing to me.</p>
+    iris.Listen(&quot;:8080&quot;)
+}
 
-<p>I started wondering if golang wasn&rsquo;t as fast on the web as I had read&hellip; but, before I let Golang go and continued to develop with nodejs, I told myself:</p>
 
-<blockquote>
-<p>&lsquo;<strong>Makis, don&rsquo;t lose hope, give at least a chance to Golang. Try to build something totally new without basing it off the &ldquo;slow&rdquo; code you saw earlier; learn the secrets of this language and make <em>others</em> follow your steps!</strong>&rsquo;.</p>
-</blockquote>
+</code></pre>
 
-<p>These are the words I told myself that day [<strong>13 March 2016</strong>].</p>
-
-<p>The same day, later the night, I was reading a book about Greek mythology. I saw an ancient goddess&rsquo; name and was inspired immediately to give a name to this new web framework (which I had already started writing) - <strong>Iris</strong>.</p>
-
-<p><strong>Two months later</strong>, I&rsquo;m writing this intro.</p>
-
-<p>I&rsquo;m still here <a href="https://github.com/kataras/iris#benchmarks">because Iris has succeed in being the fastest go web framework</a></p>
-
-<p><img src="comment1.png" alt="" />
-<img src="comment2.png" alt="" />
-<img src="comment3.png" alt="" />
-<img src="comment4.png" alt="" />
-<img src="comment5.png" alt="" />
-<img src="comment6.png" alt="" />
-<img src="comment7.png" alt="" />
-<img src="comment8.png" alt="" /></p>
-
-<p><img src="comment10.png" alt="" /></p>
-
-<p><img src="comment12.png" alt="" /></p>
-
-<p><img src="comment13.png" alt="" /></p>
-
-<p><img src="comment14.png" alt="" /></p>
-
-<p><img src="comment17.png" alt="" /></p>
-
-<p><img src="comment21.png" alt="" /></p>
-
-<p><img src="comment22.png" alt="" /></p>
-
-<p><img src="comment24.png" alt="" /></p>
-
-<p><img src="comment23.png" alt="" /></p>
-
-			
 
 			<aside class="copyright" role="note">
 				
@@ -1061,23 +1037,37 @@ Then you have to deal with some common situations like dynamic routing (a.k.a pa
 			<footer class="footer">
 				
 
-
-
 <nav class="pagination" aria-label="Footer">
   <div class="previous">
+  
+      <a href="http://iris-go.com/jwt/" title="JSON Web Tokens">
+        <span class="direction">
+          Previous
+        </span>
+        <div class="page">
+          <div class="button button-previous" role="button" aria-label="Previous">
+            <i class="icon icon-back"></i>
+          </div>
+          <div class="stretch">
+            <div class="title">
+              JSON Web Tokens
+            </div>
+          </div>
+        </div>
+      </a>
+  
   </div>
 
-  
-  
   <div class="next">
-      <a href="http://iris-go.com/install/" title="Install">
+  
+      <a href="http://iris-go.com/sessions/" title="Sessions">
         <span class="direction">
           Next
         </span>
         <div class="page">
           <div class="stretch">
             <div class="title">
-              Install
+              Sessions
             </div>
           </div>
           <div class="button button-next" role="button" aria-label="Next">
@@ -1085,8 +1075,11 @@ Then you have to deal with some common situations like dynamic routing (a.k.a pa
           </div>
         </div>
       </a>
+  
   </div>
 </nav>
+
+
 
 
 

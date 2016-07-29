@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+  
+  
+  
+  
+   <html class="no-js"> 
+
+  <head lang="en-us">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    <title>OAuth,OAuth2 - Iris - Documentation</title>
+    <meta name="generator" content="Hugo 0.16" />
+
+    
+    <meta name="description" content="The fastest web framework.">
+    
+    <link rel="canonical" href="http://iris-go.com/oauth_oauth2/">
+    
+    <meta name="author" content="kataras">
+    
+
+    <meta property="og:url" content="http://iris-go.com/oauth_oauth2/">
+    <meta property="og:title" content="Iris - Documentation">
+    <meta property="og:image" content="http://iris-go.com/images/logo.png">
+    <meta name="apple-mobile-web-app-title" content="Iris - Documentation">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="shortcut icon" type="image/x-icon" href="http://iris-go.com/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="http://iris-go.com/images/favicon.ico">
+
+    <style>
+      @font-face {
+        font-family: 'Icon';
+        src: url('http://iris-go.com/fonts/icon.eot?52m981');
+        src: url('http://iris-go.com/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+             url('http://iris-go.com/fonts/icon.woff?52m981')
+               format('woff'),
+             url('http://iris-go.com/fonts/icon.ttf?52m981')
+               format('truetype'),
+             url('http://iris-go.com/fonts/icon.svg?52m981#icon')
+               format('svg');
+        font-weight: normal;
+        font-style: normal;
+      }
+    </style>
+
+    <link rel="stylesheet" href="http://iris-go.com/stylesheets/application.css">
+    <link rel="stylesheet" href="http://iris-go.com/stylesheets/temporary.css">
+    <link rel="stylesheet" href="http://iris-go.com/stylesheets/palettes.css">
+    <link rel="stylesheet" href="http://iris-go.com/stylesheets/highlight/highlight.css">
+
+    
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu%2bMono">
+    <style>
+      body, input {
+        font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+      }
+      pre, code {
+        font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+      }
+    </style>
+
+    
+    <script src="http://iris-go.com/javascripts/modernizr.js"></script>
+
+    
+
+  </head>
+  <body class="palette-primary-cyan palette-accent-deep orange">
+
+
+
+	
+	
+
+
+<div class="backdrop">
+	<div class="backdrop-paper"></div>
+</div>
+
+<input class="toggle" type="checkbox" id="toggle-drawer">
+<input class="toggle" type="checkbox" id="toggle-search">
+<label class="toggle-button overlay" for="toggle-drawer"></label>
+
+<header class="header">
+	<nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        OAuth,OAuth2
+      </div>
+    </div>
+
+    
+    <div class="button button-twitter" role="button" aria-label="Twitter">
+       <a href="https://twitter.com/MakisMaropoulos" title="@MakisMaropoulos on Twitter" target="_blank" class="toggle-button icon icon-twitter"></a>
+    </div>
+    
+
+    
+    <div class="button button-github" role="button" aria-label="GitHub">
+      <a href="https://github.com/kataras" title="@kataras on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
+    </div>
+    
+    
+        
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+</header>
+
+<main class="main">
+	<div class="drawer">
+		<nav aria-label="Navigation">
+  <a href="https://github.com/kataras/iris" class="project">
+    <div class="banner">
+      
+        <div class="logo">
+          <img src="http://iris-go.com/images/logo.png">
+        </div>
+      
+      <div class="name">
+        <strong>Iris - Documentation <span class="version">4.0.0-alpha.5</span></strong>
+        
+          <br>
+          kataras/iris
+        
+      </div>
+    </div>
+  </a>
+
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            <a href="https://github.com/kataras/iris/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/kataras/iris/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+
+      <div class="toc">
+        
+        <ul>
+          
+
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Introduction" href="http://iris-go.com/">
+	
+	Introduction
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Features" href="http://iris-go.com/features/">
+	
+	Features
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Versioning" href="http://iris-go.com/versioning/">
+	
+	Versioning
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Install" href="http://iris-go.com/install/">
+	
+	Install
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Hi" href="http://iris-go.com/hi/">
+	
+	Hi
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Transport Layer Security" href="http://iris-go.com/tls/">
+	
+	Transport Layer Security
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Handlers" href="http://iris-go.com/handlers/">
+	
+	Handlers
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Middleware" href="http://iris-go.com/middleware/">
+	
+	Middleware
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="API" href="http://iris-go.com/api/">
+	
+	API
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Declaration" href="http://iris-go.com/declaration/">
+	
+	Declaration
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Configuration" href="http://iris-go.com/configuration/">
+	
+	Configuration
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Party" href="http://iris-go.com/party/">
+	
+	Party
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Subdomains" href="http://iris-go.com/subdomains/">
+	
+	Subdomains
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Named Parameters" href="http://iris-go.com/named_parameters/">
+	
+	Named Parameters
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Static Files" href="http://iris-go.com/static_files/">
+	
+	Static Files
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Send Files" href="http://iris-go.com/send_files/">
+	
+	Send Files
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Send e-mails" href="http://iris-go.com/send_emails/">
+	
+	Send e-mails
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Render" href="http://iris-go.com/render/">
+	
+	Render
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Gzip" href="http://iris-go.com/gzip/">
+	
+	Gzip
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Streaming" href="http://iris-go.com/streaming/">
+	
+	Streaming
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Cookies" href="http://iris-go.com/cookies/">
+	
+	Cookies
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Flash Messages" href="http://iris-go.com/flash_messages/">
+	
+	Flash Messages
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Body Binder" href="http://iris-go.com/body_binder/">
+	
+	Body Binder
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Custom Http Errors" href="http://iris-go.com/custom_http_errors/">
+	
+	Custom Http Errors
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Context" href="http://iris-go.com/context/">
+	
+	Context
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Logger" href="http://iris-go.com/logger/">
+	
+	Logger
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="HTTP access control" href="http://iris-go.com/http_access_control/">
+	
+	HTTP access control
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Basic Authentication" href="http://iris-go.com/basic_authentication/">
+	
+	Basic Authentication
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a class="current" title="OAuth, OAuth2" href="http://iris-go.com/oauth_oauth2/">
+	
+	OAuth, OAuth2
+</a>
+
+
+<ul id="scrollspy">
+</ul>
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="JSON Web Tokens" href="http://iris-go.com/jwt/">
+	
+	JSON Web Tokens
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Secure" href="http://iris-go.com/secure/">
+	
+	Secure
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Sessions" href="http://iris-go.com/sessions/">
+	
+	Sessions
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Websockets" href="http://iris-go.com/websockets/">
+	
+	Websockets
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Graceful" href="http://iris-go.com/graceful/">
+	
+	Graceful
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Recovery" href="http://iris-go.com/recovery/">
+	
+	Recovery
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Plugins" href="http://iris-go.com/plugins/">
+	
+	Plugins
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Internationalization and Localization" href="http://iris-go.com/internationalization_and_localization/">
+	
+	Internationalization and Localization
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Easy Typescript" href="http://iris-go.com/typescript/">
+	
+	Easy Typescript
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Browser based Editor" href="http://iris-go.com/browser_based_editor/">
+	
+	Browser based Editor
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Control panel" href="http://iris-go.com/control_panel/">
+	
+	Control panel
+</a>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Examples" href="https://github.com/iris-contrib/examples">
+	
+	Examples
+</a>
+
+
+  
+</li>
+
+
+        </ul>
+        
+
+        
+        <hr>
+        <span class="section">The author</span>
+        
+        <ul>
+          
+          <li>
+            <a href="https://twitter.com/MakisMaropoulos" target="_blank" title="@MakisMaropoulos on Twitter">
+              @MakisMaropoulos on Twitter
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://github.com/kataras" target="_blank" title="@kataras on GitHub">
+              @kataras on GitHub
+            </a>
+          </li>
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+
+	</div>
+
+	<article class="article">
+		<div class="wrapper">
+			<h1>OAuth,OAuth2 </h1>
+
+			
+
+<p>This is a <a href="https://github.com/iris-contrib/plugin/tree/master/oauth">plugin</a>.</p>
+
+<p>This plugin helps you to be able to connect your clients using famous websites login APIs, it is a bridge to the <a href="https://github.com/markbates/goth">goth</a>.</p>
+
+<h2 id="supported-providers">Supported Providers</h2>
+
+<pre><code>Amazon
+Bitbucket
+Box
+Cloud Foundry
+Digital Ocean
+Dropbox
+Facebook
+GitHub
+Gitlab
+Google+
+Heroku
+InfluxCloud
+Instagram
+Lastfm
+Linkedin
+OneDrive
+Paypal
+SalesForce
+Slack
+Soundcloud
+Spotify
+Steam
+Stripe
+Twitch
+Twitter
+Uber
+Wepay
+Yahoo
+Yammer
+</code></pre>
+
+<h2 id="how-to-use-high-level">How to use - high level</h2>
+
+<pre><code class="language-go">    configs := oauth.Config{
+      Path: &quot;/auth&quot;, //defaults to /auth
+
+      GithubKey:    &quot;YOUR_GITHUB_KEY&quot;,
+      GithubSecret: &quot;YOUR_GITHUB_SECRET&quot;,
+      GithubName:   &quot;github&quot;, // defaults to github
+
+      FacebookKey:    &quot;YOUR_FACEBOOK_KEY&quot;,
+      FacebookSecret: &quot;YOUR_FACEBOOK_KEY&quot;,
+      FacebookName:   &quot;facebook&quot;, // defaults to facebook
+      //and so on... enable as many as you want
+    }
+
+    // create the plugin with our configs
+    authentication := oauth.New(configs)
+    // register the plugin to iris
+    iris.Plugins.Add(authentication)
+
+    // came from yourhost:port/configs.Path/theprovidername
+    // this is the handler inside yourhost:port/configs.Path/theprovidername/callback
+    // you can do redirect to the authenticated url or whatever you want to do
+    authentication.Success(func(ctx *iris.Context) {
+        user := authentication.User(ctx) // returns the goth.User
+    })
+    authentication.Fail(func(ctx *iris.Context){})
+
+</code></pre>
+
+<p>Example:</p>
+
+<pre><code class="language-go">// main.go
+package main
+
+import (
+    &quot;sort&quot;
+    &quot;strings&quot;
+
+    &quot;github.com/iris-contrib/plugin/oauth&quot;
+    &quot;github.com/kataras/iris&quot;
+)
+
+// register your auth via configs, providers with non-empty values will be registered to goth automatically by Iris
+var configs = oauth.Config{
+    Path: &quot;/auth&quot;, //defaults to /oauth
+
+    GithubKey:    &quot;YOUR_GITHUB_KEY&quot;,
+    GithubSecret: &quot;YOUR_GITHUB_SECRET&quot;,
+    GithubName:   &quot;github&quot;, // defaults to github
+
+    FacebookKey:    &quot;YOUR_FACEBOOK_KEY&quot;,
+    FacebookSecret: &quot;YOUR_FACEBOOK_KEY&quot;,
+    FacebookName:   &quot;facebook&quot;, // defaults to facebook
+}
+
+func init() {
+    iris.Config.Sessions.Provider = &quot;memory&quot;
+}
+
+// ProviderIndex ...
+type ProviderIndex struct {
+    Providers    []string
+    ProvidersMap map[string]string
+}
+
+func main() {
+    // create the plugin with our configs
+    authentication := oauth.New(configs)
+    // register the plugin to iris
+    iris.Plugins.Add(authentication)
+
+    m := make(map[string]string)
+    m[configs.GithubName] = &quot;Github&quot; // same as authentication.Config.GithubName
+    m[configs.FacebookName] = &quot;Facebook&quot;
+
+    var keys []string
+    for k := range m {
+        keys = append(keys, k)
+    }
+    sort.Strings(keys)
+
+    providerIndex := &amp;ProviderIndex{Providers: keys, ProvidersMap: m}
+
+    // set a  login success handler( you can use more than one handler)
+    // if user succeed to logged in
+    // client comes here from: localhost:3000/config.RouteName/lowercase_provider_name/callback 's first handler, but the  previous url is the localhost:3000/config.RouteName/lowercase_provider_name
+    authentication.Success(func(ctx *iris.Context) {
+        // if user couldn't validate then server sends StatusUnauthorized, which you can handle by:  authentication.Fail OR iris.OnError(iris.StatusUnauthorized, func(ctx *iris.Context){})
+        user := authentication.User(ctx)
+
+        // you can get the url by the named-route 'oauth' which you can change by Config's field: RouteName
+        println(&quot;came from &quot; + authentication.URL(strings.ToLower(user.Provider)))
+        ctx.Render(&quot;user.html&quot;, user)
+    })
+
+    // customize the error page using: authentication.Fail(func(ctx *iris.Context){....})
+
+    iris.Get(&quot;/&quot;, func(ctx *iris.Context) {
+        ctx.Render(&quot;index.html&quot;, providerIndex)
+    })
+
+    iris.Listen(&quot;:3000&quot;)
+}
+
+</code></pre>
+
+<p>View:</p>
+
+<pre><code class="language-html">&lt;!-- ./templates/index.html --&gt;
+
+{{range $key,$value:=.Providers}}
+    &lt;p&gt;&lt;a href=&quot;{{ url &quot;oauth&quot; $value}}&quot;&gt;Log in with {{index $.ProvidersMap $value}}&lt;/a&gt;&lt;/p&gt;
+{{end}}
+
+</code></pre>
+
+<pre><code class="language-html">&lt;!-- ./templates/user.html --&gt;
+&lt;p&gt;Name: {{.Name}}&lt;/p&gt;
+&lt;p&gt;Email: {{.Email}}&lt;/p&gt;
+&lt;p&gt;NickName: {{.NickName}}&lt;/p&gt;
+&lt;p&gt;Location: {{.Location}}&lt;/p&gt;
+&lt;p&gt;AvatarURL: {{.AvatarURL}} &lt;img src=&quot;{{.AvatarURL}}&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Description: {{.Description}}&lt;/p&gt;
+&lt;p&gt;UserID: {{.UserID}}&lt;/p&gt;
+&lt;p&gt;AccessToken: {{.AccessToken}}&lt;/p&gt;
+&lt;p&gt;ExpiresAt: {{.ExpiresAt}}&lt;/p&gt;
+&lt;p&gt;RefreshToken: {{.RefreshToken}}&lt;/p&gt;
+
+</code></pre>
+
+<h2 id="how-to-use-low-level">How to use - low level</h2>
+
+<p>Low-level is just the <a href="https://github.com/iris-contrib/gothic">iris-contrib/gothic</a> which is like the original <a href="https://github.com/markbates/goth">goth</a> but converted to work with Iris.</p>
+
+<p>Example:</p>
+
+<pre><code class="language-go">package main
+
+import (
+    &quot;html/template&quot;
+    &quot;os&quot;
+
+    &quot;sort&quot;
+
+    &quot;github.com/iris-contrib/gothic&quot;
+    &quot;github.com/kataras/iris&quot;
+    &quot;github.com/markbates/goth&quot;
+    &quot;github.com/markbates/goth/providers/amazon&quot;
+    &quot;github.com/markbates/goth/providers/bitbucket&quot;
+    &quot;github.com/markbates/goth/providers/box&quot;
+    &quot;github.com/markbates/goth/providers/digitalocean&quot;
+    &quot;github.com/markbates/goth/providers/dropbox&quot;
+    &quot;github.com/markbates/goth/providers/facebook&quot;
+    &quot;github.com/markbates/goth/providers/github&quot;
+    &quot;github.com/markbates/goth/providers/gitlab&quot;
+    &quot;github.com/markbates/goth/providers/gplus&quot;
+    &quot;github.com/markbates/goth/providers/heroku&quot;
+    &quot;github.com/markbates/goth/providers/instagram&quot;
+    &quot;github.com/markbates/goth/providers/lastfm&quot;
+    &quot;github.com/markbates/goth/providers/linkedin&quot;
+    &quot;github.com/markbates/goth/providers/onedrive&quot;
+    &quot;github.com/markbates/goth/providers/paypal&quot;
+    &quot;github.com/markbates/goth/providers/salesforce&quot;
+    &quot;github.com/markbates/goth/providers/slack&quot;
+    &quot;github.com/markbates/goth/providers/soundcloud&quot;
+    &quot;github.com/markbates/goth/providers/spotify&quot;
+    &quot;github.com/markbates/goth/providers/steam&quot;
+    &quot;github.com/markbates/goth/providers/stripe&quot;
+    &quot;github.com/markbates/goth/providers/twitch&quot;
+    &quot;github.com/markbates/goth/providers/twitter&quot;
+    &quot;github.com/markbates/goth/providers/uber&quot;
+    &quot;github.com/markbates/goth/providers/wepay&quot;
+    &quot;github.com/markbates/goth/providers/yahoo&quot;
+    &quot;github.com/markbates/goth/providers/yammer&quot;
+)
+
+func init() {
+    iris.Config.Sessions.Provider = &quot;memory&quot; // or &quot;redis&quot; and configure the Redis Provider
+}
+
+func main() {
+    goth.UseProviders(
+        twitter.New(os.Getenv(&quot;TWITTER_KEY&quot;), os.Getenv(&quot;TWITTER_SECRET&quot;), &quot;http://localhost:3000/auth/twitter/callback&quot;),
+        // If you'd like to use authenticate instead of authorize in Twitter provider, use this instead.
+        // twitter.NewAuthenticate(os.Getenv(&quot;TWITTER_KEY&quot;), os.Getenv(&quot;TWITTER_SECRET&quot;), &quot;http://localhost:3000/auth/twitter/callback&quot;),
+
+        facebook.New(os.Getenv(&quot;FACEBOOK_KEY&quot;), os.Getenv(&quot;FACEBOOK_SECRET&quot;), &quot;http://localhost:3000/auth/facebook/callback&quot;),
+        gplus.New(os.Getenv(&quot;GPLUS_KEY&quot;), os.Getenv(&quot;GPLUS_SECRET&quot;), &quot;http://localhost:3000/auth/gplus/callback&quot;),
+        github.New(os.Getenv(&quot;GITHUB_KEY&quot;), os.Getenv(&quot;GITHUB_SECRET&quot;), &quot;http://localhost:3000/auth/github/callback&quot;),
+        spotify.New(os.Getenv(&quot;SPOTIFY_KEY&quot;), os.Getenv(&quot;SPOTIFY_SECRET&quot;), &quot;http://localhost:3000/auth/spotify/callback&quot;),
+        linkedin.New(os.Getenv(&quot;LINKEDIN_KEY&quot;), os.Getenv(&quot;LINKEDIN_SECRET&quot;), &quot;http://localhost:3000/auth/linkedin/callback&quot;),
+        lastfm.New(os.Getenv(&quot;LASTFM_KEY&quot;), os.Getenv(&quot;LASTFM_SECRET&quot;), &quot;http://localhost:3000/auth/lastfm/callback&quot;),
+        twitch.New(os.Getenv(&quot;TWITCH_KEY&quot;), os.Getenv(&quot;TWITCH_SECRET&quot;), &quot;http://localhost:3000/auth/twitch/callback&quot;),
+        dropbox.New(os.Getenv(&quot;DROPBOX_KEY&quot;), os.Getenv(&quot;DROPBOX_SECRET&quot;), &quot;http://localhost:3000/auth/dropbox/callback&quot;),
+        digitalocean.New(os.Getenv(&quot;DIGITALOCEAN_KEY&quot;), os.Getenv(&quot;DIGITALOCEAN_SECRET&quot;), &quot;http://localhost:3000/auth/digitalocean/callback&quot;, &quot;read&quot;),
+        bitbucket.New(os.Getenv(&quot;BITBUCKET_KEY&quot;), os.Getenv(&quot;BITBUCKET_SECRET&quot;), &quot;http://localhost:3000/auth/bitbucket/callback&quot;),
+        instagram.New(os.Getenv(&quot;INSTAGRAM_KEY&quot;), os.Getenv(&quot;INSTAGRAM_SECRET&quot;), &quot;http://localhost:3000/auth/instagram/callback&quot;),
+        box.New(os.Getenv(&quot;BOX_KEY&quot;), os.Getenv(&quot;BOX_SECRET&quot;), &quot;http://localhost:3000/auth/box/callback&quot;),
+        salesforce.New(os.Getenv(&quot;SALESFORCE_KEY&quot;), os.Getenv(&quot;SALESFORCE_SECRET&quot;), &quot;http://localhost:3000/auth/salesforce/callback&quot;),
+        amazon.New(os.Getenv(&quot;AMAZON_KEY&quot;), os.Getenv(&quot;AMAZON_SECRET&quot;), &quot;http://localhost:3000/auth/amazon/callback&quot;),
+        yammer.New(os.Getenv(&quot;YAMMER_KEY&quot;), os.Getenv(&quot;YAMMER_SECRET&quot;), &quot;http://localhost:3000/auth/yammer/callback&quot;),
+        onedrive.New(os.Getenv(&quot;ONEDRIVE_KEY&quot;), os.Getenv(&quot;ONEDRIVE_SECRET&quot;), &quot;http://localhost:3000/auth/onedrive/callback&quot;),
+
+        //Pointed localhost.com to http://localhost:3000/auth/yahoo/callback through proxy as yahoo
+        // does not allow to put custom ports in redirection uri
+        yahoo.New(os.Getenv(&quot;YAHOO_KEY&quot;), os.Getenv(&quot;YAHOO_SECRET&quot;), &quot;http://localhost.com&quot;),
+        slack.New(os.Getenv(&quot;SLACK_KEY&quot;), os.Getenv(&quot;SLACK_SECRET&quot;), &quot;http://localhost:3000/auth/slack/callback&quot;),
+        stripe.New(os.Getenv(&quot;STRIPE_KEY&quot;), os.Getenv(&quot;STRIPE_SECRET&quot;), &quot;http://localhost:3000/auth/stripe/callback&quot;),
+        wepay.New(os.Getenv(&quot;WEPAY_KEY&quot;), os.Getenv(&quot;WEPAY_SECRET&quot;), &quot;http://localhost:3000/auth/wepay/callback&quot;, &quot;view_user&quot;),
+        //By default paypal production auth urls will be used, please set PAYPAL_ENV=sandbox as environment variable for testing
+        //in sandbox environment
+        paypal.New(os.Getenv(&quot;PAYPAL_KEY&quot;), os.Getenv(&quot;PAYPAL_SECRET&quot;), &quot;http://localhost:3000/auth/paypal/callback&quot;),
+        steam.New(os.Getenv(&quot;STEAM_KEY&quot;), &quot;http://localhost:3000/auth/steam/callback&quot;),
+        heroku.New(os.Getenv(&quot;HEROKU_KEY&quot;), os.Getenv(&quot;HEROKU_SECRET&quot;), &quot;http://localhost:3000/auth/heroku/callback&quot;),
+        uber.New(os.Getenv(&quot;UBER_KEY&quot;), os.Getenv(&quot;UBER_SECRET&quot;), &quot;http://localhost:3000/auth/uber/callback&quot;),
+        soundcloud.New(os.Getenv(&quot;SOUNDCLOUD_KEY&quot;), os.Getenv(&quot;SOUNDCLOUD_SECRET&quot;), &quot;http://localhost:3000/auth/soundcloud/callback&quot;),
+        gitlab.New(os.Getenv(&quot;GITLAB_KEY&quot;), os.Getenv(&quot;GITLAB_SECRET&quot;), &quot;http://localhost:3000/auth/gitlab/callback&quot;),
+    )
+
+    m := make(map[string]string)
+    m[&quot;amazon&quot;] = &quot;Amazon&quot;
+    m[&quot;bitbucket&quot;] = &quot;Bitbucket&quot;
+    m[&quot;box&quot;] = &quot;Box&quot;
+    m[&quot;digitalocean&quot;] = &quot;Digital Ocean&quot;
+    m[&quot;dropbox&quot;] = &quot;Dropbox&quot;
+    m[&quot;facebook&quot;] = &quot;Facebook&quot;
+    m[&quot;github&quot;] = &quot;Github&quot;
+    m[&quot;gitlab&quot;] = &quot;Gitlab&quot;
+    m[&quot;soundcloud&quot;] = &quot;SoundCloud&quot;
+    m[&quot;spotify&quot;] = &quot;Spotify&quot;
+    m[&quot;steam&quot;] = &quot;Steam&quot;
+    m[&quot;stripe&quot;] = &quot;Stripe&quot;
+    m[&quot;twitch&quot;] = &quot;Twitch&quot;
+    m[&quot;uber&quot;] = &quot;Uber&quot;
+    m[&quot;wepay&quot;] = &quot;Wepay&quot;
+    m[&quot;yahoo&quot;] = &quot;Yahoo&quot;
+    m[&quot;yammer&quot;] = &quot;Yammer&quot;
+    m[&quot;gplus&quot;] = &quot;Google Plus&quot;
+    m[&quot;heroku&quot;] = &quot;Heroku&quot;
+    m[&quot;instagram&quot;] = &quot;Instagram&quot;
+    m[&quot;lastfm&quot;] = &quot;Last FM&quot;
+    m[&quot;linkedin&quot;] = &quot;Linkedin&quot;
+    m[&quot;onedrive&quot;] = &quot;Onedrive&quot;
+    m[&quot;paypal&quot;] = &quot;Paypal&quot;
+    m[&quot;twitter&quot;] = &quot;Twitter&quot;
+    m[&quot;salesforce&quot;] = &quot;Salesforce&quot;
+    m[&quot;slack&quot;] = &quot;Slack&quot;
+
+    var keys []string
+    for k := range m {
+        keys = append(keys, k)
+    }
+    sort.Strings(keys)
+
+    providerIndex := &amp;ProviderIndex{Providers: keys, ProvidersMap: m}
+
+    iris.Get(&quot;/auth/:provider/callback&quot;, func(ctx *iris.Context) {
+
+        user, err := gothic.CompleteUserAuth(ctx)
+        if err != nil {
+            ctx.SetStatusCode(iris.StatusUnauthorized)
+            ctx.Write(err.Error())
+            return
+        }
+
+        t, _ := template.New(&quot;foo&quot;).Parse(userTemplate)
+        ctx.ExecuteTemplate(t, user)
+    })
+
+    iris.Get(&quot;/auth/:provider&quot;, func(ctx *iris.Context) {
+        err := gothic.BeginAuthHandler(ctx)
+        if err != nil {
+            ctx.Log(err.Error())
+        }
+    })
+
+    iris.Get(&quot;/&quot;, func(ctx *iris.Context) {
+        t, _ := template.New(&quot;foo&quot;).Parse(indexTemplate)
+        ctx.ExecuteTemplate(t, providerIndex)
+    })
+    iris.Listen(&quot;:3000&quot;)
+}
+
+// ProviderIndex ...
+type ProviderIndex struct {
+    Providers    []string
+    ProvidersMap map[string]string
+}
+
+var indexTemplate = `{{range $key,$value:=.Providers}}
+    &lt;p&gt;&lt;a href=&quot;/auth/{{$value}}&quot;&gt;Log in with {{index $.ProvidersMap $value}}&lt;/a&gt;&lt;/p&gt;
+{{end}}`
+
+var userTemplate = `
+&lt;p&gt;Name: {{.Name}}&lt;/p&gt;
+&lt;p&gt;Email: {{.Email}}&lt;/p&gt;
+&lt;p&gt;NickName: {{.NickName}}&lt;/p&gt;
+&lt;p&gt;Location: {{.Location}}&lt;/p&gt;
+&lt;p&gt;AvatarURL: {{.AvatarURL}} &lt;img src=&quot;{{.AvatarURL}}&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Description: {{.Description}}&lt;/p&gt;
+&lt;p&gt;UserID: {{.UserID}}&lt;/p&gt;
+&lt;p&gt;AccessToken: {{.AccessToken}}&lt;/p&gt;
+&lt;p&gt;ExpiresAt: {{.ExpiresAt}}&lt;/p&gt;
+&lt;p&gt;RefreshToken: {{.RefreshToken}}&lt;/p&gt;
+`
+
+</code></pre>
+
+<p><em>high level and low level, no performance differences</em></p>
+
+
+			<aside class="copyright" role="note">
+				
+				&copy; 2016 Released under the MIT license &ndash;
+				
+				Documentation built with
+				<a href="https://www.gohugo.io" target="_blank">Hugo</a>
+				using the
+				<a href="http://github.com/digitalcraftsman/hugo-material-docs" target="_blank">Material</a> theme.
+			</aside>
+
+			<footer class="footer">
+				
+
+<nav class="pagination" aria-label="Footer">
+  <div class="previous">
+  
+      <a href="http://iris-go.com/basic_authentication/" title="Basic Authentication">
+        <span class="direction">
+          Previous
+        </span>
+        <div class="page">
+          <div class="button button-previous" role="button" aria-label="Previous">
+            <i class="icon icon-back"></i>
+          </div>
+          <div class="stretch">
+            <div class="title">
+              Basic Authentication
+            </div>
+          </div>
+        </div>
+      </a>
+  
+  </div>
+
+  <div class="next">
+  
+      <a href="http://iris-go.com/jwt/" title="JSON Web Tokens">
+        <span class="direction">
+          Next
+        </span>
+        <div class="page">
+          <div class="stretch">
+            <div class="title">
+              JSON Web Tokens
+            </div>
+          </div>
+          <div class="button button-next" role="button" aria-label="Next">
+            <i class="icon icon-forward"></i>
+          </div>
+        </div>
+      </a>
+  
+  </div>
+</nav>
+
+
+
+
+
+			</footer>
+		</div>
+	</article>
+
+	<div class="results" role="status" aria-live="polite">
+		<div class="scrollable">
+			<div class="wrapper">
+				<div class="meta"></div>
+				<div class="list"></div>
+			</div>
+		</div>
+	</div>
+</main>
+
+    <script>
+    
+      var base_url = 'http:\/\/iris-go.com\/';
+      var repo_id  = 'kataras\/iris';
+    
+    </script>
+
+    <script src="http://iris-go.com/javascripts/application.js"></script>
+    
+
+    <script>
+      /* Add headers to scrollspy */
+      var headers   = document.getElementsByTagName("h2");
+      var scrollspy = document.getElementById('scrollspy');
+
+      if(scrollspy) {
+        if(headers.length > 0) {
+          for(var i = 0; i < headers.length; i++) {
+            var li = document.createElement("li");
+            li.setAttribute("class", "anchor");
+
+            var a  = document.createElement("a");
+            a.setAttribute("href", "#" + headers[i].id);
+            a.setAttribute("title", headers[i].innerHTML);
+            a.innerHTML = headers[i].innerHTML;
+            
+            li.appendChild(a)
+            scrollspy.appendChild(li);
+          }
+        } else {
+          scrollspy.parentElement.removeChild(scrollspy)
+        }
+        
+
+        /* Add permanent link next to the headers */
+        var headers = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+        for(var i = 0; i < headers.length; i++) {
+            var a = document.createElement("a");
+            a.setAttribute("class", "headerlink");
+            a.setAttribute("href", "#" + headers[i].id);
+            a.setAttribute("title", "Permanent link")
+            a.innerHTML = "#";
+            headers[i].appendChild(a);
+        }
+      }
+    </script>
+
+    
+
+    <script src="//gohugo.io/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>

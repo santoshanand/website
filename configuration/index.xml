@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Configurations on Iris - Documentation</title>
+    <link>http://iris-go.com/configuration/</link>
+    <description>Recent content in Configurations on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/configuration/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Configuration</title>
+      <link>http://iris-go.com/configuration/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/configuration/</guid>
+      <description>
+
+&lt;p&gt;Configuration is a relative package &lt;code&gt;github.com/kataras/iris/config&lt;/code&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;No need to download it separately, it&amp;rsquo;s downloaded automatically when you install Iris.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;why&#34;&gt;Why?&lt;/h3&gt;
+
+&lt;p&gt;I took this decision after a lot of thought and I ensure you that this is the best and easiest
+architecture:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;change the configs without needing to re-write all of their fields.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;    irisConfig := config.Iris{ DisablePathCorrection: true }
+    api := iris.New(irisConfig)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;easy to remember&lt;/strong&gt;: &lt;code&gt;iris&lt;/code&gt; type takes &lt;code&gt;config.Iris&lt;/code&gt;, sessions takes &lt;code&gt;config.Sessions&lt;/code&gt;, &lt;code&gt;iris.Config.Render&lt;/code&gt; is of type &lt;code&gt;config.Render&lt;/code&gt;, &lt;code&gt;iris.Config.Render.Template&lt;/code&gt; is the type &lt;code&gt;config.Template&lt;/code&gt;, &lt;code&gt;Logger&lt;/code&gt; takes &lt;code&gt;config.Logger&lt;/code&gt; and so on&amp;hellip;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;easy to search &amp;amp; find out what features exists and what you can change&lt;/strong&gt;: just navigate to the config folder and open the type you want to learn about, for example &lt;code&gt;/websocket.go /iris.Websocket &#39;s&lt;/code&gt;configuration is inside &lt;code&gt;/config/websocket.go&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Enables you to do this &lt;strong&gt;without setting up a config yourself&lt;/strong&gt;: &lt;code&gt;iris.Config.Gzip = true&lt;/code&gt; or &lt;code&gt;iris.Config.Charset = &amp;quot;UTF-8&amp;quot;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;(Advanced usage) merge configs&lt;/strong&gt;:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;//...
+import &amp;quot;github.com/kataras/iris/config&amp;quot;
+//...
+websocketFromDefault:= config.DefaultWebsocket()
+//....
+websocketManual:= config.Websocket{  Endpoint: &amp;quot;/ws&amp;quot;}
+
+websocketConfig := websocketFromDefault.MergeSingle(websocketManual)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;click-here-to-view-all-station-s-configs-https-github-com-kataras-iris-tree-master-config&#34;&gt;&lt;a href=&#34;https://github.com/kataras/iris/tree/master/config&#34;&gt;Click here to view all station&amp;rsquo;s configs&lt;/a&gt;&lt;/h1&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

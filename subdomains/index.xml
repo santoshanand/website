@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Subdomains on Iris - Documentation</title>
+    <link>http://iris-go.com/subdomains/</link>
+    <description>Recent content in Subdomains on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Jul 2016 03:13:00 +0200</lastBuildDate>
+    <atom:link href="http://iris-go.com/subdomains/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Subdomains</title>
+      <link>http://iris-go.com/subdomains/</link>
+      <pubDate>Fri, 29 Jul 2016 03:13:00 +0200</pubDate>
+      
+      <guid>http://iris-go.com/subdomains/</guid>
+      <description>&lt;p&gt;Subdomains are split into two categories, first is the static subdomain and second is the dynamic subdomain.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;static : when you know the subdomain, usage: &lt;code&gt;controlpanel.mydomain.com&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;dynamic : when you don&amp;rsquo;t know the subdomain, usage: &lt;code&gt;user1993.mydomain.com&lt;/code&gt;, &lt;code&gt;otheruser.mydomain.com&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Iris has the simplest known form for subdomains, simple as &lt;a href=&#34;party.md&#34;&gt;Parties&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Static&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+    api := iris.New()
+
+    // first the subdomains.
+    admin := api.Party(&amp;quot;admin.&amp;quot;)
+    {
+        // admin.mydomain.com
+        admin.Get(&amp;quot;/&amp;quot;, func(c *iris.Context) {
+            c.Write(&amp;quot;INDEX FROM admin.mydomain.com&amp;quot;)
+        })
+        // admin.mydomain.com/hey
+        admin.Get(&amp;quot;/hey&amp;quot;, func(c *iris.Context) {
+            c.Write(&amp;quot;HEY FROM admin.mydomain.com/hey&amp;quot;)
+        })
+        // admin.mydomain.com/hey2
+        admin.Get(&amp;quot;/hey2&amp;quot;, func(c *iris.Context) {
+            c.Write(&amp;quot;HEY SECOND FROM admin.mydomain.com/hey&amp;quot;)
+        })
+    }
+
+    // mydomain.com/
+    api.Get(&amp;quot;/&amp;quot;, func(c *iris.Context) {
+        c.Write(&amp;quot;INDEX FROM no-subdomain hey&amp;quot;)
+    })
+
+    // mydomain.com/hey
+    api.Get(&amp;quot;/hey&amp;quot;, func(c *iris.Context) {
+        c.Write(&amp;quot;HEY FROM no-subdomain hey&amp;quot;)
+    })
+
+    api.Listen(&amp;quot;mydomain.com:80&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Dynamic\/Wildcard&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+// Package main an example on how to catch dynamic subdomains - wildcard.
+// On the first example (subdomains_1) we saw how to create routes for static subdomains, subdomains you know that you will have.
+// Here we will see an example how to catch unknown subdomains, dynamic subdomains, like username.mydomain.com:8080.
+
+package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+// register a dynamic-wildcard subdomain to your server machine(dns/...) first, check ./hosts if you use windows.
+// run this file and try to redirect: http://username1.mydomain.com:8080/ , http://username2.mydomain.com:8080/ , http://username1.mydomain.com/something, http://username1.mydomain.com/something/sadsadsa
+
+func main() {
+    /* Keep note that you can use both of domains now (after 3.0.0-rc.1)
+       admin.mydomain.com,  and for other the Party(*.) but this is not this example&#39;s purpose
+
+    admin := iris.Party(&amp;quot;admin.&amp;quot;)
+    {
+        // admin.mydomain.com
+        admin.Get(&amp;quot;/&amp;quot;, func(c *iris.Context) {
+            c.Write(&amp;quot;INDEX FROM admin.mydomain.com&amp;quot;)
+        })
+        // admin.mydomain.com/hey
+        admin.Get(&amp;quot;/hey&amp;quot;, func(c *iris.Context) {
+            c.Write(&amp;quot;HEY FROM admin.mydomain.com/hey&amp;quot;)
+        })
+        // admin.mydomain.com/hey2
+        admin.Get(&amp;quot;/hey2&amp;quot;, func(c *iris.Context) {
+            c.Write(&amp;quot;HEY SECOND FROM admin.mydomain.com/hey&amp;quot;)
+        })
+    }*/
+
+    dynamicSubdomains := iris.Party(&amp;quot;*.&amp;quot;)
+    {
+        dynamicSubdomains.Get(&amp;quot;/&amp;quot;, dynamicSubdomainHandler)
+
+        dynamicSubdomains.Get(&amp;quot;/something&amp;quot;, dynamicSubdomainHandler)
+
+        dynamicSubdomains.Get(&amp;quot;/something/:param1&amp;quot;, dynamicSubdomainHandlerWithParam)
+    }
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.Write(&amp;quot;Hello from mydomain.com path: %s&amp;quot;, ctx.PathString())
+    })
+
+    iris.Get(&amp;quot;/hello&amp;quot;, func(ctx *iris.Context) {
+        ctx.Write(&amp;quot;Hello from mydomain.com path: %s&amp;quot;, ctx.PathString())
+    })
+
+    iris.Listen(&amp;quot;mydomain.com:8080&amp;quot;)
+}
+
+func dynamicSubdomainHandler(ctx *iris.Context) {
+    username := ctx.Subdomain()
+    ctx.Write(&amp;quot;Hello from dynamic subdomain path: %s, here you can handle the route for dynamic subdomains, handle the user: %s&amp;quot;, ctx.PathString(), username)
+    // if  http://username4.mydomain.com:8080/ prints:
+    // Hello from dynamic subdomain path: /, here you can handle the route for dynamic subdomains, handle the user: username4
+}
+
+func dynamicSubdomainHandlerWithParam(ctx *iris.Context) {
+    username := ctx.Subdomain()
+    ctx.Write(&amp;quot;Hello from dynamic subdomain path: %s, here you can handle the route for dynamic subdomains, handle the user: %s&amp;quot;, ctx.PathString(), username)
+    ctx.Write(&amp;quot;THE PARAM1 is: %s&amp;quot;, ctx.Param(&amp;quot;param1&amp;quot;))
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;You can still set unlimitted number of middleware\/handlers to the dynamic subdomains also&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;You noticed the comments  &amp;lsquo;subdomains_1&amp;rsquo; and so on, this is because almost all book&amp;rsquo;s code shots, are running examples.&lt;/p&gt;
+
+&lt;p&gt;You can find them by pressing &lt;a href=&#34;https://github.com/iris-contrib/examples&#34;&gt;here.&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

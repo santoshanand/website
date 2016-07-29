@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Middlewares on Iris - Documentation</title>
+    <link>http://iris-go.com/middleware/</link>
+    <description>Recent content in Middlewares on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/middleware/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Middleware</title>
+      <link>http://iris-go.com/middleware/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/middleware/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Quick view&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// First point to the static files
+iris.Static(&amp;quot;/assets&amp;quot;, &amp;quot;./public/assets&amp;quot;, 1)
+
+// Then declare which middleware to use (custom or not)
+iris.Use(myMiddleware{})
+iris.UseFunc(func(ctx *iris.Context){})
+
+// Now declare routes
+iris.Get(&amp;quot;/myroute&amp;quot;, func(c *iris.Context) {
+    // do stuff
+})
+iris.Get(&amp;quot;/secondroute&amp;quot;, myMiddlewareFunc, myRouteHandlerfunc)
+
+// Now run our server
+iris.Listen(&amp;quot;:8080&amp;quot;)
+
+
+// myMiddleware will be like that
+
+type myMiddleware struct {
+  // your &#39;stateless&#39; fields here
+}
+
+func (m *myMiddleware) Serve(ctx *iris.Context){
+  // ...
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Middleware in Iris is not complicated, they are similar to simple Handlers.
+They implement the Handler interface as well:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;type Handler interface {
+    Serve(*Context)
+}
+type Middleware []Handler
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Handler middleware example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+type myMiddleware struct {}
+
+func (m *myMiddleware) Serve(c *iris.Context){
+    shouldContinueToTheNextHandler := true
+
+    if shouldContinueToTheNextHandler {
+        c.Next()
+    }else{
+        c.Text(403,&amp;quot;Forbidden !!&amp;quot;)
+    }
+
+}
+
+iris.Use(&amp;amp;myMiddleware{})
+
+iris.Get(&amp;quot;/home&amp;quot;, func (c *iris.Context){
+    c.HTML(iris.StatusOK,&amp;quot;&amp;lt;h1&amp;gt;Hello from /home &amp;lt;/h1&amp;gt;&amp;quot;)
+})
+
+iris.Listen(&amp;quot;:8080&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;HandlerFunc middleware example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+func myMiddleware(c *iris.Context){
+    c.Next()
+}
+
+iris.UseFunc(myMiddleware)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;HandlerFunc middleware for a specific route:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+func mySecondMiddleware(c *iris.Context){
+    c.Next()
+}
+
+iris.Get(&amp;quot;/dashboard&amp;quot;, func(c *iris.Context) {
+    loggedIn := true
+    if loggedIn {
+        c.Next()
+    }
+}, mySecondMiddleware, func (c *iris.Context){
+    c.Write(&amp;quot;The last HandlerFunc is the main handler, everything before that is middleware for this route /dashboard&amp;quot;)
+})
+
+iris.Listen(&amp;quot;:8080&amp;quot;)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Note that middleware must come before route declaration.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Make use of the &lt;a href=&#34;https://github.com/iris-contrib/middleware&#34;&gt;middleware&lt;/a&gt;, view practical &lt;a href=&#34;https://github.com/iris-contrib/examples&#34;&gt;examples here&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+ &amp;quot;github.com/kataras/iris&amp;quot;
+ &amp;quot;github.com/iris-contrib/middleware/logger&amp;quot;
+)
+
+type Page struct {
+    Title string
+}
+
+iris.Use(logger.New(iris.Logger))
+
+iris.Get(&amp;quot;/&amp;quot;, func(c *iris.Context) {
+    c.Render(&amp;quot;index.html&amp;quot;, Page{&amp;quot;My Index Title&amp;quot;})
+})
+
+iris.Listen(&amp;quot;:8080&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Done/DoneFunc&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func firstMiddleware(ctx *iris.Context) {
+    ctx.Write(&amp;quot;1. This is the first middleware, before any of route&#39;s handlers \n&amp;quot;)
+    ctx.Next()
+}
+
+func secondMiddleware(ctx *iris.Context) {
+    ctx.Write(&amp;quot;2. This is the second middleware, before the / main handler \n&amp;quot;)
+    ctx.Next()
+}
+
+func thirdMiddleware(ctx *iris.Context) {
+    ctx.Write(&amp;quot;3. This is the 3rd middleware, after the main handler \n&amp;quot;)
+    ctx.Next()
+}
+
+func lastAlwaysMiddleware(ctx *iris.Context) {
+    ctx.Write(&amp;quot;4. This is the ALWAYS LAST Handler \n&amp;quot;)
+}
+
+func main() {
+
+    iris.UseFunc(firstMiddleware)
+    iris.DoneFunc(lastAlwaysMiddleware)
+
+    iris.Get(&amp;quot;/&amp;quot;, secondMiddleware, func(ctx *iris.Context) {
+        ctx.Write(&amp;quot;Hello from / \n&amp;quot;)
+        ctx.Next() // .Next because we &#39;re using the third middleware after that, and lastAlwaysMiddleware also
+    }, thirdMiddleware)
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Done/DoneFunc with Parties&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// Package main same as middleware_2 but with party
+package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func firstMiddleware(ctx *iris.Context) {
+    ctx.Write(&amp;quot;1. This is the first middleware, before any of route&#39;s handlers \n&amp;quot;)
+    ctx.Next()
+}
+
+func secondMiddleware(ctx *iris.Context) {
+    ctx.Write(&amp;quot;2. This is the second middleware, before the / main handler \n&amp;quot;)
+    ctx.Next()
+}
+
+func thirdMiddleware(ctx *iris.Context) {
+    ctx.Write(&amp;quot;3. This is the 3rd middleware, after the main handler \n&amp;quot;)
+    ctx.Next()
+}
+
+func lastAlwaysMiddleware(ctx *iris.Context) {
+    ctx.Write(&amp;quot;4. This is the ALWAYS LAST Handler \n&amp;quot;)
+}
+
+func main() {
+
+    // with parties:
+    myParty := iris.Party(&amp;quot;/myparty&amp;quot;, firstMiddleware).DoneFunc(lastAlwaysMiddleware)
+    {
+        myParty.Get(&amp;quot;/&amp;quot;, secondMiddleware, func(ctx *iris.Context) {
+            ctx.Write(&amp;quot;Hello from /myparty/ \n&amp;quot;)
+            ctx.Next() // .Next because we &#39;re using the third middleware after that, and lastAlwaysMiddleware also
+        }, thirdMiddleware)
+
+    }
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Done/DoneFuncs are just last-executed handlers, like Use/UseFunc the children party inheritates these &amp;lsquo;done/last&amp;rsquo; handlers also.&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

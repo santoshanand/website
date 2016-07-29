@@ -1,0 +1,1660 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Iris - Documentation</title>
+    <link>http://iris-go.com/</link>
+    <description>Recent content on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Jul 2016 00:00:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Introduction</title>
+      <link>http://iris-go.com/</link>
+      <pubDate>Fri, 29 Jul 2016 00:00:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href =&#34;https://github.com/kataras/iris&#34;&gt; &lt;img src=&#34;http://iris-go.com/assets/book/cover_4.jpg&#34; /&gt; &lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;table-of-contents&#34;&gt;Table of Contents&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://iris-go.com/&#34;&gt;Introduction&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#why&#34;&gt;Why&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;features/&#34;&gt;Features&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;versioning/&#34;&gt;Versioning&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;install/&#34;&gt;Install&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;hi/&#34;&gt;Hi&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;tls/&#34;&gt;Transport Layer Security&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;handlers/&#34;&gt;Handlers&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;handlers/#using-handlers&#34;&gt;Using Handlers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;handlers/#using-handlerfuncs&#34;&gt;Using HandlerFuncs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;handlers/#using-handlerapi&#34;&gt;Using custom struct for a complete API&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;handlers/#using-native-httphandler&#34;&gt;Using native http.Handler&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;handlers/#using-native-httphandler-via-tohandlerfunc&#34;&gt;Using native http.Handler via iris.ToHandlerFunc()&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;handlers/#routing&#34;&gt;Routing and reverse lookups&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;middleware/&#34;&gt;Middleware&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;api/&#34;&gt;API&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;declaration/&#34;&gt;Declaration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;configuration/&#34;&gt;Configuration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;party/&#34;&gt;Party&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;subdomains/&#34;&gt;Subdomains&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;named_parameters/&#34;&gt;Named Parameters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;static_files/&#34;&gt;Static files&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;send_files/&#34;&gt;Send files&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;send_emails/&#34;&gt;Send e-mails&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;render/&#34;&gt;Render&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;render/#response-engines&#34;&gt;Response Engines&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;render/#template-engines&#34;&gt;Template Engines&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;gzip/&#34;&gt;Gzip&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;streaming/&#34;&gt;Streaming&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;flash_messages/&#34;&gt;Flash messages&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;body_binder/&#34;&gt;Body binder&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;custom_http_errors/&#34;&gt;Custom HTTP Errors&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;context/&#34;&gt;Context&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;logger/&#34;&gt;Logger&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http_access_control/&#34;&gt;HTTP access control&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;basic_authentication/&#34;&gt;Basic Authentication&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;oauth_oauth2/&#34;&gt;OAuth, OAuth2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;jwt/&#34;&gt;JSON Web Tokens(JWT)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;secure/&#34;&gt;Secure&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;sessions/&#34;&gt;Sessions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;websockets/&#34;&gt;Websockets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;graceful/&#34;&gt;Graceful&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;recovery/&#34;&gt;Recovery&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;plugins/&#34;&gt;Plugins&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;internationalization_and_localization/&#34;&gt;Internationalization and Localization&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;typescript/&#34;&gt;Easy Typescript&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;browser_based_editor/&#34;&gt;Browser based Editor&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;control_panel/&#34;&gt;Control panel&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;examples/&#34;&gt;Examples&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;why&#34;&gt;Why&lt;/h2&gt;
+
+&lt;p&gt;Go is a great technology stack for building scalable, web-based, back-end systems for web
+applications.&lt;/p&gt;
+
+&lt;p&gt;When you think about building web applications and web APIs, or simply building HTTP servers in Go, does your mind go to the standard net/http package?
+Then you have to deal with some common situations like dynamic routing (a.k.a parameterized), security and authentication, real-time communication and many other issues that net/http doesn&amp;rsquo;t solve.&lt;/p&gt;
+
+&lt;p&gt;The net/http package is not complete enough to quickly build well-designed back-end web systems. When you realize this, you might be thinking along these lines:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Ok, the net/http package doesn&amp;rsquo;t suit me, but there are so many frameworks, which one will work for me?!&lt;/li&gt;
+&lt;li&gt;Each one of them tells me that it is the best. I don&amp;rsquo;t know what to do!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;the-truth&#34;&gt;The truth&lt;/h5&gt;
+
+&lt;p&gt;I did some deep research and benchmarks with &amp;lsquo;wrk&amp;rsquo; and &amp;lsquo;ab&amp;rsquo; in order to choose which framework would suit me and my new project. The results, sadly, were really disappointing to me.&lt;/p&gt;
+
+&lt;p&gt;I started wondering if golang wasn&amp;rsquo;t as fast on the web as I had read&amp;hellip; but, before I let Golang go and continued to develop with nodejs, I told myself:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&amp;lsquo;&lt;strong&gt;Makis, don&amp;rsquo;t lose hope, give at least a chance to Golang. Try to build something totally new without basing it off the &amp;ldquo;slow&amp;rdquo; code you saw earlier; learn the secrets of this language and make &lt;em&gt;others&lt;/em&gt; follow your steps!&lt;/strong&gt;&amp;rsquo;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;These are the words I told myself that day [&lt;strong&gt;13 March 2016&lt;/strong&gt;].&lt;/p&gt;
+
+&lt;p&gt;The same day, later the night, I was reading a book about Greek mythology. I saw an ancient goddess&amp;rsquo; name and was inspired immediately to give a name to this new web framework (which I had already started writing) - &lt;strong&gt;Iris&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Two months later&lt;/strong&gt;, I&amp;rsquo;m writing this intro.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m still here &lt;a href=&#34;https://github.com/kataras/iris#benchmarks&#34;&gt;because Iris has succeed in being the fastest go web framework&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;comment1.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;comment2.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;comment3.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;comment4.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;comment5.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;comment6.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;comment7.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;comment8.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;comment10.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;comment12.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;comment13.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;comment14.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;comment17.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;comment21.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;comment22.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;comment24.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;comment23.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Features</title>
+      <link>http://iris-go.com/features/</link>
+      <pubDate>Fri, 29 Jul 2016 00:00:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/features/</guid>
+      <description>&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Switch between template engines&lt;/strong&gt;: Select the way you like to parse your html files, switchable via one-line configuration, &lt;a href=&#34;render.md&#34;&gt;read more&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Typescript&lt;/strong&gt;: Auto-compile &amp;amp; Watch your client side code via the &lt;a href=&#34;plugin-typescript.md&#34;&gt;typescript plugin&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Online IDE&lt;/strong&gt;: Edit &amp;amp; Compile your client side code when you are not home via the &lt;a href=&#34;plugin-editor.md&#34;&gt;editor plugin&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Iris Online Control&lt;/strong&gt;: Web-based interface to control the basics functionalities of your server via the &lt;a href=&#34;plugin-iriscontrol.md&#34;&gt;iriscontrol plugin&lt;/a&gt;. Note that Iris control is still young&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Subdomains&lt;/strong&gt;: Easy way to express your api via custom and dynamic subdomains&lt;a href=&#34;subdomains.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Named Path Parameters&lt;/strong&gt;: Probably you already know what this means. If not, &lt;a href=&#34;named-parameters.md&#34;&gt;It&amp;rsquo;s easy to learn about&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Custom HTTP Errors&lt;/strong&gt;: Define your own html templates or plain messages when http errors occur&lt;a href=&#34;custom-http-errors.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Internationalization&lt;/strong&gt;: &lt;a href=&#34;middleware-internationalization-and-localization.md&#34;&gt;i18n&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Bindings&lt;/strong&gt;: Need a fast way to convert data from body or form into an object? Take a look &lt;a href=&#34;request-body-bind.md&#34;&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Streaming&lt;/strong&gt;: You have only one option when streaming comes into play&lt;a href=&#34;streaming.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Middlewares&lt;/strong&gt;: Create and/or use global or per route middleware with Iris&amp;rsquo; simplicity&lt;a href=&#34;middlewares.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sessions&lt;/strong&gt;:  Sessions provide a secure way to authenticate your clients/users &lt;a href=&#34;package-sessions.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Realtime&lt;/strong&gt;: Realtime is fun when you use websockets&lt;a href=&#34;package-websocket.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Context&lt;/strong&gt;: &lt;a href=&#34;context.md&#34;&gt;Context&lt;/a&gt; is used for storing route params, storing handlers, sharing variables between middleware, render rich content, send files and much more&lt;a href=&#34;context.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Plugins&lt;/strong&gt;: You can build your own plugins to inject into the Iris framework&lt;a href=&#34;plugins.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Full API&lt;/strong&gt;: All http methods are supported&lt;a href=&#34;api.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Party&lt;/strong&gt;:  Group routes when sharing the same resources or middleware. You can organise a party with domains too! &lt;a href=&#34;party.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Transport Layer Security&lt;/strong&gt;: Provide privacy and data integrity between your server and the client&lt;a href=&#34;tls.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Multi server instances&lt;/strong&gt;: Not only does Iris have a default main server, you can declare as many as you need&lt;a href=&#34;declaration.md&#34;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Zero configuration&lt;/strong&gt;:  No need to configure anything for typical usage. Well-structured default configurations everywhere, which you can change with ease&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Zero allocations&lt;/strong&gt;: Iris generates zero garbage&lt;/li&gt;
+&lt;li&gt;and much more, take a fast look to all sections&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Versioning</title>
+      <link>http://iris-go.com/versioning/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/versioning/</guid>
+      <description>&lt;p&gt;Current: &lt;strong&gt;v4.0.0-alpha.5&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Read more about Semantic Versioning 2.0.0&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://semver.org/&#34;&gt;http://semver.org/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Software_versioning&#34;&gt;https://en.wikipedia.org/wiki/Software_versioning&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://wiki.debian.org/UpstreamGuide#Releases_and_Versions&#34;&gt;https://wiki.debian.org/UpstreamGuide#Releases_and_Versions&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Install</title>
+      <link>http://iris-go.com/install/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/install/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Compatible with go1.6+&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ go get -u github.com/kataras/iris/iris
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;this will update the dependencies also.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If you are connected to the Internet through &lt;strong&gt;China&lt;/strong&gt;, according to &lt;a href=&#34;https://github.com/kataras/iris/issues/98&#34;&gt;this&lt;/a&gt; you may having problem install Iris. &lt;strong&gt;Follow the below steps&lt;/strong&gt;:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/northbright/Notes/blob/master/Golang/china/get-golang-packages-on-golang-org-in-china.md&#34;&gt;https://github.com/northbright/Notes/blob/master/Golang/china/get-golang-packages-on-golang-org-in-china.md&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$ go get github.com/kataras/iris/iris&lt;/code&gt; &lt;strong&gt;without -u&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If you have any problems installing Iris, just delete the directory &lt;code&gt;$GOPATH/src/github.com/kataras/iris&lt;/code&gt; , open your shell and run &lt;code&gt;go get -u github.com/kataras/iris/iris&lt;/code&gt; .
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Hi</title>
+      <link>http://iris-go.com/hi/</link>
+      <pubDate>Fri, 29 Jul 2016 00:00:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/hi/</guid>
+      <description>&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+    iris.Get(&amp;quot;/hi&amp;quot;, func(ctx *iris.Context) {
+        ctx.Write(&amp;quot;Hi %s&amp;quot;, &amp;quot;iris&amp;quot;)
+    })
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The same&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+    api := iris.New()
+    api.Get(&amp;quot;/hi&amp;quot;, hi)
+    api.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+func hi(ctx *iris.Context){
+   ctx.Write(&amp;quot;Hi %s&amp;quot;, &amp;quot;iris&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Rich Hi with &lt;strong&gt;html\/template&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/hi.html --&amp;gt;
+&amp;lt;html&amp;gt;&amp;lt;head&amp;gt; &amp;lt;title&amp;gt; Hi Iris [THE TITLE] &amp;lt;/title&amp;gt; &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;h1&amp;gt; Hi {{.Name}} &amp;lt;/h1&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+    iris.Get(&amp;quot;/hi&amp;quot;, hi)
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+func hi(ctx *iris.Context){
+   ctx.Render(&amp;quot;hi.html&amp;quot;, struct { Name string }{ Name: &amp;quot;iris&amp;quot; })
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Rich Hi with &lt;strong&gt;Django-syntax&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./mytemplates/hi.html --&amp;gt;
+&amp;lt;html&amp;gt;&amp;lt;head&amp;gt; &amp;lt;title&amp;gt; Hi Iris &amp;lt;/title&amp;gt; &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;h1&amp;gt; Hi {{ Name }}
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+import (
+    &amp;quot;github.com/kataras/iris&amp;quot;
+    &amp;quot;github.com/iris-contrib/template/django&amp;quot;
+)
+
+func main() {
+    iris.UseTemplate(django.New()).Directory(&amp;quot;./mytemplates&amp;quot;, &amp;quot;.html&amp;quot;)
+    iris.Get(&amp;quot;/hi&amp;quot;, hi)
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+func hi(ctx *iris.Context){
+   ctx.Render(&amp;quot;hi.html&amp;quot;, map[string]interface{}{&amp;quot;Name&amp;quot;: &amp;quot;iris&amp;quot;}, iris.RenderOptions{&amp;quot;gzip&amp;quot;:true})
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;More about render and template engines &lt;a href=&#34;render.md&#34;&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>TLS</title>
+      <link>http://iris-go.com/tls/</link>
+      <pubDate>Fri, 29 Jul 2016 00:00:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/tls/</guid>
+      <description>&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// Listen starts the standalone http server
+// which listens to the addr parameter which as the form of
+// host:port
+//
+// It panics on error if you need a func to return an error, use the ListenTo
+// ex: err := iris.ListenTo(config.Server{ListeningAddr:&amp;quot;:8080&amp;quot;})
+Listen(addr string) 
+
+// ListenTLS Starts a https server with certificates,
+// if you use this method the requests of the form of &#39;http://&#39; will fail
+// only https:// connections are allowed
+// which listens to the addr parameter which as the form of
+// host:port
+//
+// It panics on error if you need a func to return an error, use the ListenTo
+// ex: err := iris.ListenTo(&amp;quot;:8080&amp;quot;,&amp;quot;yourfile.cert&amp;quot;,&amp;quot;yourfile.key&amp;quot;)
+ListenTLS(addr string, certFile string, keyFile string)
+
+// ListenTLSAuto starts a server listening at the specific nat address
+// using key &amp;amp; certification taken from the letsencrypt.org &#39;s servers
+// it also starts a second &#39;http&#39; server to redirect all &#39;http://$ADDR_HOSTNAME:80&#39; to the&#39; https://$ADDR&#39;
+//
+// Notes:
+// if you don&#39;t want the last feature you should use this method:
+// iris.ListenTo(config.Server{ListeningAddr: &amp;quot;mydomain.com:443&amp;quot;, AutoTLS: true})
+// it&#39;s a blocking function
+// Limit : https://github.com/iris-contrib/letsencrypt/blob/master/lets.go#L142
+//
+// example: https://github.com/iris-contrib/examples/blob/master/letsencyrpt/main.go
+ListenTLSAuto(addr string)
+
+// ListenUNIX starts the process of listening to the new requests using a &#39;socket file&#39;, this works only on unix
+//
+// It panics on error if you need a func to return an error, use the ListenTo
+// ex: err := iris.ListenTo(&amp;quot;:8080&amp;quot;, Mode: os.FileMode)
+ListenUNIX(addr string, mode os.FileMode)
+
+// ListenVirtual is useful only when you want to test Iris, it doesn&#39;t starts the server but it configures and returns it
+// initializes the whole framework but server doesn&#39;t listens to a specific net.Listener
+// it is not blocking the app
+ListenVirtual(optionalAddr ...string) *Server
+
+// ListenTo listens to a server but acceots the full server&#39;s configuration
+// returns an error, you&#39;re responsible to handle that
+// or use the iris.Must(iris.ListenTo(config.Server{}))
+//
+// it&#39;s a blocking func
+ListenTo(cfg config.Server) (err error) 
+
+// Close terminates all the registered servers and returns an error if any
+// if you want to panic on this error use the iris.Must(iris.Close())
+Close() error 
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;iris.Listen(&amp;quot;:8080&amp;quot;)
+err := iris.ListenTo(config.Server{ListeningAddr: &amp;quot;:8080&amp;quot;})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;iris.ListenTLS(&amp;quot;:8080&amp;quot;, &amp;quot;myCERTfile.cert&amp;quot;, &amp;quot;myKEYfile.key&amp;quot;)
+err := iris.ListenTo(config.Server{ListeningAddr: &amp;quot;:8080&amp;quot;, CertFile: &amp;quot;myCERTfile.cert&amp;quot;, KeyFile: &amp;quot;myKEYfile.key&amp;quot;})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// Package main provide one-line integration with letsencrypt.org
+package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.Write(&amp;quot;Hello from SECURE SERVER!&amp;quot;)
+    })
+
+    iris.Get(&amp;quot;/test2&amp;quot;, func(ctx *iris.Context) {
+        ctx.Write(&amp;quot;Welcome to secure server from /test2!&amp;quot;)
+    })
+
+    // This will provide you automatic certification &amp;amp; key from letsencrypt.org&#39;s servers
+    // it also starts a second &#39;http://&#39; server which will redirect all &#39;http://$PATH&#39; requests to &#39;https://$PATH&#39;
+    iris.ListenTLSAuto(&amp;quot;127.0.0.1:443&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Handlers</title>
+      <link>http://iris-go.com/handlers/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/handlers/</guid>
+      <description>
+
+&lt;p&gt;Handlers, as the name implies, handle requests. Each of the handler registration methods described in the following subchapters returns a &lt;a href=&#34;https://godoc.org/github.com/kataras/iris#RouteNameFunc&#34;&gt;&lt;code&gt;RouteNameFunc&lt;/code&gt;&lt;/a&gt; type.&lt;/p&gt;
+
+&lt;p&gt;Handlers must implement the Handler interface:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;type Handler interface {
+    Serve(*Context)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once the handler is registered, we can use the returned &lt;a href=&#34;https://godoc.org/github.com/kataras/iris#RouteNameFunc&#34;&gt;&lt;code&gt;RouteNameFunc&lt;/code&gt;&lt;/a&gt; type (which is actually a &lt;code&gt;func&lt;/code&gt; type) to give name to the this handler registration for easier lookup in code or in templates. For more information, checkout the &lt;a href=&#34;routing.md&#34;&gt;Routing and reverse lookups&lt;/a&gt; section.&lt;/p&gt;
+
+&lt;h2 id=&#34;using-handlers&#34;&gt;Using Handlers&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+type myHandlerGet struct {
+}
+
+func (m myHandlerGet) Serve(c *iris.Context) {
+    c.Write(&amp;quot;From %s&amp;quot;, c.PathString())
+}
+
+//and so on
+
+
+iris.Handle(&amp;quot;GET&amp;quot;, &amp;quot;/get&amp;quot;, myHandlerGet{})
+iris.Handle(&amp;quot;POST&amp;quot;, &amp;quot;/post&amp;quot;, post)
+iris.Handle(&amp;quot;PUT&amp;quot;, &amp;quot;/put&amp;quot;, put)
+iris.Handle(&amp;quot;DELETE&amp;quot;, &amp;quot;/delete&amp;quot;, del)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;using-handlerfuncs&#34;&gt;Using HandlerFuncs&lt;/h2&gt;
+
+&lt;p&gt;HandlerFuncs should implement the Serve(*Context) func.
+HandlerFunc is most simple method to register a route or a middleware, but under the hood it acts like a Handler. It implements the Handler interface as well:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;type HandlerFunc func(*Context)
+
+func (h HandlerFunc) Serve(c *Context) {
+    h(c)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;HandlerFuncs shoud have this function signature:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func handlerFunc(c *iris.Context)  {
+    c.Write(&amp;quot;Hello&amp;quot;)
+}
+
+
+iris.HandleFunc(&amp;quot;GET&amp;quot;,&amp;quot;/letsgetit&amp;quot;,handlerFunc)
+//OR
+iris.Get(&amp;quot;/letsgetit&amp;quot;, handlerFunc)
+iris.Post(&amp;quot;/letspostit&amp;quot;, handlerFunc)
+iris.Put(&amp;quot;/letputit&amp;quot;, handlerFunc)
+iris.Delete(&amp;quot;/letsdeleteit&amp;quot;, handlerFunc)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;using-handler-api&#34;&gt;Using Handler API&lt;/h2&gt;
+
+&lt;p&gt;HandlerAPI is any custom struct which has an &lt;code&gt;*iris.Context&lt;/code&gt; field and known methods signatures.&lt;/p&gt;
+
+&lt;p&gt;Before continue I will liked to notice you that this method is slower than &lt;code&gt;iris.Get, Post..., Handle, HandleFunc&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;I know maybe sounds awful but I, my self not using it, I did it because developers used to use frameworks with the &amp;lsquo;MVC&amp;rsquo; pattern, so think it like the &amp;lsquo;C|Controller&amp;rsquo;. If you don&amp;rsquo;t care about routing performance(~ms) and you like to spent some code time, you&amp;rsquo;re free to use it.&lt;/p&gt;
+
+&lt;p&gt;Instead of writing Handlers\/HandlerFuncs for eachone API routes, you can use the &lt;code&gt;iris.API&lt;/code&gt; function.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;API(path string, api HandlerAPI, middleware ...HandlerFunc) error
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;For example&lt;/strong&gt;, for a user API you need some of these routes:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;GET &lt;code&gt;/users&lt;/code&gt; , for selecting all&lt;/li&gt;
+&lt;li&gt;GET&lt;code&gt;/users/:id&lt;/code&gt; , for selecting specific&lt;/li&gt;
+&lt;li&gt;PUT &lt;code&gt;/users&lt;/code&gt; , for inserting&lt;/li&gt;
+&lt;li&gt;POST &lt;code&gt;/users/:id&lt;/code&gt; , for updating&lt;/li&gt;
+&lt;li&gt;DELETE &lt;code&gt;/users/:id&lt;/code&gt; , for deleting&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Normally, with HandlerFuncs you should do something like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;iris.Get(&amp;quot;/users&amp;quot;, func(ctx *iris.Context){})
+iris.Get(&amp;quot;/users/:id&amp;quot;, func(ctx *iris.Context){ id := ctx.Param(&amp;quot;id) })
+
+iris.Put(&amp;quot;/users&amp;quot;,...)
+
+iris.Post(&amp;quot;/users/:id&amp;quot;, ...)
+
+iris.Delete(&amp;quot;/users/:id&amp;quot;, ...)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;But&lt;/strong&gt; with API you can do this instead:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+type UserAPI struct {
+    *iris.Context
+}
+
+// GET /users
+func (u UserAPI) Get() {
+    u.Write(&amp;quot;Get from /users&amp;quot;)
+    // u.JSON(iris.StatusOK,myDb.AllUsers())
+}
+
+// GET /:param1 which its value passed to the id argument
+func (u UserAPI) GetBy(id string) { // id equals to u.Param(&amp;quot;param1&amp;quot;)
+    u.Write(&amp;quot;Get from /users/%s&amp;quot;, id)
+    // u.JSON(iris.StatusOK, myDb.GetUserById(id))
+
+}
+
+// PUT /users
+func (u UserAPI) Put() {
+    name := u.FormValue(&amp;quot;name&amp;quot;)
+    // myDb.InsertUser(...)
+    println(string(name))
+    println(&amp;quot;Put from /users&amp;quot;)
+}
+
+// POST /users/:param1
+func (u UserAPI) PostBy(id string) {
+    name := u.FormValue(&amp;quot;name&amp;quot;) // you can still use the whole Context&#39;s features!
+    // myDb.UpdateUser(...)
+    println(string(name))
+    println(&amp;quot;Post from /users/&amp;quot; + id)
+}
+
+// DELETE /users/:param1
+func (u UserAPI) DeleteBy(id string) {
+    // myDb.DeleteUser(id)
+    println(&amp;quot;Delete from /&amp;quot; + id)
+}
+
+func main() {
+    iris.API(&amp;quot;/users&amp;quot;, UserAPI{})
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As you saw you can still get other request values via the *iris.Context, API has all the  flexibility of handler\/handlerfunc.&lt;/p&gt;
+
+&lt;p&gt;If you want to use &lt;strong&gt;more than one named parameter&lt;/strong&gt;, simply do this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// users/:param1/:param2
+func (u UserAPI) GetBy(id string, otherParameter string) {}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;API receives a third parameter which are the middlewares, is optional parameter:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func main() {
+    iris.API(&amp;quot;/users&amp;quot;, UserAPI{}, myUsersMiddleware1, myUsersMiddleware2)
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+func myUsersMiddleware1(ctx *iris.Context) {
+    println(&amp;quot;From users middleware 1 &amp;quot;)
+    ctx.Next()
+}
+func myUsersMiddleware2(ctx *iris.Context) {
+    println(&amp;quot;From users middleware 2 &amp;quot;)
+    ctx.Next()
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Available methods: &amp;ldquo;GET&amp;rdquo;, &amp;ldquo;POST&amp;rdquo;, &amp;ldquo;PUT&amp;rdquo;, &amp;ldquo;DELETE&amp;rdquo;, &amp;ldquo;CONNECT&amp;rdquo;, &amp;ldquo;HEAD&amp;rdquo;, &amp;ldquo;PATCH&amp;rdquo;, &amp;ldquo;OPTIONS&amp;rdquo;, &amp;ldquo;TRACE&amp;rdquo; should use this &lt;strong&gt;naming conversion&lt;/strong&gt;:  &lt;strong&gt;Get\/GetBy, Post\/PostBy, Put\/PutBy&lt;/strong&gt; and so on&amp;hellip;&lt;/p&gt;
+
+&lt;h2 id=&#34;using-native-http-handler&#34;&gt;Using native http.Handler&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Not recommended and I will not help you if any issue comes up, it is just there for your first conversional steps.
+Note also that using native http handler you cannot access url params.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+type nativehandler struct {}
+
+func (_ nativehandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+
+}
+
+func main() {
+    iris.Handle(&amp;quot;&amp;quot;, &amp;quot;/path&amp;quot;, iris.ToHandler(nativehandler{}))
+    //&amp;quot;&amp;quot; means ANY(GET,POST,PUT,DELETE and so on)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;using-native-http-handler-via-iris-tohandlerfunc&#34;&gt;Using native http.Handler via iris.ToHandlerFunc()&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;iris.Get(&amp;quot;/letsget&amp;quot;, iris.ToHandlerFunc(nativehandler{}))
+iris.Post(&amp;quot;/letspost&amp;quot;, iris.ToHandlerFunc(nativehandler{}))
+iris.Put(&amp;quot;/letsput&amp;quot;, iris.ToHandlerFunc(nativehandler{}))
+iris.Delete(&amp;quot;/letsdelete&amp;quot;, iris.ToHandlerFunc(nativehandler{}))
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;routing&#34;&gt;Routing&lt;/h2&gt;
+
+&lt;p&gt;As mentioned in the &lt;a href=&#34;handlers.md&#34;&gt;Handlers&lt;/a&gt; chapter, Iris provides several handler registration methods, each of which returns a &lt;a href=&#34;https://godoc.org/github.com/kataras/iris#RouteNameFunc&#34;&gt;&lt;code&gt;RouteNameFunc&lt;/code&gt;&lt;/a&gt; type.&lt;/p&gt;
+
+&lt;h3 id=&#34;route-naming&#34;&gt;Route naming&lt;/h3&gt;
+
+&lt;p&gt;Route naming is easy, since we just call the returned &lt;code&gt;RouteNameFunc&lt;/code&gt; with a string parameter to define a name:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+
+    // define a function
+    render := func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;index.html&amp;quot;, nil)
+    }
+
+    // handler registration and naming
+    iris.Get(&amp;quot;/&amp;quot;, render)(&amp;quot;home&amp;quot;)
+    iris.Get(&amp;quot;/about&amp;quot;, render)(&amp;quot;about&amp;quot;)
+    iris.Get(&amp;quot;/page/:id&amp;quot;, render)(&amp;quot;page&amp;quot;)
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;route-reversing-aka-generating-urls-from-the-route-name&#34;&gt;Route reversing AKA generating URLs from the route name&lt;/h3&gt;
+
+&lt;p&gt;When we register the handlers for a specific path, we get the ability to create URLs based on the structured data we pass to Iris. In the example above, we&amp;rsquo;ve named three routers, one of which even takes parameters. If we&amp;rsquo;re using the default &lt;code&gt;html/template&lt;/code&gt; templating engine, we can use a simple action to reverse the routes (and generae actual URLs):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Home: {{ url &amp;quot;home&amp;quot; }}
+About: {{ url &amp;quot;about&amp;quot; }}
+Page 17: {{ url &amp;quot;page&amp;quot; &amp;quot;17&amp;quot; }}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Above code would generate the following output:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Home: http://0.0.0.0:8080/ 
+About: http://0.0.0.0:8080/about
+Page 17: http://0.0.0.0:8080/page/17
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;using-route-names-in-code&#34;&gt;Using route names in code&lt;/h3&gt;
+
+&lt;p&gt;We can use the following methods/functions to work with named routes (and their parameters):&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;global &lt;a href=&#34;https://godoc.org/github.com/kataras/iris#Lookups&#34;&gt;&lt;code&gt;Lookups&lt;/code&gt;&lt;/a&gt; function to get all registered routes&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://godoc.org/github.com/kataras/iris#Framework.Lookup&#34;&gt;&lt;code&gt;Lookup(routeName string)&lt;/code&gt;&lt;/a&gt; framework method to retrieve a route by name&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://godoc.org/github.com/kataras/iris#Framework.URL&#34;&gt;&lt;code&gt;URL(routeName string, args ...interface{})&lt;/code&gt;&lt;/a&gt; framework method to generate url string based on supplied parameters&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://godoc.org/github.com/kataras/iris#Framework.Path&#34;&gt;&lt;code&gt;Path(routeName string, args ...interface{}&lt;/code&gt;&lt;/a&gt; framework method to generate just the path (without host and protocol) portion of the URL based on provided values&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://godoc.org/github.com/kataras/iris#Context.RedirectTo&#34;&gt;&lt;code&gt;RedirectTo(routeName string, args ...interface{})&lt;/code&gt;&lt;/a&gt; context method to return a redirect response to a URL defined by the named route and optional parameters&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;examples&#34;&gt;Examples&lt;/h3&gt;
+
+&lt;p&gt;Check out the &lt;a href=&#34;https://github.com/iris-contrib/examples/blob/master/template_engines/template_html_4/&#34;&gt;&lt;code&gt;template_engines/template_html_4&lt;/code&gt;&lt;/a&gt; example in the &lt;code&gt;iris-contrib/examples&lt;/code&gt; repository.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Middleware</title>
+      <link>http://iris-go.com/middleware/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/middleware/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Quick view&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// First point to the static files
+iris.Static(&amp;quot;/assets&amp;quot;, &amp;quot;./public/assets&amp;quot;, 1)
+
+// Then declare which middleware to use (custom or not)
+iris.Use(myMiddleware{})
+iris.UseFunc(func(ctx *iris.Context){})
+
+// Now declare routes
+iris.Get(&amp;quot;/myroute&amp;quot;, func(c *iris.Context) {
+    // do stuff
+})
+iris.Get(&amp;quot;/secondroute&amp;quot;, myMiddlewareFunc, myRouteHandlerfunc)
+
+// Now run our server
+iris.Listen(&amp;quot;:8080&amp;quot;)
+
+
+// myMiddleware will be like that
+
+type myMiddleware struct {
+  // your &#39;stateless&#39; fields here
+}
+
+func (m *myMiddleware) Serve(ctx *iris.Context){
+  // ...
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Middleware in Iris is not complicated, they are similar to simple Handlers.
+They implement the Handler interface as well:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;type Handler interface {
+    Serve(*Context)
+}
+type Middleware []Handler
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Handler middleware example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+type myMiddleware struct {}
+
+func (m *myMiddleware) Serve(c *iris.Context){
+    shouldContinueToTheNextHandler := true
+
+    if shouldContinueToTheNextHandler {
+        c.Next()
+    }else{
+        c.Text(403,&amp;quot;Forbidden !!&amp;quot;)
+    }
+
+}
+
+iris.Use(&amp;amp;myMiddleware{})
+
+iris.Get(&amp;quot;/home&amp;quot;, func (c *iris.Context){
+    c.HTML(iris.StatusOK,&amp;quot;&amp;lt;h1&amp;gt;Hello from /home &amp;lt;/h1&amp;gt;&amp;quot;)
+})
+
+iris.Listen(&amp;quot;:8080&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;HandlerFunc middleware example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+func myMiddleware(c *iris.Context){
+    c.Next()
+}
+
+iris.UseFunc(myMiddleware)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;HandlerFunc middleware for a specific route:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+func mySecondMiddleware(c *iris.Context){
+    c.Next()
+}
+
+iris.Get(&amp;quot;/dashboard&amp;quot;, func(c *iris.Context) {
+    loggedIn := true
+    if loggedIn {
+        c.Next()
+    }
+}, mySecondMiddleware, func (c *iris.Context){
+    c.Write(&amp;quot;The last HandlerFunc is the main handler, everything before that is middleware for this route /dashboard&amp;quot;)
+})
+
+iris.Listen(&amp;quot;:8080&amp;quot;)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Note that middleware must come before route declaration.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Make use of the &lt;a href=&#34;https://github.com/iris-contrib/middleware&#34;&gt;middleware&lt;/a&gt;, view practical &lt;a href=&#34;https://github.com/iris-contrib/examples&#34;&gt;examples here&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+ &amp;quot;github.com/kataras/iris&amp;quot;
+ &amp;quot;github.com/iris-contrib/middleware/logger&amp;quot;
+)
+
+type Page struct {
+    Title string
+}
+
+iris.Use(logger.New(iris.Logger))
+
+iris.Get(&amp;quot;/&amp;quot;, func(c *iris.Context) {
+    c.Render(&amp;quot;index.html&amp;quot;, Page{&amp;quot;My Index Title&amp;quot;})
+})
+
+iris.Listen(&amp;quot;:8080&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Done/DoneFunc&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func firstMiddleware(ctx *iris.Context) {
+    ctx.Write(&amp;quot;1. This is the first middleware, before any of route&#39;s handlers \n&amp;quot;)
+    ctx.Next()
+}
+
+func secondMiddleware(ctx *iris.Context) {
+    ctx.Write(&amp;quot;2. This is the second middleware, before the / main handler \n&amp;quot;)
+    ctx.Next()
+}
+
+func thirdMiddleware(ctx *iris.Context) {
+    ctx.Write(&amp;quot;3. This is the 3rd middleware, after the main handler \n&amp;quot;)
+    ctx.Next()
+}
+
+func lastAlwaysMiddleware(ctx *iris.Context) {
+    ctx.Write(&amp;quot;4. This is the ALWAYS LAST Handler \n&amp;quot;)
+}
+
+func main() {
+
+    iris.UseFunc(firstMiddleware)
+    iris.DoneFunc(lastAlwaysMiddleware)
+
+    iris.Get(&amp;quot;/&amp;quot;, secondMiddleware, func(ctx *iris.Context) {
+        ctx.Write(&amp;quot;Hello from / \n&amp;quot;)
+        ctx.Next() // .Next because we &#39;re using the third middleware after that, and lastAlwaysMiddleware also
+    }, thirdMiddleware)
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Done/DoneFunc with Parties&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// Package main same as middleware_2 but with party
+package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func firstMiddleware(ctx *iris.Context) {
+    ctx.Write(&amp;quot;1. This is the first middleware, before any of route&#39;s handlers \n&amp;quot;)
+    ctx.Next()
+}
+
+func secondMiddleware(ctx *iris.Context) {
+    ctx.Write(&amp;quot;2. This is the second middleware, before the / main handler \n&amp;quot;)
+    ctx.Next()
+}
+
+func thirdMiddleware(ctx *iris.Context) {
+    ctx.Write(&amp;quot;3. This is the 3rd middleware, after the main handler \n&amp;quot;)
+    ctx.Next()
+}
+
+func lastAlwaysMiddleware(ctx *iris.Context) {
+    ctx.Write(&amp;quot;4. This is the ALWAYS LAST Handler \n&amp;quot;)
+}
+
+func main() {
+
+    // with parties:
+    myParty := iris.Party(&amp;quot;/myparty&amp;quot;, firstMiddleware).DoneFunc(lastAlwaysMiddleware)
+    {
+        myParty.Get(&amp;quot;/&amp;quot;, secondMiddleware, func(ctx *iris.Context) {
+            ctx.Write(&amp;quot;Hello from /myparty/ \n&amp;quot;)
+            ctx.Next() // .Next because we &#39;re using the third middleware after that, and lastAlwaysMiddleware also
+        }, thirdMiddleware)
+
+    }
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Done/DoneFuncs are just last-executed handlers, like Use/UseFunc the children party inheritates these &amp;lsquo;done/last&amp;rsquo; handlers also.&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>API</title>
+      <link>http://iris-go.com/api/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/api/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Use of GET,  POST,  PUT,  DELETE, HEAD, PATCH &amp;amp; OPTIONS&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+    iris.Get(&amp;quot;/home&amp;quot;, testGet)
+    iris.Post(&amp;quot;/login&amp;quot;, testPost)
+    iris.Put(&amp;quot;/add&amp;quot;, testPut)
+    iris.Delete(&amp;quot;/remove&amp;quot;, testDelete)
+    iris.Head(&amp;quot;/testHead&amp;quot;, testHead)
+    iris.Patch(&amp;quot;/testPatch&amp;quot;, testPatch)
+    iris.Options(&amp;quot;/testOptions&amp;quot;, testOptions)
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+func testGet(c *iris.Context) {
+    //...
+}
+func testPost(c *iris.Context) {
+    //...
+}
+
+//and so on....
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Declaration</title>
+      <link>http://iris-go.com/declaration/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/declaration/</guid>
+      <description>&lt;p&gt;You have wondered this:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Q: Other frameworks need more lines to start a server, why is Iris different?&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;A: Iris gives you the freedom to choose between three ways to use Iris&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;global &lt;strong&gt;iris.&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;declare a new iris station with default config: &lt;strong&gt;iris.New()&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;declare a new iris station with custom config: ** api := iris.New(config.Iris{&amp;hellip;})**&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Config can change after declaration with 1&amp;amp;2. &lt;code&gt;iris.Config.&lt;/code&gt; 3. \/ &lt;code&gt;api.Config.&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;import &amp;quot;github.com/kataras/iris&amp;quot;
+
+// 1.
+func firstWay() {
+
+    iris.Get(&amp;quot;/home&amp;quot;,func(c *iris.Context){})
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+// 2.
+func secondWay() {
+
+    api := iris.New()
+    api.Get(&amp;quot;/home&amp;quot;,func(c *iris.Context){})
+    api.Listen(&amp;quot;:8080&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Before looking at the 3rd way, let&amp;rsquo;s take a quick look at the &lt;a href=&#34;configuration.md&#34;&gt;&lt;strong&gt;config&lt;/strong&gt;&lt;/a&gt;&lt;strong&gt;**&lt;/strong&gt;.Iris**:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;type (
+    // Iris configs for the station
+    Iris struct {
+
+        // DisablePathCorrection corrects and redirects the requested path to the registed path
+        // for example, if /home/ path is requested but no handler for this Route found,
+        // then the Router checks if /home handler exists, if yes,
+        // (permant)redirects the client to the correct path /home
+        //
+        // Default is false
+        DisablePathCorrection bool
+
+        // DisablePathEscape when is false then its escapes the path, the named parameters (if any).
+        // Change to true it if you want something like this https://github.com/kataras/iris/issues/135 to work
+        //
+        // When do you need to Disable(true) it:
+        // accepts parameters with slash &#39;/&#39;
+        // Request: http://localhost:8080/details/Project%2FDelta
+        // ctx.Param(&amp;quot;project&amp;quot;) returns the raw named parameter: Project%2FDelta
+        // which you can escape it manually with net/url:
+        // projectName, _ := url.QueryUnescape(c.Param(&amp;quot;project&amp;quot;).
+        // Look here: https://github.com/kataras/iris/issues/135 for more
+        //
+        // Default is false
+        DisablePathEscape bool
+
+        // DisableBanner outputs the iris banner at startup
+        //
+        // Default is false
+        DisableBanner bool
+
+        // ProfilePath a the route path, set it to enable http pprof tool
+        // Default is empty, if you set it to a $path, these routes will handled:
+        // $path/cmdline
+        // $path/profile
+        // $path/symbol
+        // $path/goroutine
+        // $path/heap
+        // $path/threadcreate
+        // $path/pprof/block
+        // for example if &#39;/debug/pprof&#39;
+        // http://yourdomain:PORT/debug/pprof/
+        // http://yourdomain:PORT/debug/pprof/cmdline
+        // http://yourdomain:PORT/debug/pprof/profile
+        // http://yourdomain:PORT/debug/pprof/symbol
+        // http://yourdomain:PORT/debug/pprof/goroutine
+        // http://yourdomain:PORT/debug/pprof/heap
+        // http://yourdomain:PORT/debug/pprof/threadcreate
+        // http://yourdomain:PORT/debug/pprof/pprof/block
+        // it can be a subdomain also, for example, if &#39;debug.&#39;
+        // http://debug.yourdomain:PORT/
+        // http://debug.yourdomain:PORT/cmdline
+        // http://debug.yourdomain:PORT/profile
+        // http://debug.yourdomain:PORT/symbol
+        // http://debug.yourdomain:PORT/goroutine
+        // http://debug.yourdomain:PORT/heap
+        // http://debug.yourdomain:PORT/threadcreate
+        // http://debug.yourdomain:PORT/pprof/block
+        ProfilePath string
+        // DisableTemplateEngines set to true to disable loading the default template engine (html/template) and disallow the use of iris.UseEngine
+        // default is false
+        DisableTemplateEngines bool
+        // IsDevelopment iris will act like a developer, for example
+        // If true then re-builds the templates on each request
+        // default is false
+        IsDevelopment bool
+
+        // Charset character encoding for various rendering
+        // used for templates and the rest of the responses
+        // defaults to &amp;quot;UTF-8&amp;quot;
+        Charset string
+
+        // Gzip enables gzip compression on your Render actions, this includes any type of render, templates and pure/raw content
+        // If you don&#39;t want to enable it globaly, you could just use the third parameter on context.Render(&amp;quot;myfileOrResponse&amp;quot;, structBinding{}, iris.RenderOptions{&amp;quot;gzip&amp;quot;: true})
+        // defaults to false
+        Gzip bool
+
+        // Sessions contains the configs for sessions
+        Sessions Sessions
+
+        // Websocket contains the configs for Websocket&#39;s server integration
+        Websocket *Websocket
+
+        // Tester contains the configs for the test framework, so far we have only one because all test framework&#39;s configs are setted by the iris itself
+        // You can find example on the https://github.com/kataras/iris/glob/master/context_test.go
+        Tester Tester
+    }
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// 3.
+package main 
+
+import (
+  &amp;quot;github.com/kataras/iris&amp;quot;
+  &amp;quot;github.com/kataras/iris/config&amp;quot;
+)
+
+func main() {
+    c := config.Iris{
+        ProfilePath:        &amp;quot;/mypath/debug&amp;quot;,
+    }
+    // to get the default: c := config.Default()
+
+    api := iris.New(c)
+    api.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Note that with 2. &amp;amp; 3. you &lt;strong&gt;can define and Listen with more than one Iris server&lt;/strong&gt; in the
+same app, when it&amp;rsquo;s necessary.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;For profiling there are eight (8) generated routes with pages filled with info:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;\/mypath\/debug\/&lt;/li&gt;
+&lt;li&gt;\/mypath\/debug\/cmdline&lt;/li&gt;
+&lt;li&gt;\/mypath\/debug\/profile&lt;/li&gt;
+&lt;li&gt;\/mypath\/debug\/symbol&lt;/li&gt;
+&lt;li&gt;\/mypath\/debug\/goroutine&lt;/li&gt;
+&lt;li&gt;\/mypath\/debug\/heap&lt;/li&gt;
+&lt;li&gt;\/mypath\/debug\/threadcreate&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;\/mypath\/debug\/pprof\/block&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;More about configuration &lt;a href=&#34;configuration.md&#34;&gt;here&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Configuration</title>
+      <link>http://iris-go.com/configuration/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/configuration/</guid>
+      <description>
+
+&lt;p&gt;Configuration is a relative package &lt;code&gt;github.com/kataras/iris/config&lt;/code&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;No need to download it separately, it&amp;rsquo;s downloaded automatically when you install Iris.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;why&#34;&gt;Why?&lt;/h3&gt;
+
+&lt;p&gt;I took this decision after a lot of thought and I ensure you that this is the best and easiest
+architecture:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;change the configs without needing to re-write all of their fields.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;    irisConfig := config.Iris{ DisablePathCorrection: true }
+    api := iris.New(irisConfig)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;easy to remember&lt;/strong&gt;: &lt;code&gt;iris&lt;/code&gt; type takes &lt;code&gt;config.Iris&lt;/code&gt;, sessions takes &lt;code&gt;config.Sessions&lt;/code&gt;, &lt;code&gt;iris.Config.Render&lt;/code&gt; is of type &lt;code&gt;config.Render&lt;/code&gt;, &lt;code&gt;iris.Config.Render.Template&lt;/code&gt; is the type &lt;code&gt;config.Template&lt;/code&gt;, &lt;code&gt;Logger&lt;/code&gt; takes &lt;code&gt;config.Logger&lt;/code&gt; and so on&amp;hellip;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;easy to search &amp;amp; find out what features exists and what you can change&lt;/strong&gt;: just navigate to the config folder and open the type you want to learn about, for example &lt;code&gt;/websocket.go /iris.Websocket &#39;s&lt;/code&gt;configuration is inside &lt;code&gt;/config/websocket.go&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Enables you to do this &lt;strong&gt;without setting up a config yourself&lt;/strong&gt;: &lt;code&gt;iris.Config.Gzip = true&lt;/code&gt; or &lt;code&gt;iris.Config.Charset = &amp;quot;UTF-8&amp;quot;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;(Advanced usage) merge configs&lt;/strong&gt;:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;//...
+import &amp;quot;github.com/kataras/iris/config&amp;quot;
+//...
+websocketFromDefault:= config.DefaultWebsocket()
+//....
+websocketManual:= config.Websocket{  Endpoint: &amp;quot;/ws&amp;quot;}
+
+websocketConfig := websocketFromDefault.MergeSingle(websocketManual)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;click-here-to-view-all-station-s-configs-https-github-com-kataras-iris-tree-master-config&#34;&gt;&lt;a href=&#34;https://github.com/kataras/iris/tree/master/config&#34;&gt;Click here to view all station&amp;rsquo;s configs&lt;/a&gt;&lt;/h1&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Party</title>
+      <link>http://iris-go.com/party/</link>
+      <pubDate>Fri, 29 Jul 2016 03:13:00 +0200</pubDate>
+      
+      <guid>http://iris-go.com/party/</guid>
+      <description>&lt;p&gt;Let&amp;rsquo;s party with Iris web framework!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+    admin := iris.Party(&amp;quot;/admin&amp;quot;, func(ctx *iris.Context){ ctx.Write(&amp;quot;Middleware for all party&#39;s routes!&amp;quot;) })
+    {
+        // add a silly middleware
+        admin.UseFunc(func(c *iris.Context) {
+            //your authentication logic here...
+            println(&amp;quot;from &amp;quot;, c.PathString())
+            authorized := true
+            if authorized {
+                c.Next()
+            } else {
+                c.Text(401, c.PathString()+&amp;quot; is not authorized for you&amp;quot;)
+            }
+
+        })
+        admin.Get(&amp;quot;/&amp;quot;, func(c *iris.Context) {
+            c.Write(&amp;quot;from /admin/ or /admin if you pathcorrection on&amp;quot;)
+        })
+        admin.Get(&amp;quot;/dashboard&amp;quot;, func(c *iris.Context) {
+            c.Write(&amp;quot;/admin/dashboard&amp;quot;)
+        })
+        admin.Delete(&amp;quot;/delete/:userId&amp;quot;, func(c *iris.Context) {
+            c.Write(&amp;quot;admin/delete/%s&amp;quot;, c.Param(&amp;quot;userId&amp;quot;))
+        })
+    }
+
+
+    beta := admin.Party(&amp;quot;/beta&amp;quot;)
+    beta.Get(&amp;quot;/hey&amp;quot;, func(c *iris.Context) { c.Write(&amp;quot;hey from /admin/beta/hey&amp;quot;) })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Subdomains</title>
+      <link>http://iris-go.com/subdomains/</link>
+      <pubDate>Fri, 29 Jul 2016 03:13:00 +0200</pubDate>
+      
+      <guid>http://iris-go.com/subdomains/</guid>
+      <description>&lt;p&gt;Subdomains are split into two categories, first is the static subdomain and second is the dynamic subdomain.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;static : when you know the subdomain, usage: &lt;code&gt;controlpanel.mydomain.com&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;dynamic : when you don&amp;rsquo;t know the subdomain, usage: &lt;code&gt;user1993.mydomain.com&lt;/code&gt;, &lt;code&gt;otheruser.mydomain.com&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Iris has the simplest known form for subdomains, simple as &lt;a href=&#34;party.md&#34;&gt;Parties&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Static&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+    api := iris.New()
+
+    // first the subdomains.
+    admin := api.Party(&amp;quot;admin.&amp;quot;)
+    {
+        // admin.mydomain.com
+        admin.Get(&amp;quot;/&amp;quot;, func(c *iris.Context) {
+            c.Write(&amp;quot;INDEX FROM admin.mydomain.com&amp;quot;)
+        })
+        // admin.mydomain.com/hey
+        admin.Get(&amp;quot;/hey&amp;quot;, func(c *iris.Context) {
+            c.Write(&amp;quot;HEY FROM admin.mydomain.com/hey&amp;quot;)
+        })
+        // admin.mydomain.com/hey2
+        admin.Get(&amp;quot;/hey2&amp;quot;, func(c *iris.Context) {
+            c.Write(&amp;quot;HEY SECOND FROM admin.mydomain.com/hey&amp;quot;)
+        })
+    }
+
+    // mydomain.com/
+    api.Get(&amp;quot;/&amp;quot;, func(c *iris.Context) {
+        c.Write(&amp;quot;INDEX FROM no-subdomain hey&amp;quot;)
+    })
+
+    // mydomain.com/hey
+    api.Get(&amp;quot;/hey&amp;quot;, func(c *iris.Context) {
+        c.Write(&amp;quot;HEY FROM no-subdomain hey&amp;quot;)
+    })
+
+    api.Listen(&amp;quot;mydomain.com:80&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Dynamic\/Wildcard&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+// Package main an example on how to catch dynamic subdomains - wildcard.
+// On the first example (subdomains_1) we saw how to create routes for static subdomains, subdomains you know that you will have.
+// Here we will see an example how to catch unknown subdomains, dynamic subdomains, like username.mydomain.com:8080.
+
+package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+// register a dynamic-wildcard subdomain to your server machine(dns/...) first, check ./hosts if you use windows.
+// run this file and try to redirect: http://username1.mydomain.com:8080/ , http://username2.mydomain.com:8080/ , http://username1.mydomain.com/something, http://username1.mydomain.com/something/sadsadsa
+
+func main() {
+    /* Keep note that you can use both of domains now (after 3.0.0-rc.1)
+       admin.mydomain.com,  and for other the Party(*.) but this is not this example&#39;s purpose
+
+    admin := iris.Party(&amp;quot;admin.&amp;quot;)
+    {
+        // admin.mydomain.com
+        admin.Get(&amp;quot;/&amp;quot;, func(c *iris.Context) {
+            c.Write(&amp;quot;INDEX FROM admin.mydomain.com&amp;quot;)
+        })
+        // admin.mydomain.com/hey
+        admin.Get(&amp;quot;/hey&amp;quot;, func(c *iris.Context) {
+            c.Write(&amp;quot;HEY FROM admin.mydomain.com/hey&amp;quot;)
+        })
+        // admin.mydomain.com/hey2
+        admin.Get(&amp;quot;/hey2&amp;quot;, func(c *iris.Context) {
+            c.Write(&amp;quot;HEY SECOND FROM admin.mydomain.com/hey&amp;quot;)
+        })
+    }*/
+
+    dynamicSubdomains := iris.Party(&amp;quot;*.&amp;quot;)
+    {
+        dynamicSubdomains.Get(&amp;quot;/&amp;quot;, dynamicSubdomainHandler)
+
+        dynamicSubdomains.Get(&amp;quot;/something&amp;quot;, dynamicSubdomainHandler)
+
+        dynamicSubdomains.Get(&amp;quot;/something/:param1&amp;quot;, dynamicSubdomainHandlerWithParam)
+    }
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.Write(&amp;quot;Hello from mydomain.com path: %s&amp;quot;, ctx.PathString())
+    })
+
+    iris.Get(&amp;quot;/hello&amp;quot;, func(ctx *iris.Context) {
+        ctx.Write(&amp;quot;Hello from mydomain.com path: %s&amp;quot;, ctx.PathString())
+    })
+
+    iris.Listen(&amp;quot;mydomain.com:8080&amp;quot;)
+}
+
+func dynamicSubdomainHandler(ctx *iris.Context) {
+    username := ctx.Subdomain()
+    ctx.Write(&amp;quot;Hello from dynamic subdomain path: %s, here you can handle the route for dynamic subdomains, handle the user: %s&amp;quot;, ctx.PathString(), username)
+    // if  http://username4.mydomain.com:8080/ prints:
+    // Hello from dynamic subdomain path: /, here you can handle the route for dynamic subdomains, handle the user: username4
+}
+
+func dynamicSubdomainHandlerWithParam(ctx *iris.Context) {
+    username := ctx.Subdomain()
+    ctx.Write(&amp;quot;Hello from dynamic subdomain path: %s, here you can handle the route for dynamic subdomains, handle the user: %s&amp;quot;, ctx.PathString(), username)
+    ctx.Write(&amp;quot;THE PARAM1 is: %s&amp;quot;, ctx.Param(&amp;quot;param1&amp;quot;))
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;You can still set unlimitted number of middleware\/handlers to the dynamic subdomains also&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;You noticed the comments  &amp;lsquo;subdomains_1&amp;rsquo; and so on, this is because almost all book&amp;rsquo;s code shots, are running examples.&lt;/p&gt;
+
+&lt;p&gt;You can find them by pressing &lt;a href=&#34;https://github.com/iris-contrib/examples&#34;&gt;here.&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Named Parametes</title>
+      <link>http://iris-go.com/named_parameters/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/named_parameters/</guid>
+      <description>
+
+&lt;p&gt;Named parameters are just custom paths to your routes, you can access them for each request using context&amp;rsquo;s &lt;strong&gt;c.Param(&amp;ldquo;nameoftheparameter&amp;rdquo;)&lt;/strong&gt;. Get all, as array (&lt;strong&gt;{Key,Value}&lt;/strong&gt;) using &lt;strong&gt;c.Params&lt;/strong&gt; property.&lt;/p&gt;
+
+&lt;p&gt;No limit on how long a path can be.&lt;/p&gt;
+
+&lt;p&gt;Usage:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;strconv&amp;quot;
+
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+    // Match to /hello/iris,  (if PathCorrection:true match also /hello/iris/)
+    // Not match to /hello or /hello/ or /hello/iris/something
+    iris.Get(&amp;quot;/hello/:name&amp;quot;, func(c *iris.Context) {
+        // Retrieve the parameter name
+        name := c.Param(&amp;quot;name&amp;quot;)
+        c.Write(&amp;quot;Hello %s&amp;quot;, name)
+    })
+
+    // Match to /profile/iris/friends/1, (if PathCorrection:true match also /profile/iris/friends/1/)
+    // Not match to /profile/ , /profile/iris ,
+    // Not match to /profile/iris/friends,  /profile/iris/friends ,
+    // Not match to /profile/iris/friends/2/something
+    iris.Get(&amp;quot;/profile/:fullname/friends/:friendID&amp;quot;, func(c *iris.Context) {
+        // Retrieve the parameters fullname and friendID
+        fullname := c.Param(&amp;quot;fullname&amp;quot;)
+        friendID, err := c.ParamInt(&amp;quot;friendID&amp;quot;)
+        if err != nil {
+            // Do something with the error
+        }
+        c.HTML(iris.StatusOK, &amp;quot;&amp;lt;b&amp;gt; Hello &amp;lt;/b&amp;gt;&amp;quot;+fullname+&amp;quot;&amp;lt;b&amp;gt; with friends ID &amp;lt;/b&amp;gt;&amp;quot;+strconv.Itoa(friendID))
+    })
+
+    /* Example: /posts/:id and /posts/new (dynamic value conficts with the static &#39;new&#39;) for performance reasons and simplicity
+       but if you need to have them you can do that: */
+
+    iris.Get(&amp;quot;/posts/*action&amp;quot;, func(ctx *iris.Context) {
+        action := ctx.Param(&amp;quot;action&amp;quot;)
+        if action == &amp;quot;/new&amp;quot; {
+            // it&#39;s posts/new page
+            ctx.Write(&amp;quot;POSTS NEW&amp;quot;)
+        } else {
+            ctx.Write(&amp;quot;OTHER POSTS&amp;quot;)
+            // it&#39;s posts/:id page
+            //doSomething with the action which is the id
+        }
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;match-anything&#34;&gt;Match anything&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// Will match any request which url&#39;s preffix is &amp;quot;/anything/&amp;quot; and has content after that
+iris.Get(&amp;quot;/anything/*randomName&amp;quot;, func(c *iris.Context) { } )
+// Match: /anything/whateverhere/whateveragain , /anything/blablabla
+// c.Param(&amp;quot;randomName&amp;quot;) will be /whateverhere/whateveragain, blablabla
+// Not Match: /anything , /anything/ , /something
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Static Files</title>
+      <link>http://iris-go.com/static_files/</link>
+      <pubDate>Fri, 29 Jul 2016 03:13:00 +0200</pubDate>
+      
+      <guid>http://iris-go.com/static_files/</guid>
+      <description>
+
+&lt;p&gt;Serve a static directory&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+// StaticHandler returns a HandlerFunc to serve static system directory
+// Accepts 5 parameters
+//
+// first is the systemPath (string)
+// Path to the root directory to serve files from.
+//
+// second is the  stripSlashes (int) level
+// * stripSlashes = 0, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;/foo/bar&amp;quot;
+// * stripSlashes = 1, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;/bar&amp;quot;
+// * stripSlashes = 2, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;&amp;quot;
+//
+// third is the compress (bool)
+// Transparently compresses responses if set to true.
+//
+// The server tries minimizing CPU usage by caching compressed files.
+// It adds FSCompressedFileSuffix suffix to the original file name and
+// tries saving the resulting compressed file under the new file name.
+// So it is advisable to give the server write access to Root
+// and to all inner folders in order to minimze CPU usage when serving
+// compressed responses.
+//
+// fourth is the generateIndexPages (bool)
+// Index pages for directories without files matching IndexNames
+// are automatically generated if set.
+//
+// Directory index generation may be quite slow for directories
+// with many files (more than 1K), so it is discouraged enabling
+// index pages&#39; generation for such directories.
+//
+// fifth is the indexNames ([]string)
+// List of index file names to try opening during directory access.
+//
+// For example:
+//
+//     * index.html
+//     * index.htm
+//     * my-super-index.xml
+//
+StaticHandler(systemPath string, stripSlashes int, compress bool,
+                  generateIndexPages bool, indexNames []string) HandlerFunc 
+
+// Static registers a route which serves a system directory
+// this doesn&#39;t generates an index page which list all files
+// no compression is used also, for these features look at StaticFS func
+// accepts three parameters
+// first parameter is the request url path (string)
+// second parameter is the system directory (string)
+// third parameter is the level (int) of stripSlashes
+// * stripSlashes = 0, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;/foo/bar&amp;quot;
+// * stripSlashes = 1, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;/bar&amp;quot;
+// * stripSlashes = 2, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;&amp;quot;
+Static(relative string, systemPath string, stripSlashes int)
+
+// StaticFS registers a route which serves a system directory
+// generates an index page which list all files
+// uses compression which file cache, if you use this method it will generate compressed files also
+// think this function as small fileserver with http
+// accepts three parameters
+// first parameter is the request url path (string)
+// second parameter is the system directory (string)
+// third parameter is the level (int) of stripSlashes
+// * stripSlashes = 0, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;/foo/bar&amp;quot;
+// * stripSlashes = 1, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;/bar&amp;quot;
+// * stripSlashes = 2, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;&amp;quot;
+StaticFS(relative string, systemPath string, stripSlashes int)
+
+// StaticWeb same as Static but if index.html e
+// xists and request uri is &#39;/&#39; then display the index.html&#39;s contents
+// accepts three parameters
+// first parameter is the request url path (string)
+// second parameter is the system directory (string)
+// third parameter is the level (int) of stripSlashes
+// * stripSlashes = 0, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;/foo/bar&amp;quot;
+// * stripSlashes = 1, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;/bar&amp;quot;
+// * stripSlashes = 2, original path: &amp;quot;/foo/bar&amp;quot;, result: &amp;quot;&amp;quot;
+StaticWeb(relative string, systemPath string, stripSlashes int)
+
+// StaticServe serves a directory as web resource
+// it&#39;s the simpliest form of the Static* functions
+// Almost same usage as StaticWeb
+// accepts only one required parameter which is the systemPath 
+// ( the same path will be used to register the GET&amp;amp;HEAD routes)
+// if second parameter is empty, otherwise the requestPath is the second parameter
+// it uses gzip compression (compression on each request, no file cache)
+StaticServe(systemPath string, requestPath ...string)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+iris.Static(&amp;quot;/public&amp;quot;, &amp;quot;./static/assets/&amp;quot;, 1)
+//-&amp;gt; /public/assets/favicon.ico
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;iris.StaticFS(&amp;quot;/ftp&amp;quot;, &amp;quot;./myfiles/public&amp;quot;, 1)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;iris.StaticWeb(&amp;quot;/&amp;quot;,&amp;quot;./my_static_html_website&amp;quot;, 1)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;StaticServe(systemPath string, requestPath ...string)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;manual-static-file-serving&#34;&gt;Manual static file serving&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ServeFile serves a view file, to send a file
+// to the client you should use the SendFile(serverfilename,clientfilename)
+// receives two parameters
+// filename/path (string)
+// gzipCompression (bool)
+//
+// You can define your own &amp;quot;Content-Type&amp;quot; header also, after this function call
+ServeFile(filename string, gzipCompression bool) error 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Serve static individual file&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+iris.Get(&amp;quot;/txt&amp;quot;, func(ctx *iris.Context) {
+    ctx.ServeFile(&amp;quot;./myfolder/staticfile.txt&amp;quot;, false)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For example if you want manual serve static individual files dynamically you can do something like that:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;strings&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+    &amp;quot;github.com/kataras/iris/utils&amp;quot;
+)
+
+func main() {
+
+    iris.Get(&amp;quot;/*file&amp;quot;, func(ctx *iris.Context) {
+            requestpath := ctx.Param(&amp;quot;file&amp;quot;)
+
+            path := strings.Replace(requestpath, &amp;quot;/&amp;quot;, utils.PathSeperator, -1)
+
+            if !utils.DirectoryExists(path) {
+                ctx.NotFound()
+                return
+            }
+
+            ctx.ServeFile(path, false) // make this true to use gzip compression
+    }
+}
+
+iris.Listen(&amp;quot;:8080&amp;quot;)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The previous example is almost identical with&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;StaticServe(systemPath string, requestPath ...string)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func main() {
+  iris.StaticServe(&amp;quot;./mywebpage&amp;quot;)
+  // Serves all files inside this directory to the GET&amp;amp;HEAD route: 0.0.0.0:8080/mywebpage
+  // using gzip compression ( no file cache, for file cache with zipped files use the StaticFS)
+  iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func main() {
+  iris.StaticServe(&amp;quot;./static/mywebpage&amp;quot;,&amp;quot;/webpage&amp;quot;)
+  // Serves all files inside filesystem path ./static/mywebpage to the GET&amp;amp;HEAD route: 0.0.0.0:8080/webpage
+  iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;favicon&#34;&gt;Favicon&lt;/h2&gt;
+
+&lt;p&gt;Imagine that we have a folder named &lt;code&gt;static&lt;/code&gt; which has subfolder &lt;code&gt;favicons&lt;/code&gt; and this folder contains a favicon, for example &lt;code&gt;iris_favicon_32_32.ico&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+    iris.Favicon(&amp;quot;./static/favicons/iris_favicon_32_32.ico&amp;quot;)
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.HTML(iris.StatusOK, &amp;quot;You should see the favicon now at the side of your browser.&amp;quot;)
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Practical example &lt;a href=&#34;https://github.com/iris-contrib/examples/tree/master/favicon&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

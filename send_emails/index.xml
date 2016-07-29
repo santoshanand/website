@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Send_emails on Iris - Documentation</title>
+    <link>http://iris-go.com/send_emails/</link>
+    <description>Recent content in Send_emails on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Jul 2016 03:13:00 +0200</lastBuildDate>
+    <atom:link href="http://iris-go.com/send_emails/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Send e-mails</title>
+      <link>http://iris-go.com/send_emails/</link>
+      <pubDate>Fri, 29 Jul 2016 03:13:00 +0200</pubDate>
+      
+      <guid>http://iris-go.com/send_emails/</guid>
+      <description>&lt;p&gt;This is a &lt;a href=&#34;https://github.com/iris-contrib/mail&#34;&gt;package&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Sending plain or rich content e-mails is an easy process with Iris.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Configuration&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// Config keeps the configs for mail sender service
+type Config struct {
+    // Host is the server mail host, IP or address
+    Host string
+    // Port is the listening port
+    Port int
+    // Username is the auth username@domain.com for the sender
+    Username string
+    // Password is the auth password for the sender
+    Password string
+    // FromAlias is the from part, if empty this is the first part before @ from the Username field
+    FromAlias string
+    // UseCommand enable it if you want to send e-mail with the mail command  instead of smtp
+    //
+    // Host,Port &amp;amp; Password will be ignored
+    // ONLY FOR UNIX
+    UseCommand bool
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;Send(subject string, body string, to ...string) error
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;File: &lt;code&gt;./main.go&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;github.com/iris-contrib/mail&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+    // change these to your settings
+
+    cfg := mail.Config{
+        Host:     &amp;quot;smtp.mailgun.org&amp;quot;,
+        Username: &amp;quot;postmaster@sandbox661c307650f04e909150b37c0f3b2f09.mailgun.org&amp;quot;,
+        Password: &amp;quot;38304272b8ee5c176d5961dc155b2417&amp;quot;,
+        Port:     587,
+    }
+    // change these to your e-mail to check if that works
+
+    // create the service
+    mailService := mail.New(cfg)
+
+    var to = []string{&amp;quot;kataras2006@hotmail.com&amp;quot;, &amp;quot;social@ideopod.com&amp;quot;}
+
+    // standalone
+
+    //iris.Must(mailService.Send(&amp;quot;iris e-mail test subject&amp;quot;, &amp;quot;&amp;lt;/h1&amp;gt;outside of context before server&#39;s listen!&amp;lt;/h1&amp;gt;&amp;quot;, to...))
+
+    //inside handler
+    iris.Get(&amp;quot;/send&amp;quot;, func(ctx *iris.Context) {
+        content := `&amp;lt;h1&amp;gt;Hello From Iris web framework&amp;lt;/h1&amp;gt; &amp;lt;br/&amp;gt;&amp;lt;br/&amp;gt; &amp;lt;span style=&amp;quot;color:blue&amp;quot;&amp;gt; This is the rich message body &amp;lt;/span&amp;gt;`
+
+        err := mailService.Send(&amp;quot;iris e-mail just t3st subject&amp;quot;, content, to...)
+
+        if err != nil {
+            ctx.HTML(200, &amp;quot;&amp;lt;b&amp;gt; Problem while sending the e-mail: &amp;quot;+err.Error())
+        } else {
+            ctx.HTML(200, &amp;quot;&amp;lt;h1&amp;gt; SUCCESS &amp;lt;/h1&amp;gt;&amp;quot;)
+        }
+    })
+
+    // send a body by template
+    iris.Get(&amp;quot;/send/template&amp;quot;, func(ctx *iris.Context) {
+        content := iris.TemplateString(&amp;quot;body.html&amp;quot;, iris.Map{
+            &amp;quot;Message&amp;quot;: &amp;quot; his is the rich message body sent by a template!!&amp;quot;,
+            &amp;quot;Footer&amp;quot;:  &amp;quot;The footer of this e-mail!&amp;quot;,
+        }, iris.RenderOptions{&amp;quot;charset&amp;quot; :&amp;quot;UTF-8&amp;quot;}) 
+            // iris.RenderOptions are optional parameter,
+            // &amp;quot;charset&amp;quot; defaults to UTF-8 but you can change it for a 
+            // particular mail receiver
+
+        err := mailService.Send(&amp;quot;iris e-mail just t3st subject&amp;quot;, content, to...)
+
+        if err != nil {
+            ctx.HTML(200, &amp;quot;&amp;lt;b&amp;gt; Problem while sending the e-mail: &amp;quot;+err.Error())
+        } else {
+            ctx.HTML(200, &amp;quot;&amp;lt;h1&amp;gt; SUCCESS &amp;lt;/h1&amp;gt;&amp;quot;)
+        }
+    })
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;File: &lt;code&gt;./templates/body.html&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;h1&amp;gt;Hello From Iris web framework&amp;lt;/h1&amp;gt;
+&amp;lt;br/&amp;gt;&amp;lt;br/&amp;gt;
+&amp;lt;span style=&amp;quot;color:red&amp;quot;&amp;gt; {{.Message}}&amp;lt;/span&amp;gt;
+&amp;lt;hr/&amp;gt;
+
+&amp;lt;b&amp;gt; {{.Footer}} &amp;lt;/b&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

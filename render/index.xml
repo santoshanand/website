@@ -1,0 +1,1812 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Renders on Iris - Documentation</title>
+    <link>http://iris-go.com/render/</link>
+    <description>Recent content in Renders on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Jul 2016 03:13:00 +0200</lastBuildDate>
+    <atom:link href="http://iris-go.com/render/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Render</title>
+      <link>http://iris-go.com/render/</link>
+      <pubDate>Fri, 29 Jul 2016 03:13:00 +0200</pubDate>
+      
+      <guid>http://iris-go.com/render/</guid>
+      <description>
+
+&lt;p&gt;Think the &amp;lsquo;Render&amp;rsquo;  as an action which sends\/responses with a rich content to the client.&lt;/p&gt;
+
+&lt;p&gt;The render actions, are separated in two iris-theoretical &amp;lsquo;categories&amp;rsquo;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Response content using Response Engines, by &amp;lsquo;Content-Type\/ or Key&amp;rsquo;, you will understand what key is, later.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Templates using Template Engines, by &amp;lsquo;filename&amp;rsquo;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;response-engines-response-engines-md&#34;&gt;&lt;a href=&#34;http://iris-go.com/response-engines.md&#34;&gt;Response Engines&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Easy and fast way to render any type of data. &lt;strong&gt;JSON, JSONP, XML, Text, Data, Markdown&lt;/strong&gt; .or any custom type.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;examples are located &lt;a href=&#34;https://github.com/iris-contrib/examples/tree/master/response_engines/&#34;&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;template-engines-template-engines-md&#34;&gt;&lt;a href=&#34;http://iris-go.com/template-engines.md&#34;&gt;Template Engines&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Iris gives you the freedom to render templates through 6+ built&amp;rsquo;n template engines, you can create your own and &amp;lsquo;inject&amp;rsquo; that to the iris station, you can also use more than one template engines at the same time (when the file extension is different from the other).&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;examples are located &lt;a href=&#34;https://github.com/iris-contrib/examples/tree/master/template_engines/&#34;&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;response-engine&#34;&gt;Response Engine&lt;/h2&gt;
+
+&lt;h3 id=&#34;install&#34;&gt;Install&lt;/h3&gt;
+
+&lt;p&gt;Install one response engine and all will be installed.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ go get -u github.com/iris-contrib/response/json
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;iris-station-configuration&#34;&gt;Iris&amp;rsquo; Station configuration&lt;/h3&gt;
+
+&lt;p&gt;Remember, when &amp;lsquo;station&amp;rsquo; we mean the default &lt;code&gt;iris.$CALL&lt;/code&gt; or &lt;code&gt;api:= iris.New(); api.$CALL&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;iris.Config.Gzip = true // compressed gzip contents to the client, the same for Template Engines also, defaults to false
+iris.Config.Charset = &amp;quot;UTF-8&amp;quot; // defaults to &amp;quot;UTF-8&amp;quot;, the same for Template Engines also
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;They can be overriden for specific &lt;code&gt;Render&lt;/code&gt; action:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func(ctx *iris.Context){
+ ctx.Render(&amp;quot;any/contentType&amp;quot;, anyValue{}, iris.RenderOptions{&amp;quot;gzip&amp;quot;:false, &amp;quot;charset&amp;quot;: &amp;quot;UTF-8&amp;quot;})
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;how-to-use&#34;&gt;How to use&lt;/h3&gt;
+
+&lt;p&gt;First of all don&amp;rsquo;t be scary about the &amp;lsquo;big&amp;rsquo; article here, a response engine works very simple and is easy to understand how.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s see what are the built&amp;rsquo;n response by content-type context&amp;rsquo;s methods using the defaults only, unchanged, response engines.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+package main
+
+import (
+    &amp;quot;encoding/xml&amp;quot;
+
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+type ExampleXml struct {
+    XMLName xml.Name `xml:&amp;quot;example&amp;quot;`
+    One     string   `xml:&amp;quot;one,attr&amp;quot;`
+    Two     string   `xml:&amp;quot;two,attr&amp;quot;`
+}
+
+func main() {
+    iris.Get(&amp;quot;/data&amp;quot;, func(ctx *iris.Context) {
+        ctx.Data(iris.StatusOK, []byte(&amp;quot;Some binary data here.&amp;quot;))
+    })
+
+    iris.Get(&amp;quot;/text&amp;quot;, func(ctx *iris.Context) {
+        ctx.Text(iris.StatusOK, &amp;quot;Plain text here&amp;quot;)
+    })
+
+    iris.Get(&amp;quot;/json&amp;quot;, func(ctx *iris.Context) {
+        ctx.JSON(iris.StatusOK, map[string]string{&amp;quot;hello&amp;quot;: &amp;quot;json&amp;quot;}) // or myjsonStruct{hello:&amp;quot;json}
+    })
+
+    iris.Get(&amp;quot;/jsonp&amp;quot;, func(ctx *iris.Context) {
+        ctx.JSONP(iris.StatusOK, &amp;quot;callbackName&amp;quot;, map[string]string{&amp;quot;hello&amp;quot;: &amp;quot;jsonp&amp;quot;})
+    })
+
+    iris.Get(&amp;quot;/xml&amp;quot;, func(ctx *iris.Context) {
+        ctx.XML(iris.StatusOK, ExampleXml{One: &amp;quot;hello&amp;quot;, Two: &amp;quot;xml&amp;quot;}) // or iris.Map{&amp;quot;One&amp;quot;:&amp;quot;hello&amp;quot;...}
+    })
+
+    iris.Get(&amp;quot;/markdown&amp;quot;, func(ctx *iris.Context) {
+        ctx.Markdown(iris.StatusOK, &amp;quot;# Hello Dynamic Markdown Iris&amp;quot;)
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Bellow you will, propably, see how &amp;lsquo;good&amp;rsquo; are my english (joke&amp;hellip;), but at the end we&amp;rsquo;re coders and some of us programmers too, so I hope you will be able to understand at least, the code snippets ( a lot of them, you will be tired from this simplicity ).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Text Response Engine&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+    iris.Config.Charset = &amp;quot;UTF-8&amp;quot; // this is the default, you don&#39;t have to set it manually
+
+    myString := &amp;quot;this is just a simple string which you can already render with ctx.Write&amp;quot;
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.Text(iris.StatusOK, myString)
+    })
+
+    iris.Get(&amp;quot;/alternative_1&amp;quot;, func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;text/plain&amp;quot;, myString)
+    })
+
+    iris.Get(&amp;quot;/alternative_2&amp;quot;, func(ctx *iris.Context) {
+        ctx.RenderWithStatus(iris.StatusOK, &amp;quot;text/plain&amp;quot;, myString)
+    })
+
+    iris.Get(&amp;quot;/alternative_3&amp;quot;, func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;text/plain&amp;quot;, myString, iris.RenderOptions{&amp;quot;charset&amp;quot;: &amp;quot;UTF-8&amp;quot;}) // default &amp;amp; global charset is UTF-8
+    })
+
+    iris.Get(&amp;quot;/alternative_4&amp;quot;, func(ctx *iris.Context) {
+        // logs if any error and sends http status &#39;500 internal server error&#39; to the client
+        ctx.MustRender(&amp;quot;text/plain&amp;quot;, myString)
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Custom response engine&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;You can create a custom response engine using a func or an interface which implements the
+&lt;code&gt;iris.ResponseEngine&lt;/code&gt;  which contains a simple function: &lt;code&gt;Response(val interface{}, options ...map[string]interface{}) ([]byte, error)
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;A custom engine can be used to register a totally new content writer for a known ContentType or for a custom ContentType&lt;/p&gt;
+
+&lt;p&gt;You can imagine its useful, I will show you one right now.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s do a &amp;lsquo;trick&amp;rsquo; here, which works for all other response engines, custom or not:&lt;/p&gt;
+
+&lt;p&gt;say for example, that you want a static&amp;rsquo;footer/suffix&amp;rsquo; on your content.&lt;/p&gt;
+
+&lt;p&gt;IF a response engine has the same key and the same content type then the contents are appended and the final result will be rendered to the client
+.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s do this with &lt;code&gt;text/plain&lt;/code&gt; content type, because you can see its results easly, the first engine will use this &amp;ldquo;text/plain&amp;rdquo; as key, the second &amp;amp; third will use the same, as firsts, key, which is the ContentType also.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+package main
+
+import (
+    &amp;quot;github.com/iris-contrib/response/text&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+    // here we are registering the default text/plain,  and after we will register the &#39;appender&#39; only
+    // we have to register the default because we will 
+    // add more response engines with the same content,
+    // iris will not register this by-default if 
+    // other response engine with the corresponding ContentType already exists
+
+    iris.UseResponse(text.New(), text.ContentType) // it&#39;s the key which happens to be a valid content-type also, &amp;quot;text/plain&amp;quot; so this will be used as the ContentType header
+
+    // register a response engine: iris.ResponseEngine 
+    iris.UseResponse(&amp;amp;CustomTextEngine{}, text.ContentType)
+    
+    // register a response engine with func
+    iris.UseResponse(iris.ResponseEngineFunc(func(val interface{}, options ...map[string]interface{}) ([]byte, error) {
+        return []byte(&amp;quot;\nThis is the static SECOND AND LAST suffix!&amp;quot;), nil
+    }), text.ContentType)
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.Text(iris.StatusOK, &amp;quot;Hello!&amp;quot;) // or ctx.Render(text.ContentType,&amp;quot; Hello!&amp;quot;)
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+// This is the way you create one with raw iris.ResponseEngine implementation:
+
+// CustomTextEngine the response engine which appends a simple string on the default&#39;s text engine
+type CustomTextEngine struct{}
+
+// Implement the iris.ResponseEngine
+func (e *CustomTextEngine) Response(val interface{}, options ...map[string]interface{}) ([]byte, error) {
+    // we don&#39;t need the val, because we want only to append, so what we should do?
+    // just return the []byte we want to be appended after the first registered text/plain engine
+
+    return []byte(&amp;quot;\nThis is the static FIRST suffix!&amp;quot;), nil
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;iris.ResponseString&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;ResponseString gives you the result of the response engine&amp;rsquo;s work, it doesn&amp;rsquo;t renders to the client but you can use
+this function to collect the end result and send it via e-mail to the user, or anything you can imagine.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+    markdownContents := `## Hello Markdown from Iris
+
+This is an example of Markdown with Iris
+
+
+
+Features
+--------
+
+All features of Sundown are supported, including:
+
+*   **Compatibility**. The Markdown v1.0.3 test suite passes with
+    the --tidy option.  Without --tidy, the differences are
+    mostly in whitespace and entity escaping, where blackfriday is
+    more consistent and cleaner.
+
+*   **Common extensions**, including table support, fenced code
+    blocks, autolinks, strikethroughs, non-strict emphasis, etc.
+
+*   **Safety**. Blackfriday is paranoid when parsing, making it safe
+    to feed untrusted user input without fear of bad things
+    happening. The test suite stress tests this and there are no
+    known inputs that make it crash.  If you find one, please let me
+    know and send me the input that does it.
+
+    NOTE: &amp;quot;safety&amp;quot; in this context means *runtime safety only*. In order to
+    protect yourself against JavaScript injection in untrusted content, see
+    [this example](https://github.com/russross/blackfriday#sanitize-untrusted-content).
+
+*   **Fast processing**. It is fast enough to render on-demand in
+    most web applications without having to cache the output.
+
+*   **Thread safety**. You can run multiple parsers in different
+    goroutines without ill effect. There is no dependence on global
+    shared state.
+
+*   **Minimal dependencies**. Blackfriday only depends on standard
+    library packages in Go. The source code is pretty
+    self-contained, so it is easy to add to any project, including
+    Google App Engine projects.
+
+*   **Standards compliant**. Output successfully validates using the
+    W3C validation tool for HTML 4.01 and XHTML 1.0 Transitional.
+    
+    [this is a link](https://github.com/kataras/iris) `
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        // let&#39;s see
+        // convert markdown string to html and print it to the logger
+        // THIS WORKS WITH ALL RESPONSE ENGINES, but I am not doing the same example for all engines again :) (the same you can do with templates using the iris.TemplateString)
+        htmlContents := iris.ResponseString(&amp;quot;text/markdown&amp;quot;, markdownContents, iris.RenderOptions{&amp;quot;charset&amp;quot;: &amp;quot;8859-1&amp;quot;}) // default is the iris.Config.Charset, which is UTF-8
+
+        ctx.Log(htmlContents)
+        ctx.Write(&amp;quot;The Raw HTML is:\n%s&amp;quot;, htmlContents)
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now we can continue to the rest of the default &amp;amp; built&amp;rsquo;n response engines&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;JSON Response Engine&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+type myjson struct {
+    Name string `json:&amp;quot;name&amp;quot;`
+}
+
+func main() {
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.JSON(iris.StatusOK, iris.Map{&amp;quot;name&amp;quot;: &amp;quot;iris&amp;quot;})
+    })
+
+    iris.Get(&amp;quot;/alternative_1&amp;quot;, func(ctx *iris.Context) {
+        ctx.JSON(iris.StatusOK, myjson{Name: &amp;quot;iris&amp;quot;})
+    })
+
+    iris.Get(&amp;quot;/alternative_2&amp;quot;, func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;application/json&amp;quot;, myjson{Name: &amp;quot;iris&amp;quot;})
+    })
+
+    iris.Get(&amp;quot;/alternative_3&amp;quot;, func(ctx *iris.Context) {
+        ctx.RenderWithStatus(iris.StatusOK, &amp;quot;application/json&amp;quot;, myjson{Name: &amp;quot;iris&amp;quot;})
+    })
+
+    iris.Get(&amp;quot;/alternative_4&amp;quot;, func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;application/json&amp;quot;, myjson{Name: &amp;quot;iris&amp;quot;}, iris.RenderOptions{&amp;quot;charset&amp;quot;: &amp;quot;UTF-8&amp;quot;}) // UTF-8 is the default.
+    })
+
+    iris.Get(&amp;quot;/alternative_5&amp;quot;, func(ctx *iris.Context) {
+        // logs if any error and sends http status &#39;500 internal server error&#39; to the client
+        ctx.MustRender(&amp;quot;application/json&amp;quot;, myjson{Name: &amp;quot;iris&amp;quot;}, iris.RenderOptions{&amp;quot;charset&amp;quot;: &amp;quot;UTF-8&amp;quot;}) // UTF-8 is the default.
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;github.com/iris-contrib/response/json&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+type myjson struct {
+    Name string `json:&amp;quot;name&amp;quot;`
+}
+
+func main() {
+    iris.Config.Charset = &amp;quot;UTF-8&amp;quot; // this is the default, which you can change
+
+    //first example
+    // use the json&#39;s Config, we need the import of the json response engine in order to change its internal configs
+    // this is one of the reasons you need to import a default engine,(template engine or response engine)
+    /*
+        type Config struct {
+            Indent        bool
+            UnEscapeHTML  bool
+            Prefix        []byte
+            StreamingJSON bool
+        }
+    */
+    iris.UseResponse(json.New(json.Config{
+        Prefix: []byte(&amp;quot;MYPREFIX&amp;quot;),
+    }), json.ContentType) // you can use anything as the second parameter, the json.ContentType is the string &amp;quot;application/json&amp;quot;, the context.JSON renders with this engine&#39;s key.
+
+    jsonHandlerSimple := func(ctx *iris.Context) {
+        ctx.JSON(iris.StatusOK, myjson{Name: &amp;quot;iris&amp;quot;})
+    }
+
+    jsonHandlerWithRender := func(ctx *iris.Context) {
+        // you can also change the charset for a specific render action with RenderOptions
+        ctx.Render(&amp;quot;application/json&amp;quot;, myjson{Name: &amp;quot;iris&amp;quot;}, iris.RenderOptions{&amp;quot;charset&amp;quot;: &amp;quot;8859-1&amp;quot;})
+    }
+
+    //second example,
+    // imagine that we need the context.JSON to be listening to our &amp;quot;application/json&amp;quot; response engine with a custom prefix (we did that before)
+    // but we also want a different renderer, but again application/json content type, with Indent option setted to true:
+    iris.UseResponse(json.New(json.Config{Indent: true}), &amp;quot;json2&amp;quot;)(&amp;quot;application/json&amp;quot;)
+    // yes the UseResponse returns a function which you can map the content type if it&#39;s not declared on the key
+    json2Handler := func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;json2&amp;quot;, myjson{Name: &amp;quot;My iris&amp;quot;})
+    }
+
+    iris.Get(&amp;quot;/&amp;quot;, jsonHandlerSimple)
+
+    iris.Get(&amp;quot;/render&amp;quot;, jsonHandlerWithRender)
+
+    iris.Get(&amp;quot;/json2&amp;quot;, json2Handler)
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;JSONP Response Engine&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+type myjson struct {
+    Name string `json:&amp;quot;name&amp;quot;`
+}
+
+func main() {
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.JSONP(iris.StatusOK, &amp;quot;callbackName&amp;quot;, iris.Map{&amp;quot;name&amp;quot;: &amp;quot;iris&amp;quot;})
+    })
+
+    iris.Get(&amp;quot;/alternative_1&amp;quot;, func(ctx *iris.Context) {
+        ctx.JSONP(iris.StatusOK, &amp;quot;callbackName&amp;quot;, myjson{Name: &amp;quot;iris&amp;quot;})
+    })
+
+    iris.Get(&amp;quot;/alternative_2&amp;quot;, func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;application/javascript&amp;quot;, myjson{Name: &amp;quot;iris&amp;quot;}, iris.RenderOptions{&amp;quot;callback&amp;quot;: &amp;quot;callbackName&amp;quot;})
+    })
+
+    iris.Get(&amp;quot;/alternative_3&amp;quot;, func(ctx *iris.Context) {
+        ctx.RenderWithStatus(iris.StatusOK, &amp;quot;application/javascript&amp;quot;, myjson{Name: &amp;quot;iris&amp;quot;}, iris.RenderOptions{&amp;quot;callback&amp;quot;: &amp;quot;callbackName&amp;quot;})
+    })
+
+    iris.Get(&amp;quot;/alternative_4&amp;quot;, func(ctx *iris.Context) {
+        // logs if any error and sends http status &#39;500 internal server error&#39; to the client
+        ctx.MustRender(&amp;quot;application/javascript&amp;quot;, myjson{Name: &amp;quot;iris&amp;quot;}, iris.RenderOptions{&amp;quot;callback&amp;quot;: &amp;quot;callbackName&amp;quot;, &amp;quot;charset&amp;quot;: &amp;quot;UTF-8&amp;quot;}) // UTF-8 is the default.
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+package main
+
+import (
+    &amp;quot;github.com/iris-contrib/response/jsonp&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+type myjson struct {
+    Name string `json:&amp;quot;name&amp;quot;`
+}
+
+func main() {
+    iris.Config.Charset = &amp;quot;UTF-8&amp;quot; // this is the default, which you can change
+
+    //first example
+    // this is one of the reasons you need to import a default engine,(template engine or response engine)
+    /*
+        type Config struct {
+            Indent   bool
+            Callback string // the callback can be override by the context&#39;s options or parameter on context.JSONP
+        }
+    */
+    iris.UseResponse(jsonp.New(jsonp.Config{
+        Indent: true,
+    }), jsonp.ContentType)
+    // you can use anything as the second parameter,
+    // the jsonp.ContentType is the string &amp;quot;application/javascript&amp;quot;,
+    // the context.JSONP renders with this engine&#39;s key.
+
+    handlerSimple := func(ctx *iris.Context) {
+        ctx.JSONP(iris.StatusOK, &amp;quot;callbackName&amp;quot;, myjson{Name: &amp;quot;iris&amp;quot;})
+    }
+
+    handlerWithRender := func(ctx *iris.Context) {
+        // you can also change the charset for a specific render action with RenderOptions
+        ctx.Render(&amp;quot;application/javascript&amp;quot;, myjson{Name: &amp;quot;iris&amp;quot;}, iris.RenderOptions{&amp;quot;callback&amp;quot;: &amp;quot;callbackName&amp;quot;, &amp;quot;charset&amp;quot;: &amp;quot;8859-1&amp;quot;})
+    }
+
+    //second example,
+    // but we also want a different renderer, but again &amp;quot;application/javascript&amp;quot; as content type, with Callback option setted globaly:
+    iris.UseResponse(jsonp.New(jsonp.Config{Callback: &amp;quot;callbackName&amp;quot;}), &amp;quot;jsonp2&amp;quot;)(&amp;quot;application/javascript&amp;quot;)
+    // yes the UseResponse returns a function which you can map the content type if it&#39;s not declared on the key
+    handlerJsonp2 := func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;jsonp2&amp;quot;, myjson{Name: &amp;quot;My iris&amp;quot;})
+    }
+
+    iris.Get(&amp;quot;/&amp;quot;, handlerSimple)
+
+    iris.Get(&amp;quot;/render&amp;quot;, handlerWithRender)
+
+    iris.Get(&amp;quot;/jsonp2&amp;quot;, handlerJsonp2)
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;XML Response Engine&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+type myxml struct {
+    XMLName xml.Name `xml:&amp;quot;xml_example&amp;quot;`
+    First   string   `xml:&amp;quot;first,attr&amp;quot;`
+    Second  string   `xml:&amp;quot;second,attr&amp;quot;`
+}
+
+func main() {
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.XML(iris.StatusOK, iris.Map{&amp;quot;first&amp;quot;: &amp;quot;first attr &amp;quot;, &amp;quot;second&amp;quot;: &amp;quot;second attr&amp;quot;})
+    })
+
+    iris.Get(&amp;quot;/alternative_1&amp;quot;, func(ctx *iris.Context) {
+        ctx.XML(iris.StatusOK, myxml{First: &amp;quot;first attr&amp;quot;, Second: &amp;quot;second attr&amp;quot;})
+    })
+
+    iris.Get(&amp;quot;/alternative_2&amp;quot;, func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;text/xml&amp;quot;, myxml{First: &amp;quot;first attr&amp;quot;, Second: &amp;quot;second attr&amp;quot;})
+    })
+
+    iris.Get(&amp;quot;/alternative_3&amp;quot;, func(ctx *iris.Context) {
+        ctx.RenderWithStatus(iris.StatusOK, &amp;quot;text/xml&amp;quot;, myxml{First: &amp;quot;first attr&amp;quot;, Second: &amp;quot;second attr&amp;quot;})
+    })
+
+    iris.Get(&amp;quot;/alternative_4&amp;quot;, func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;text/xml&amp;quot;, myxml{First: &amp;quot;first attr&amp;quot;, Second: &amp;quot;second attr&amp;quot;}, iris.RenderOptions{&amp;quot;charset&amp;quot;: &amp;quot;UTF-8&amp;quot;}) // UTF-8 is the default.
+    })
+
+    iris.Get(&amp;quot;/alternative_5&amp;quot;, func(ctx *iris.Context) {
+        // logs if any error and sends http status &#39;500 internal server error&#39; to the client
+        ctx.MustRender(&amp;quot;text/xml&amp;quot;, myxml{First: &amp;quot;first attr&amp;quot;, Second: &amp;quot;second attr&amp;quot;}, iris.RenderOptions{&amp;quot;charset&amp;quot;: &amp;quot;UTF-8&amp;quot;})
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    encodingXML &amp;quot;encoding/xml&amp;quot;
+
+    &amp;quot;github.com/iris-contrib/response/xml&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+type myxml struct {
+    XMLName encodingXML.Name `xml:&amp;quot;xml_example&amp;quot;`
+    First   string           `xml:&amp;quot;first,attr&amp;quot;`
+    Second  string           `xml:&amp;quot;second,attr&amp;quot;`
+}
+
+func main() {
+    iris.Config.Charset = &amp;quot;UTF-8&amp;quot; // this is the default, which you can change
+
+    //first example
+    // this is one of the reasons you need to import a default engine,(template engine or response engine)
+    /*
+        type Config struct {
+            Indent bool
+            Prefix []byte
+        }
+    */
+    iris.UseResponse(xml.New(xml.Config{
+        Indent: true,
+    }), xml.ContentType)
+    // you can use anything as the second parameter,
+    // the jsonp.ContentType is the string &amp;quot;text/xml&amp;quot;,
+    // the context.XML renders with this engine&#39;s key.
+
+    handlerSimple := func(ctx *iris.Context) {
+        ctx.XML(iris.StatusOK, myxml{First: &amp;quot;first attr&amp;quot;, Second: &amp;quot;second attr&amp;quot;})
+    }
+
+    handlerWithRender := func(ctx *iris.Context) {
+        // you can also change the charset for a specific render action with RenderOptions
+        ctx.Render(&amp;quot;text/xml&amp;quot;, myxml{First: &amp;quot;first attr&amp;quot;, Second: &amp;quot;second attr&amp;quot;}, iris.RenderOptions{&amp;quot;charset&amp;quot;: &amp;quot;8859-1&amp;quot;})
+    }
+
+    //second example,
+    // but we also want a different renderer, but again &amp;quot;text/xml&amp;quot; as content type, with prefix option setted by configuration:
+    iris.UseResponse(xml.New(xml.Config{Prefix: []byte(&amp;quot;&amp;quot;)}), &amp;quot;xml2&amp;quot;)(&amp;quot;text/xml&amp;quot;) // if you really use a PREFIX it will be not valid xml, use it only for special cases
+    // yes the UseResponse returns a function which you can map the content type if it&#39;s not declared on the key
+    handlerXML2 := func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;xml2&amp;quot;, myxml{First: &amp;quot;first attr&amp;quot;, Second: &amp;quot;second attr&amp;quot;})
+    }
+
+    iris.Get(&amp;quot;/&amp;quot;, handlerSimple)
+
+    iris.Get(&amp;quot;/render&amp;quot;, handlerWithRender)
+
+    iris.Get(&amp;quot;/xml2&amp;quot;, handlerXML2)
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Markdown Response Engine&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+type myjson struct {
+    Name string `json:&amp;quot;name&amp;quot;`
+}
+
+func main() {
+    markdownContents := `## Hello Markdown from Iris
+
+This is an example of Markdown with Iris
+
+
+
+Features
+--------
+
+All features of Sundown are supported, including:
+
+*   **Compatibility**. The Markdown v1.0.3 test suite passes with
+    the --tidy option.  Without --tidy, the differences are
+    mostly in whitespace and entity escaping, where blackfriday is
+    more consistent and cleaner.
+
+*   **Common extensions**, including table support, fenced code
+    blocks, autolinks, strikethroughs, non-strict emphasis, etc.
+
+*   **Safety**. Blackfriday is paranoid when parsing, making it safe
+    to feed untrusted user input without fear of bad things
+    happening. The test suite stress tests this and there are no
+    known inputs that make it crash.  If you find one, please let me
+    know and send me the input that does it.
+
+    NOTE: &amp;quot;safety&amp;quot; in this context means *runtime safety only*. In order to
+    protect yourself against JavaScript injection in untrusted content, see
+    [this example](https://github.com/russross/blackfriday#sanitize-untrusted-content).
+
+*   **Fast processing**. It is fast enough to render on-demand in
+    most web applications without having to cache the output.
+
+*   **Thread safety**. You can run multiple parsers in different
+    goroutines without ill effect. There is no dependence on global
+    shared state.
+
+*   **Minimal dependencies**. Blackfriday only depends on standard
+    library packages in Go. The source code is pretty
+    self-contained, so it is easy to add to any project, including
+    Google App Engine projects.
+
+*   **Standards compliant**. Output successfully validates using the
+    W3C validation tool for HTML 4.01 and XHTML 1.0 Transitional.
+    
+    [this is a link](https://github.com/kataras/iris) `
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.Markdown(iris.StatusOK, markdownContents)
+    })
+
+    iris.Get(&amp;quot;/alternative_1&amp;quot;, func(ctx *iris.Context) {
+        htmlContents := ctx.MarkdownString(markdownContents)
+        ctx.HTML(iris.StatusOK, htmlContents)
+    })
+
+    // text/markdown is just the key which the markdown response engine and ctx.Markdown communicate,
+    // it&#39;s real content type is text/html
+    iris.Get(&amp;quot;/alternative_2&amp;quot;, func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;text/markdown&amp;quot;, markdownContents)
+    })
+
+    iris.Get(&amp;quot;/alternative_3&amp;quot;, func(ctx *iris.Context) {
+        ctx.RenderWithStatus(iris.StatusOK, &amp;quot;text/markdown&amp;quot;, markdownContents)
+    })
+
+    iris.Get(&amp;quot;/alternative_4&amp;quot;, func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;text/markdown&amp;quot;, markdownContents, iris.RenderOptions{&amp;quot;charset&amp;quot;: &amp;quot;UTF-8&amp;quot;}) // UTF-8 is the default.
+    })
+
+    iris.Get(&amp;quot;/alternative_5&amp;quot;, func(ctx *iris.Context) {
+        // logs if any error and sends http status &#39;500 internal server error&#39; to the client
+        ctx.MustRender(&amp;quot;text/markdown&amp;quot;, markdownContents, iris.RenderOptions{&amp;quot;charset&amp;quot;: &amp;quot;UTF-8&amp;quot;}) // UTF-8 is the default.
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;github.com/iris-contrib/response/markdown&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+    markdownContents := `## Hello Markdown from Iris
+
+This is an example of Markdown with Iris
+
+
+
+Features
+--------
+
+All features of Sundown are supported, including:
+
+*   **Compatibility**. The Markdown v1.0.3 test suite passes with
+    the --tidy option.  Without --tidy, the differences are
+    mostly in whitespace and entity escaping, where blackfriday is
+    more consistent and cleaner.
+
+*   **Common extensions**, including table support, fenced code
+    blocks, autolinks, strikethroughs, non-strict emphasis, etc.
+
+*   **Safety**. Blackfriday is paranoid when parsing, making it safe
+    to feed untrusted user input without fear of bad things
+    happening. The test suite stress tests this and there are no
+    known inputs that make it crash.  If you find one, please let me
+    know and send me the input that does it.
+
+    NOTE: &amp;quot;safety&amp;quot; in this context means *runtime safety only*. In order to
+    protect yourself against JavaScript injection in untrusted content, see
+    [this example](https://github.com/russross/blackfriday#sanitize-untrusted-content).
+
+*   **Fast processing**. It is fast enough to render on-demand in
+    most web applications without having to cache the output.
+
+*   **Thread safety**. You can run multiple parsers in different
+    goroutines without ill effect. There is no dependence on global
+    shared state.
+
+*   **Minimal dependencies**. Blackfriday only depends on standard
+    library packages in Go. The source code is pretty
+    self-contained, so it is easy to add to any project, including
+    Google App Engine projects.
+
+*   **Standards compliant**. Output successfully validates using the
+    W3C validation tool for HTML 4.01 and XHTML 1.0 Transitional.
+    
+    [this is a link](https://github.com/kataras/iris) `
+
+    //first example
+    // this is one of the reasons you need to import a default engine,(template engine or response engine)
+    /*
+        type Config struct {
+            MarkdownSanitize bool
+        }
+    */
+    iris.UseResponse(markdown.New(), markdown.ContentType)
+    // you can use anything as the second parameter,
+    // the markdown.ContentType is the string &amp;quot;text/markdown&amp;quot;,
+    // the context.Markdown renders with this engine&#39;s key.
+
+    handlerWithRender := func(ctx *iris.Context) {
+        // you can also change the charset for a specific render action with RenderOptions
+        ctx.Render(&amp;quot;text/markdown&amp;quot;, markdownContents, iris.RenderOptions{&amp;quot;charset&amp;quot;: &amp;quot;8859-1&amp;quot;})
+    }
+
+    //second example,
+    // but we also want a different renderer, but again &amp;quot;text/markdown&amp;quot; as &#39;content type&#39; (this is converted to text/html behind the scenes), with MarkdownSanitize option setted to true:
+    iris.UseResponse(markdown.New(markdown.Config{MarkdownSanitize: true}), &amp;quot;markdown2&amp;quot;)(&amp;quot;text/markdown&amp;quot;)
+    // yes the UseResponse returns a function which you can map the content type if it&#39;s not declared on the key
+    handlerMarkdown2 := func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;markdown2&amp;quot;, markdownContents, iris.RenderOptions{&amp;quot;gzip&amp;quot;: true})
+    }
+
+    iris.Get(&amp;quot;/&amp;quot;, handlerWithRender)
+
+    iris.Get(&amp;quot;/markdown2&amp;quot;, handlerMarkdown2)
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;** Data(Binary) Response Engine **&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+    myData := []byte(&amp;quot;some binary data or a program here which will not be a simple string at the production&amp;quot;)
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.Data(iris.StatusOK, myData)
+    })
+
+    iris.Get(&amp;quot;/alternative_1&amp;quot;, func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;application/octet-stream&amp;quot;, myData)
+    })
+
+    iris.Get(&amp;quot;/alternative_2&amp;quot;, func(ctx *iris.Context) {
+        ctx.RenderWithStatus(iris.StatusOK, &amp;quot;application/octet-stream&amp;quot;, myData)
+    })
+
+    iris.Get(&amp;quot;/alternative_3&amp;quot;, func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;application/octet-stream&amp;quot;, myData, iris.RenderOptions{&amp;quot;gzip&amp;quot;: true}) // gzip is false by default
+    })
+
+    iris.Get(&amp;quot;/alternative_4&amp;quot;, func(ctx *iris.Context) {
+        // logs if any error and sends http status &#39;500 internal server error&#39; to the client
+        ctx.MustRender(&amp;quot;application/octet-stream&amp;quot;, myData)
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;examples are located &lt;a href=&#34;https://github.com/iris-contrib/examples/tree/master/response_engines/&#34;&gt;here&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;You can contribute to create more response engines for Iris, click &lt;a href=&#34;https://github.com/iris-contrib/response&#34;&gt;here&lt;/a&gt; to navigate to the reository.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;template-engines&#34;&gt;Template Engines&lt;/h2&gt;
+
+&lt;h3 id=&#34;install-1&#34;&gt;Install&lt;/h3&gt;
+
+&lt;p&gt;Install one template engine and all will be installed.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ go get -u github.com/iris-contrib/template/html
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;iris-station-configuration-1&#34;&gt;Iris&amp;rsquo; Station configuration&lt;/h3&gt;
+
+&lt;p&gt;Remember, when &amp;lsquo;station&amp;rsquo; we mean the default &lt;code&gt;iris.$CALL&lt;/code&gt; or &lt;code&gt;api:= iris.New(); api.$CALL&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;iris.Config.IsDevelopment = true // reloads the templates on each request, defaults to false
+iris.Config.Gzip  = true // compressed gzip contents to the client, the same for Response Engines also, defaults to false
+iris.Config.Charset = &amp;quot;UTF-8&amp;quot; // defaults to &amp;quot;UTF-8&amp;quot;, the same for Response Engines also
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The last two options (Gzip, Charset) can be overriden for specific &amp;lsquo;Render&amp;rsquo; action:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func(ctx *iris.Context){
+    ctx.Render(&amp;quot;templateFile.html&amp;quot;, anyBindingStruct{}, iris.RenderOptions{&amp;quot;gzip&amp;quot;:false, &amp;quot;charset&amp;quot;: &amp;quot;UTF-8&amp;quot;})
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;how-to-use-1&#34;&gt;How to use&lt;/h3&gt;
+
+&lt;p&gt;Most examples are written for the HTML Template Engine(default and built&amp;rsquo;n template engine for iris) but works for the rest of the engines also.&lt;/p&gt;
+
+&lt;p&gt;You will see first the template file&amp;rsquo;s code, after the main.go code&lt;/p&gt;
+
+&lt;p&gt;** HTML Template Engine, and general **&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/hi.html --&amp;gt;
+
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;title&amp;gt;Hi Iris [THE TITLE]&amp;lt;/title&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+    &amp;lt;h1&amp;gt;Hi {{.Name}}
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+// nothing to do, defaults to ./templates and .html extension, no need to import any template engine because HTML engine is the default
+// if anything else has been registered
+func main() {
+    iris.Config.IsDevelopment = true // this will reload the templates on each request, defaults to false
+    iris.Get(&amp;quot;/hi&amp;quot;, hi)
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+func hi(ctx *iris.Context) {
+    ctx.MustRender(&amp;quot;hi.html&amp;quot;, struct{ Name string }{Name: &amp;quot;iris&amp;quot;})
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/layout.html --&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;title&amp;gt;My Layout&amp;lt;/title&amp;gt;
+
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+    &amp;lt;h1&amp;gt;Body is:&amp;lt;/h1&amp;gt;
+    &amp;lt;!-- Render the current template here --&amp;gt;
+    {{ yield }}
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt; &amp;lt;!-- ./templates/mypage.html --&amp;gt; 
+&amp;lt;h1&amp;gt;
+    Title: {{.Title}}
+&amp;lt;/h1&amp;gt;
+&amp;lt;h3&amp;gt;Message : {{.Message}} &amp;lt;/h3&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+package main
+
+import (
+    &amp;quot;github.com/iris-contrib/template/html&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+type mypage struct {
+    Title   string
+    Message string
+}
+
+func main() {
+
+    iris.UseTemplate(html.New(html.Config{
+        Layout: &amp;quot;layout.html&amp;quot;,
+    })).Directory(&amp;quot;./templates&amp;quot;, &amp;quot;.html&amp;quot;) // the .Directory() is optional also, defaults to ./templates, .html
+    // Note for html: this is the default iris&#39; templaet engine, if zero engines added, then the template/html will be used automatically
+    // These lines are here to show you how you can change its default configuration
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;mypage.html&amp;quot;, mypage{&amp;quot;My Page title&amp;quot;, &amp;quot;Hello world!&amp;quot;}, iris.RenderOptions{&amp;quot;gzip&amp;quot;: true})
+        // Note that: you can pass &amp;quot;layout&amp;quot; : &amp;quot;otherLayout.html&amp;quot; to bypass the config&#39;s Layout property or iris.NoLayout to disable layout on this render action.
+        // RenderOptions is an optional parameter
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/layouts/layout.html --&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;title&amp;gt;Layout&amp;lt;/title&amp;gt;
+
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+    &amp;lt;h1&amp;gt;This is the global layout&amp;lt;/h1&amp;gt;
+    &amp;lt;br /&amp;gt;
+    &amp;lt;!-- Render the current template here --&amp;gt;
+    {{ yield }}
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/layouts/mylayout.html --&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;title&amp;gt;my Layout&amp;lt;/title&amp;gt;
+
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+    &amp;lt;h1&amp;gt;This is the layout for the /my/ and /my/other routes only&amp;lt;/h1&amp;gt;
+    &amp;lt;br /&amp;gt;
+    &amp;lt;!-- Render the current template here --&amp;gt;
+    {{ yield }}
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/partials/page1_partial1.html --&amp;gt;
+&amp;lt;div style=&amp;quot;background-color: white; color: red&amp;quot;&amp;gt;
+    &amp;lt;h1&amp;gt;Page 1&#39;s Partial 1&amp;lt;/h1&amp;gt;
+&amp;lt;/div&amp;gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/page1.html --&amp;gt;
+&amp;lt;div style=&amp;quot;background-color: black; color: blue&amp;quot;&amp;gt;
+
+    &amp;lt;h1&amp;gt;Page 1&amp;lt;/h1&amp;gt;
+
+    {{ render &amp;quot;partials/page1_partial1.html&amp;quot;}}
+
+&amp;lt;/div&amp;gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+package main
+
+import (
+    &amp;quot;github.com/iris-contrib/template/html&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+    // directory and extensions defaults to ./templates, .html for all template engines
+    iris.UseTemplate(html.New(html.Config{Layout: &amp;quot;layouts/layout.html&amp;quot;}))
+    //iris.Config.Render.Template.Gzip = true
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        if err := ctx.Render(&amp;quot;page1.html&amp;quot;, nil); err != nil {
+            println(err.Error())
+        }
+    })
+
+    // remove the layout for a specific route
+    iris.Get(&amp;quot;/nolayout&amp;quot;, func(ctx *iris.Context) {
+        if err := ctx.Render(&amp;quot;page1.html&amp;quot;, nil, iris.RenderOptions{&amp;quot;layout&amp;quot;: iris.NoLayout}); err != nil {
+            println(err.Error())
+        }
+    })
+
+    // set a layout for a party, .Layout should be BEFORE any Get or other Handle party&#39;s method
+    my := iris.Party(&amp;quot;/my&amp;quot;).Layout(&amp;quot;layouts/mylayout.html&amp;quot;)
+    {
+        my.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+            ctx.MustRender(&amp;quot;page1.html&amp;quot;, nil)
+        })
+        my.Get(&amp;quot;/other&amp;quot;, func(ctx *iris.Context) {
+            ctx.MustRender(&amp;quot;page1.html&amp;quot;, nil)
+        })
+    }
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/layouts/layout.html --&amp;gt;
+
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;title&amp;gt;My Layout&amp;lt;/title&amp;gt;
+
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+    &amp;lt;!-- Render the current template here --&amp;gt;
+    {{ yield }}
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/partials/page1_partial1.html --&amp;gt;
+&amp;lt;div style=&amp;quot;background-color: white; color: red&amp;quot;&amp;gt;
+    &amp;lt;h1&amp;gt;Page 1&#39;s Partial 1&amp;lt;/h1&amp;gt;
+&amp;lt;/div&amp;gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/page1.html --&amp;gt;
+&amp;lt;div style=&amp;quot;background-color: black; color: blue&amp;quot;&amp;gt;
+
+    &amp;lt;h1&amp;gt;Page 1&amp;lt;/h1&amp;gt;
+
+    {{ render &amp;quot;partials/page1_partial1.html&amp;quot;}}
+
+&amp;lt;/div&amp;gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+package main
+
+import (
+    &amp;quot;github.com/iris-contrib/template/html&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+    // directory and extensions defaults to ./templates, .html for all template engines
+    iris.UseTemplate(html.New(html.Config{Layout: &amp;quot;layouts/layout.html&amp;quot;}))
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        s := iris.TemplateString(&amp;quot;page1.html&amp;quot;, nil)
+        ctx.Write(&amp;quot;The plain content of the template is: %s&amp;quot;, s)
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/page.html --&amp;gt;
+&amp;lt;a href=&amp;quot;{{url &amp;quot;my-page1&amp;quot;}}&amp;quot;&amp;gt;http://127.0.0.1:8080/mypath&amp;lt;/a&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;a href=&amp;quot;{{url &amp;quot;my-page2&amp;quot; &amp;quot;theParam1&amp;quot; &amp;quot;theParam2&amp;quot;}}&amp;quot;&amp;gt;http://127.0.0.1:8080/mypath2/:param1/:param2&amp;lt;/a&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;a href=&amp;quot;{{url &amp;quot;my-page3&amp;quot; &amp;quot;theParam1&amp;quot; &amp;quot;theParam2AfterStatic&amp;quot;}}&amp;quot;&amp;gt;http://127.0.0.1:8080/mypath3/:param1/statichere/:param2&amp;lt;/a&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;a href=&amp;quot;{{url &amp;quot;my-page4&amp;quot; &amp;quot;theParam1&amp;quot; &amp;quot;theparam2AfterStatic&amp;quot; &amp;quot;otherParam&amp;quot; &amp;quot;matchAnything&amp;quot;}}&amp;quot;&amp;gt;http://127.0.0.1:8080/mypath4/:param1/statichere/:param2/:otherparam/*something&amp;lt;/a&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;a href=&amp;quot;{{url &amp;quot;my-page5&amp;quot; &amp;quot;theParam1&amp;quot; &amp;quot;theParam2AfterStatic&amp;quot; &amp;quot;otherParam&amp;quot; &amp;quot;matchAnythingAfterStatic&amp;quot;}}&amp;quot;&amp;gt;http://127.0.0.1:8080/mypath5/:param1/statichere/:param2/:otherparam/anything/*anything&amp;lt;/a&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;a href=&amp;quot;{{url &amp;quot;my-page6&amp;quot; .ParamsAsArray }}&amp;quot;&amp;gt;http://127.0.0.1:8080/mypath6/:param1/:param2/staticParam/:param3AfterStatic&amp;lt;/a&amp;gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+// Package main an example on how to naming your routes &amp;amp; use the custom &#39;url&#39; HTML Template Engine, same for other template engines
+// we don&#39;t need to import the iris-contrib/template/html because iris uses this as the default engine if no other template engine has been registered.
+package main
+
+import (
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+
+    iris.Get(&amp;quot;/mypath&amp;quot;, emptyHandler)(&amp;quot;my-page1&amp;quot;)
+    iris.Get(&amp;quot;/mypath2/:param1/:param2&amp;quot;, emptyHandler)(&amp;quot;my-page2&amp;quot;)
+    iris.Get(&amp;quot;/mypath3/:param1/statichere/:param2&amp;quot;, emptyHandler)(&amp;quot;my-page3&amp;quot;)
+    iris.Get(&amp;quot;/mypath4/:param1/statichere/:param2/:otherparam/*something&amp;quot;, emptyHandler)(&amp;quot;my-page4&amp;quot;)
+
+    // same with Handle/Func
+    iris.HandleFunc(&amp;quot;GET&amp;quot;, &amp;quot;/mypath5/:param1/statichere/:param2/:otherparam/anything/*anything&amp;quot;, emptyHandler)(&amp;quot;my-page5&amp;quot;)
+
+    iris.Get(&amp;quot;/mypath6/:param1/:param2/staticParam/:param3AfterStatic&amp;quot;, emptyHandler)(&amp;quot;my-page6&amp;quot;)
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        // for /mypath6...
+        paramsAsArray := []string{&amp;quot;theParam1&amp;quot;, &amp;quot;theParam2&amp;quot;, &amp;quot;theParam3&amp;quot;}
+
+        if err := ctx.Render(&amp;quot;page.html&amp;quot;, iris.Map{&amp;quot;ParamsAsArray&amp;quot;: paramsAsArray}); err != nil {
+            panic(err)
+        }
+    })
+
+    iris.Get(&amp;quot;/redirect/:namedRoute&amp;quot;, func(ctx *iris.Context) {
+        routeName := ctx.Param(&amp;quot;namedRoute&amp;quot;)
+
+        println(&amp;quot;The full uri of &amp;quot; + routeName + &amp;quot;is: &amp;quot; + iris.URL(routeName))
+        // if routeName == &amp;quot;my-page1&amp;quot;
+        // prints: The full uri of my-page1 is: http://127.0.0.1:8080/mypath
+        ctx.RedirectTo(routeName)
+        // http://127.0.0.1:8080/redirect/my-page1 will redirect to -&amp;gt; http://127.0.0.1:8080/mypath
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+func emptyHandler(ctx *iris.Context) {
+    ctx.Write(&amp;quot;Hello from %s.&amp;quot;, ctx.PathString())
+
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/page.html --&amp;gt;
+&amp;lt;!-- the only difference between normal named routes and dynamic subdomains named routes is that the first argument of  url
+is the subdomain part instead of named parameter--&amp;gt;
+
+&amp;lt;a href=&amp;quot;{{url &amp;quot;dynamic-subdomain1&amp;quot; &amp;quot;username1&amp;quot;}}&amp;quot;&amp;gt;username1.127.0.0.1:8080/mypath&amp;lt;/a&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;a href=&amp;quot;{{url &amp;quot;dynamic-subdomain2&amp;quot; &amp;quot;username2&amp;quot; &amp;quot;theParam1&amp;quot; &amp;quot;theParam2&amp;quot;}}&amp;quot;&amp;gt;username2.127.0.0.1:8080/mypath2/:param1/:param2&amp;lt;/a&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;a href=&amp;quot;{{url &amp;quot;dynamic-subdomain3&amp;quot; &amp;quot;username3&amp;quot; &amp;quot;theParam1&amp;quot; &amp;quot;theParam2AfterStatic&amp;quot;}}&amp;quot;&amp;gt;username3.127.0.0.1:8080/mypath3/:param1/statichere/:param2&amp;lt;/a&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;a href=&amp;quot;{{url &amp;quot;dynamic-subdomain4&amp;quot; &amp;quot;username4&amp;quot; &amp;quot;theParam1&amp;quot; &amp;quot;theparam2AfterStatic&amp;quot; &amp;quot;otherParam&amp;quot; &amp;quot;matchAnything&amp;quot;}}&amp;quot;&amp;gt;username4.127.0.0.1:8080/mypath4/:param1/statichere/:param2/:otherparam/*something&amp;lt;/a&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;a href=&amp;quot;{{url &amp;quot;dynamic-subdomain5&amp;quot; .ParamsAsArray }}&amp;quot; &amp;gt;username5.127.0.0.1:8080/mypath6/:param1/:param2/staticParam/:param3AfterStatic&amp;lt;/a&amp;gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I will add hosts files contens only once, here, you can imagine the rest.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;File location is Windows: Drive:/Windows/system32/drivers/etc/hosts, on Linux: /etc/hosts&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;# localhost name resolution is handled within DNS itself.
+127.0.0.1       localhost
+::1             localhost
+#-IRIS-For development machine, you have to configure your dns also for online, search google how to do it if you don&#39;t know
+
+127.0.0.1       username1.127.0.0.1
+127.0.0.1       username2.127.0.0.1
+127.0.0.1       username3.127.0.0.1
+127.0.0.1       username4.127.0.0.1
+127.0.0.1       username5.127.0.0.1
+# note that you can always use custom subdomains
+#-END IRIS-
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+// Package main same example as template_html_4 but with wildcard subdomains
+package main
+
+import (
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+
+    wildcard := iris.Party(&amp;quot;*.&amp;quot;)
+    {
+        wildcard.Get(&amp;quot;/mypath&amp;quot;, emptyHandler)(&amp;quot;dynamic-subdomain1&amp;quot;)
+        wildcard.Get(&amp;quot;/mypath2/:param1/:param2&amp;quot;, emptyHandler)(&amp;quot;dynamic-subdomain2&amp;quot;)
+        wildcard.Get(&amp;quot;/mypath3/:param1/statichere/:param2&amp;quot;, emptyHandler)(&amp;quot;dynamic-subdomain3&amp;quot;)
+        wildcard.Get(&amp;quot;/mypath4/:param1/statichere/:param2/:otherparam/*something&amp;quot;, emptyHandler)(&amp;quot;dynamic-subdomain4&amp;quot;)
+        wildcard.Get(&amp;quot;/mypath5/:param1/:param2/staticParam/:param3AfterStatic&amp;quot;, emptyHandler)(&amp;quot;dynamic-subdomain5&amp;quot;)
+    }
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        // for dynamic_subdomain:8080/mypath5...
+        // the first parameter is always the subdomain part
+        paramsAsArray := []string{&amp;quot;username5&amp;quot;, &amp;quot;theParam1&amp;quot;, &amp;quot;theParam2&amp;quot;, &amp;quot;theParam3&amp;quot;}
+
+        if err := ctx.Render(&amp;quot;page.html&amp;quot;, iris.Map{&amp;quot;ParamsAsArray&amp;quot;: paramsAsArray}); err != nil {
+            panic(err)
+        }
+    })
+
+    iris.Get(&amp;quot;/redirect/:namedRoute/:subdomain&amp;quot;, func(ctx *iris.Context) {
+        routeName := ctx.Param(&amp;quot;namedRoute&amp;quot;)
+        subdomain := ctx.Param(&amp;quot;subdomain&amp;quot;)
+        println(&amp;quot;The full uri of &amp;quot; + routeName + &amp;quot;is: &amp;quot; + iris.URL(routeName, subdomain))
+        // if routeName == &amp;quot;dynamic-subdomain1&amp;quot; &amp;amp;&amp;amp; subdomain == &amp;quot;username1&amp;quot;
+        // prints: The full uri ofd ynamic-subdomain1 is: http://username1.127.0.0.1:8080/mypath
+        ctx.RedirectTo(routeName, subdomain) // the second parameter is the arguments, the first argument for dynamic subdomains is the subdomain part, after this, the named parameters
+        // http://127.0.0.1:8080/redirect/my-subdomain1 will redirect to -&amp;gt;  http://username1.127.0.0.1:8080/mypath
+    })
+
+    iris.Listen(&amp;quot;127.0.0.1:8080&amp;quot;)
+}
+
+func emptyHandler(ctx *iris.Context) {
+    ctx.Write(&amp;quot;[SUBDOMAIN: %s]Hello from Path: %s.&amp;quot;, ctx.Subdomain(), ctx.PathString())
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Django Template Engine&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/mypage.html --&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;title&amp;gt;Hello Django from Iris&amp;lt;/title&amp;gt;
+
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+    {% if is_admin %}
+    &amp;lt;p&amp;gt;{{username}} is an admin!&amp;lt;/p&amp;gt;
+    {% endif %}
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+package main
+
+import (
+    &amp;quot;github.com/iris-contrib/template/django&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+
+    iris.UseTemplate(django.New()).Directory(&amp;quot;./templates&amp;quot;, &amp;quot;.html&amp;quot;)
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;mypage.html&amp;quot;, map[string]interface{}{&amp;quot;username&amp;quot;: &amp;quot;iris&amp;quot;, &amp;quot;is_admin&amp;quot;: true}, iris.RenderOptions{&amp;quot;gzip&amp;quot;: true})
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/page.html --&amp;gt;
+&amp;lt;!-- the only difference between normal named routes and dynamic subdomains named routes is that the first argument of  url
+is the subdomain part instead of named parameter--&amp;gt;
+&amp;lt;a href=&amp;quot;{{ url(&amp;quot;dynamic-subdomain1&amp;quot;,&amp;quot;username1&amp;quot;) }}&amp;quot;&amp;gt;username1.127.0.0.1:8080/mypath&amp;lt;/a&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;a href=&amp;quot;{{ url(&amp;quot;dynamic-subdomain2&amp;quot;,&amp;quot;username2&amp;quot;,&amp;quot;theParam1&amp;quot;,&amp;quot;theParam2&amp;quot;) }}&amp;quot;&amp;gt;username2.127.0.0.1:8080/mypath2/:param1/:param2&amp;lt;/a&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;a href=&amp;quot;{{ url(&amp;quot;dynamic-subdomain3&amp;quot;,&amp;quot;username3&amp;quot;,&amp;quot;theParam1&amp;quot;,&amp;quot;theParam2AfterStatic&amp;quot;) }}&amp;quot; &amp;gt;username3.127.0.0.1:8080/mypath3/:param1/statichere/:param2&amp;lt;/a&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;a href=&amp;quot;{{ url(&amp;quot;dynamic-subdomain4&amp;quot;,&amp;quot;username4&amp;quot;,&amp;quot;theParam1&amp;quot;,&amp;quot;theparam2AfterStatic&amp;quot;,&amp;quot;otherParam&amp;quot;,&amp;quot;matchAnything&amp;quot;) }}&amp;quot; &amp;gt;username4.127.0.0.1:8080/mypath4/:param1/statichere/:param2/:otherparam/*something&amp;lt;/a&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;br /&amp;gt;
+
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+// Package main same example as template_html_5 but for django/pongo2
+package main
+
+import (
+    &amp;quot;github.com/iris-contrib/template/django&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+    iris.UseTemplate(django.New())
+
+    wildcard := iris.Party(&amp;quot;*.&amp;quot;)
+    {
+        wildcard.Get(&amp;quot;/mypath&amp;quot;, emptyHandler)(&amp;quot;dynamic-subdomain1&amp;quot;)
+        wildcard.Get(&amp;quot;/mypath2/:param1/:param2&amp;quot;, emptyHandler)(&amp;quot;dynamic-subdomain2&amp;quot;)
+        wildcard.Get(&amp;quot;/mypath3/:param1/statichere/:param2&amp;quot;, emptyHandler)(&amp;quot;dynamic-subdomain3&amp;quot;)
+        wildcard.Get(&amp;quot;/mypath4/:param1/statichere/:param2/:otherparam/*something&amp;quot;, emptyHandler)(&amp;quot;dynamic-subdomain4&amp;quot;)
+    }
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        // for dynamic_subdomain:8080/mypath5...
+        // the first parameter is always the subdomain part
+
+        if err := ctx.Render(&amp;quot;page.html&amp;quot;, nil); err != nil {
+            panic(err)
+        }
+    })
+
+    iris.Get(&amp;quot;/redirect/:namedRoute/:subdomain&amp;quot;, func(ctx *iris.Context) {
+        routeName := ctx.Param(&amp;quot;namedRoute&amp;quot;)
+        subdomain := ctx.Param(&amp;quot;subdomain&amp;quot;)
+        println(&amp;quot;The full uri of &amp;quot; + routeName + &amp;quot;is: &amp;quot; + iris.URL(routeName, subdomain))
+        // if routeName == &amp;quot;dynamic-subdomain1&amp;quot; &amp;amp;&amp;amp; subdomain == &amp;quot;username1&amp;quot;
+        // prints: The full uri ofd ynamic-subdomain1 is: http://username1.127.0.0.1:8080/mypath
+        ctx.RedirectTo(routeName, subdomain) // the second parameter is the arguments, the first argument for dynamic subdomains is the subdomain part, after this, the named parameters
+        // http://127.0.0.1:8080/redirect/my-subdomain1 will redirect to -&amp;gt;  http://username1.127.0.0.1:8080/mypath
+    })
+
+    iris.Listen(&amp;quot;127.0.0.1:8080&amp;quot;)
+}
+
+func emptyHandler(ctx *iris.Context) {
+    ctx.Write(&amp;quot;[SUBDOMAIN: %s]Hello from Path: %s.&amp;quot;, ctx.Subdomain(), ctx.PathString())
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Note that, you can see more django examples syntax by navigating &lt;a href=&#34;https://github.com/flosch/pongo2&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;Handlebars Template Engine&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/layouts/layout.html --&amp;gt;
+
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;title&amp;gt;Layout&amp;lt;/title&amp;gt;
+
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+    &amp;lt;h1&amp;gt;This is the global layout&amp;lt;/h1&amp;gt;
+    &amp;lt;br /&amp;gt;
+    &amp;lt;!-- Render the current template here --&amp;gt;
+    {{ yield }}
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/layouts/mylayout.html --&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;title&amp;gt;my Layout&amp;lt;/title&amp;gt;
+
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+    &amp;lt;h1&amp;gt;This is the layout for the /my/ and /my/other routes only&amp;lt;/h1&amp;gt;
+    &amp;lt;br /&amp;gt;
+    &amp;lt;!-- Render the current template here --&amp;gt;
+    {{ yield }}
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/partials/home_partial.html --&amp;gt;
+&amp;lt;div style=&amp;quot;background-color: white; color: red&amp;quot;&amp;gt;
+    &amp;lt;h1&amp;gt;Home&#39;s&#39; Partial here!!&amp;lt;/h1&amp;gt;
+&amp;lt;/div&amp;gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/home.html --&amp;gt;
+&amp;lt;div style=&amp;quot;background-color: black; color: white&amp;quot;&amp;gt;
+
+    Name: {{boldme Name}} &amp;lt;br /&amp;gt; Type: {{boldme Type}} &amp;lt;br /&amp;gt; Path:
+    {{boldme Path}} &amp;lt;br /&amp;gt;
+    &amp;lt;hr /&amp;gt;
+
+    The partial is: {{ render &amp;quot;partials/home_partial.html&amp;quot;}}
+
+&amp;lt;/div&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+package main
+
+import (
+    &amp;quot;github.com/aymerick/raymond&amp;quot;
+    &amp;quot;github.com/iris-contrib/template/handlebars&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+type mypage struct {
+    Title   string
+    Message string
+}
+
+func main() {
+    // set the configuration for this template engine  (all template engines has its configuration)
+    config := handlebars.DefaultConfig()
+    config.Layout = &amp;quot;layouts/layout.html&amp;quot;
+    config.Helpers[&amp;quot;boldme&amp;quot;] = func(input string) raymond.SafeString {
+        return raymond.SafeString(&amp;quot;&amp;lt;b&amp;gt; &amp;quot; + input + &amp;quot;&amp;lt;/b&amp;gt;&amp;quot;)
+    }
+
+    // set the template engine
+    iris.UseTemplate(handlebars.New(config)).Directory(&amp;quot;./templates&amp;quot;, &amp;quot;.html&amp;quot;) // or .hbs , whatever you want
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        // optionally, set a context  for the template
+        ctx.Render(&amp;quot;home.html&amp;quot;, map[string]interface{}{&amp;quot;Name&amp;quot;: &amp;quot;Iris&amp;quot;, &amp;quot;Type&amp;quot;: &amp;quot;Web&amp;quot;, &amp;quot;Path&amp;quot;: &amp;quot;/&amp;quot;})
+
+    })
+
+    // remove the layout for a specific route using iris.NoLayout
+    iris.Get(&amp;quot;/nolayout&amp;quot;, func(ctx *iris.Context) {
+        if err := ctx.Render(&amp;quot;home.html&amp;quot;, nil, iris.RenderOptions{&amp;quot;layout&amp;quot;: iris.NoLayout}); err != nil {
+            ctx.Write(err.Error())
+        }
+    })
+
+    // set a layout for a party, .Layout should be BEFORE any Get or other Handle party&#39;s method
+    my := iris.Party(&amp;quot;/my&amp;quot;).Layout(&amp;quot;layouts/mylayout.html&amp;quot;)
+    {
+        my.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+            // .MustRender -&amp;gt; same as .Render but logs the error if any and return status 500 on client
+            ctx.MustRender(&amp;quot;home.html&amp;quot;, map[string]interface{}{&amp;quot;Name&amp;quot;: &amp;quot;Iris&amp;quot;, &amp;quot;Type&amp;quot;: &amp;quot;Web&amp;quot;, &amp;quot;Path&amp;quot;: &amp;quot;/my/&amp;quot;})
+        })
+        my.Get(&amp;quot;/other&amp;quot;, func(ctx *iris.Context) {
+            ctx.MustRender(&amp;quot;home.html&amp;quot;, map[string]interface{}{&amp;quot;Name&amp;quot;: &amp;quot;Iris&amp;quot;, &amp;quot;Type&amp;quot;: &amp;quot;Web&amp;quot;, &amp;quot;Path&amp;quot;: &amp;quot;/my/other&amp;quot;})
+        })
+    }
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+// Note than you can see more handlebars examples syntax by navigating to https://github.com/aymerick/raymond
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Note than you can see more handlebars examples syntax by navigating &lt;a href=&#34;https://github.com/aymerick/raymond&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;Pug/Jade Template Engine&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/partials/page1_partial1.jade --&amp;gt;
+#footer
+  p Copyright (c) foobar
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/page.jade --&amp;gt;
+doctype html
+html(lang=en)
+    head
+        meta(charset=utf-8)
+        title Title
+    body
+        p ads
+        ul
+            li The name is {{bold .Name}}.
+            li The age is {{.Age}}.
+
+        range .Emails
+            div An email is {{.}}
+
+        with .Jobs
+            range .
+                div.
+                 An employer is {{.Employer}}
+                 and the role is {{.Role}}
+
+        {{ render &amp;quot;partials/page1_partial1.jade&amp;quot;}}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+package main
+
+import (
+    &amp;quot;html/template&amp;quot;
+
+    &amp;quot;github.com/iris-contrib/template/pug&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+type Person struct {
+    Name   string
+    Age    int
+    Emails []string
+    Jobs   []*Job
+}
+
+type Job struct {
+    Employer string
+    Role     string
+}
+
+func main() {
+    // set the configuration for this template engine  (all template engines has its configuration)
+    cfg := pug.DefaultConfig()
+    cfg.Funcs[&amp;quot;bold&amp;quot;] = func(content string) (template.HTML, error) {
+        return template.HTML(&amp;quot;&amp;lt;b&amp;gt;&amp;quot; + content + &amp;quot;&amp;lt;/b&amp;gt;&amp;quot;), nil
+    }
+
+    iris.UseTemplate(pug.New(cfg)).
+        Directory(&amp;quot;./templates&amp;quot;, &amp;quot;.jade&amp;quot;)
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+
+        job1 := Job{Employer: &amp;quot;Super Employer&amp;quot;, Role: &amp;quot;Team leader&amp;quot;}
+        job2 := Job{Employer: &amp;quot;Fast Employer&amp;quot;, Role: &amp;quot;Project managment&amp;quot;}
+
+        person := Person{
+            Name:   &amp;quot;name1&amp;quot;,
+            Age:    50,
+            Emails: []string{&amp;quot;email1@something.gr&amp;quot;, &amp;quot;email2.anything@gmail.com&amp;quot;},
+            Jobs:   []*Job{&amp;amp;job1, &amp;amp;job2},
+        }
+        ctx.MustRender(&amp;quot;page.jade&amp;quot;, person)
+
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/page.jade --&amp;gt;
+a(href=&#39;{{url &amp;quot;dynamic-subdomain1&amp;quot; &amp;quot;username1&amp;quot;}}&#39;) username1.127.0.0.1:8080/mypath
+p.
+ a(href=&#39;{{url &amp;quot;dynamic-subdomain2&amp;quot; &amp;quot;username2&amp;quot; &amp;quot;theParam1&amp;quot; &amp;quot;theParam2&amp;quot;}}&#39;) username2.127.0.0.1:8080/mypath2/:param1/:param2
+
+p.
+ a(href=&#39;{{url &amp;quot;dynamic-subdomain3&amp;quot; &amp;quot;username3&amp;quot; &amp;quot;theParam1&amp;quot; &amp;quot;theParam2AfterStatic&amp;quot;}}&#39;) username3.127.0.0.1:8080/mypath3/:param1/statichere/:param2
+
+p.
+ a(href=&#39;{{url &amp;quot;dynamic-subdomain4&amp;quot; &amp;quot;username4&amp;quot; &amp;quot;theParam1&amp;quot; &amp;quot;theparam2AfterStatic&amp;quot; &amp;quot;otherParam&amp;quot; &amp;quot;matchAnything&amp;quot;}}&#39;) username4.127.0.0.1:8080/mypath4/:param1/statichere/:param2/:otherparam/*something
+
+p.
+ a(href=&#39;{{url &amp;quot;dynamic-subdomain5&amp;quot; .ParamsAsArray }}&#39;) username5.127.0.0.1:8080/mypath6/:param1/:param2/staticParam/:param3AfterStatic
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+// Package main same example as template_html_5 but for pug/jade
+package main
+
+import (
+    &amp;quot;github.com/iris-contrib/template/pug&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+    iris.UseTemplate(pug.New()).Directory(&amp;quot;./templates&amp;quot;, &amp;quot;.jade&amp;quot;)
+
+    wildcard := iris.Party(&amp;quot;*.&amp;quot;)
+    {
+        wildcard.Get(&amp;quot;/mypath&amp;quot;, emptyHandler)(&amp;quot;dynamic-subdomain1&amp;quot;)
+        wildcard.Get(&amp;quot;/mypath2/:param1/:param2&amp;quot;, emptyHandler)(&amp;quot;dynamic-subdomain2&amp;quot;)
+        wildcard.Get(&amp;quot;/mypath3/:param1/statichere/:param2&amp;quot;, emptyHandler)(&amp;quot;dynamic-subdomain3&amp;quot;)
+        wildcard.Get(&amp;quot;/mypath4/:param1/statichere/:param2/:otherparam/*something&amp;quot;, emptyHandler)(&amp;quot;dynamic-subdomain4&amp;quot;)
+        wildcard.Get(&amp;quot;/mypath5/:param1/:param2/staticParam/:param3AfterStatic&amp;quot;, emptyHandler)(&amp;quot;dynamic-subdomain5&amp;quot;)
+    }
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        // for dynamic_subdomain:8080/mypath5...
+        // the first parameter is always the subdomain part
+        paramsAsArray := []string{&amp;quot;username5&amp;quot;, &amp;quot;theParam1&amp;quot;, &amp;quot;theParam2&amp;quot;, &amp;quot;theParam3&amp;quot;}
+
+        if err := ctx.Render(&amp;quot;page.jade&amp;quot;, iris.Map{&amp;quot;ParamsAsArray&amp;quot;: paramsAsArray}); err != nil {
+            panic(err)
+        }
+    })
+
+    iris.Get(&amp;quot;/redirect/:namedRoute/:subdomain&amp;quot;, func(ctx *iris.Context) {
+        routeName := ctx.Param(&amp;quot;namedRoute&amp;quot;)
+        subdomain := ctx.Param(&amp;quot;subdomain&amp;quot;)
+        println(&amp;quot;The full uri of &amp;quot; + routeName + &amp;quot;is: &amp;quot; + iris.URL(routeName, subdomain))
+        // if routeName == &amp;quot;dynamic-subdomain1&amp;quot; &amp;amp;&amp;amp; subdomain == &amp;quot;username1&amp;quot;
+        // prints: The full uri ofd ynamic-subdomain1 is: http://username1.127.0.0.1:8080/mypath
+        ctx.RedirectTo(routeName, subdomain) // the second parameter is the arguments, the first argument for dynamic subdomains is the subdomain part, after this, the named parameters
+        // http://127.0.0.1:8080/redirect/my-subdomain1 will redirect to -&amp;gt;  http://username1.127.0.0.1:8080/mypath
+    })
+
+    iris.Listen(&amp;quot;127.0.0.1:8080&amp;quot;)
+}
+
+func emptyHandler(ctx *iris.Context) {
+    ctx.Write(&amp;quot;[SUBDOMAIN: %s]Hello from Path: %s.&amp;quot;, ctx.Subdomain(), ctx.PathString())
+}
+
+// Note than you can see more Pug/Jade syntax examples by navigating to https://github.com/Joker/jade
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Note than you can see more Pug/Jade syntax examples by navigating &lt;a href=&#34;https://github.com/Joker/jade&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/basic.amber --&amp;gt;
+!!! 5
+html
+    head
+        title Hello Amber from Iris
+
+        meta[name=&amp;quot;description&amp;quot;][value=&amp;quot;This is a sample&amp;quot;]
+
+        script[type=&amp;quot;text/javascript&amp;quot;]
+            var hw = &amp;quot;Hello #{Name}!&amp;quot;
+            alert(hw)
+
+        style[type=&amp;quot;text/css&amp;quot;]
+            body {
+                background: maroon;
+                color: white
+            }
+
+    body
+        header#mainHeader
+            ul
+                li.active
+                    a[href=&amp;quot;/&amp;quot;] Main Page
+                        [title=&amp;quot;Main Page&amp;quot;]
+            h1
+                 | Hi #{Name}
+
+        footer
+            | Hey
+            br
+            | There
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+package main
+
+import (
+    &amp;quot;github.com/iris-contrib/template/amber&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+type mypage struct {
+    Name string
+}
+
+func main() {
+
+    iris.UseTemplate(amber.New()).Directory(&amp;quot;./templates&amp;quot;, &amp;quot;.amber&amp;quot;)
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;basic.amber&amp;quot;, mypage{&amp;quot;iris&amp;quot;}, iris.RenderOptions{&amp;quot;gzip&amp;quot;: true})
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Custom template engine&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Simply, you have to implement only &lt;strong&gt;3  functions&lt;/strong&gt;, for load and execute the templates. One optionally (&lt;strong&gt;Funcs() map[string]interface{}&lt;/strong&gt;) which is used to register the iris&amp;rsquo; helpers funcs like &lt;code&gt;{{ url }}&lt;/code&gt; and &lt;code&gt;{{ urlpath }}&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+type (
+    // TemplateEngine the interface that all template engines must implement
+    TemplateEngine interface {
+        // LoadDirectory builds the templates, usually by directory and extension but these are engine&#39;s decisions
+        LoadDirectory(directory string, extension string) error
+        // LoadAssets loads the templates by binary
+        // assetFn is a func which returns bytes, use it to load the templates by binary
+        // namesFn returns the template filenames
+        LoadAssets(virtualDirectory string, virtualExtension string, assetFn func(name string) ([]byte, error), namesFn func() []string) error
+
+        // ExecuteWriter finds, execute a template and write its result to the out writer
+        // options are the optional runtime options can be passed by user
+        // an example of this is the &amp;quot;layout&amp;quot; or &amp;quot;gzip&amp;quot; option
+        ExecuteWriter(out io.Writer, name string, binding interface{}, options ...map[string]interface{}) error
+    }
+
+    // TemplateEngineFuncs is optional interface for the TemplateEngine
+    // used to insert the Iris&#39; standard funcs, see var &#39;usedFuncs&#39;
+    TemplateEngineFuncs interface {
+        // Funcs should returns the context or the funcs,
+        // this property is used in order to register the iris&#39; helper funcs
+        Funcs() map[string]interface{}
+    }
+)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The simplest implementation, which you can look as example, is the Markdown Engine, which is located &lt;a href=&#34;https://github.com/iris-contrib/template/tree/master/markdown/markdown.go&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;iris.TemplateString&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Executes and parses the template but instead of rendering to the client, it returns the contents. Useful when you want to send a template via e-mail or anything you can imagine.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- ./templates/mypage.html --&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;title&amp;gt;Hello Django from Iris&amp;lt;/title&amp;gt;
+
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+    {% if is_admin %}
+    &amp;lt;p&amp;gt;{{username}} is an admin!&amp;lt;/p&amp;gt;
+    {% endif %}
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ./main.go
+package main
+
+import (
+    &amp;quot;github.com/iris-contrib/template/django&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+
+    iris.UseTemplate(django.New()).Directory(&amp;quot;./templates&amp;quot;, &amp;quot;.html&amp;quot;)
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        // THIS WORKS WITH ALL TEMPLATE ENGINES, but I am not doing the same example for all engines again :) (the same you can do with templates using the iris.ResponseString)
+        rawHtmlContents := iris.TemplateString(&amp;quot;mypage.html&amp;quot;, map[string]interface{}{&amp;quot;username&amp;quot;: &amp;quot;iris&amp;quot;, &amp;quot;is_admin&amp;quot;: true}, iris.RenderOptions{&amp;quot;charset&amp;quot;: &amp;quot;UTF-8&amp;quot;}) // defaults to UTF-8 already
+        ctx.Log(rawHtmlContents)
+        ctx.Write(&amp;quot;The Raw HTML is:\n%s&amp;quot;, rawHtmlContents)
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Note that: iris.TemplateString can be called outside of the context also&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;examples are located &lt;a href=&#34;https://github.com/iris-contrib/examples/tree/master/template_engines/&#34;&gt;here&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;You can contribute to create more template engines for Iris, click &lt;a href=&#34;https://github.com/iris-contrib/template&#34;&gt;here&lt;/a&gt; to navigate to the reository.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

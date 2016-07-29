@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Versionings on Iris - Documentation</title>
+    <link>http://iris-go.com/versioning/</link>
+    <description>Recent content in Versionings on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/versioning/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Versioning</title>
+      <link>http://iris-go.com/versioning/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/versioning/</guid>
+      <description>&lt;p&gt;Current: &lt;strong&gt;v4.0.0-alpha.5&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Read more about Semantic Versioning 2.0.0&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://semver.org/&#34;&gt;http://semver.org/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Software_versioning&#34;&gt;https://en.wikipedia.org/wiki/Software_versioning&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://wiki.debian.org/UpstreamGuide#Releases_and_Versions&#34;&gt;https://wiki.debian.org/UpstreamGuide#Releases_and_Versions&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

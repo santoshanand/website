@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Body_binders on Iris - Documentation</title>
+    <link>http://iris-go.com/body_binder/</link>
+    <description>Recent content in Body_binders on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/body_binder/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Body Binder</title>
+      <link>http://iris-go.com/body_binder/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/body_binder/</guid>
+      <description>
+
+&lt;p&gt;Body binder reads values from the body and set them to a specific object.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// ReadJSON reads JSON from request&#39;s body
+ReadJSON(jsonObject interface{}) error
+
+// ReadXML reads XML from request&#39;s body
+ReadXML(xmlObject interface{}) error
+
+// ReadForm binds the formObject  to the requeste&#39;s form data
+ReadForm(formObject interface{}) error
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;How to use&lt;/p&gt;
+
+&lt;h3 id=&#34;json&#34;&gt;JSON&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+type Company struct {
+   Public     bool      `form:&amp;quot;public&amp;quot;`
+   Website    url.URL   `form:&amp;quot;website&amp;quot;`
+   Foundation time.Time `form:&amp;quot;foundation&amp;quot;`
+   Name       string
+   Location   struct {
+     Country  string
+     City     string
+   }
+   Products   []struct {
+     Name string
+     Type string
+   }
+   Founders   []string
+   Employees  int64
+}
+
+func MyHandler(c *iris.Context) {
+  if err := c.ReadJSON(&amp;amp;Company{}); err != nil {
+    panic(err.Error())
+  }
+}
+  
+func main() {
+  iris.Get(&amp;quot;/bind_json&amp;quot;, MyHandler)
+  iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;xml&#34;&gt;XML&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+type Company struct {
+   Public     bool      
+   Website    url.URL   
+   Foundation time.Time
+   Name       string
+   Location   struct {
+     Country  string
+     City     string
+   }
+   Products   []struct {
+     Name string
+     Type string
+   }
+   Founders   []string
+   Employees  int64
+}
+  
+func MyHandler(c *iris.Context) {  
+  if err := c.ReadXML(&amp;amp;Company{}); err != nil {
+    panic(err.Error())
+  }
+}
+  
+func main() {
+  iris.Get(&amp;quot;/bind_xml&amp;quot;, MyHandler)
+  iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;form&#34;&gt;Form&lt;/h3&gt;
+
+&lt;h4 id=&#34;types&#34;&gt;Types&lt;/h4&gt;
+
+&lt;p&gt;The supported field types in the destination struct are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;string&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bool&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int&lt;/code&gt;, &lt;code&gt;int8&lt;/code&gt;, &lt;code&gt;int16&lt;/code&gt;, &lt;code&gt;int32&lt;/code&gt;, &lt;code&gt;int64&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;uint&lt;/code&gt;, &lt;code&gt;uint8&lt;/code&gt;, &lt;code&gt;uint16&lt;/code&gt;, &lt;code&gt;uint32&lt;/code&gt;, &lt;code&gt;uint64&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;float32&lt;/code&gt;, &lt;code&gt;float64&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;slice&lt;/code&gt;, &lt;code&gt;array&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;struct&lt;/code&gt; and &lt;code&gt;struct anonymous&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;map&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;interface{}&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;time.Time&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;url.URL&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;slices []string&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;custom types&lt;/code&gt; to one of the above types&lt;/li&gt;
+&lt;li&gt;a &lt;code&gt;pointer&lt;/code&gt; to one of the above types&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;custom-marshaling&#34;&gt;Custom Marshaling&lt;/h4&gt;
+
+&lt;p&gt;Is possible unmarshaling data and the key of a map by the &lt;code&gt;encoding.TextUnmarshaler&lt;/code&gt; interface.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h4 id=&#34;example&#34;&gt;Example&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt; //./main.go
+
+package main
+
+import (
+    &amp;quot;fmt&amp;quot;
+
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+type Visitor struct {
+    Username string
+    Mail     string
+    Data     []string `form:&amp;quot;mydata&amp;quot;`
+}
+
+func main() {
+
+    iris.Get(&amp;quot;/&amp;quot;, func(ctx *iris.Context) {
+        ctx.Render(&amp;quot;form.html&amp;quot;, nil)
+    })
+
+    iris.Post(&amp;quot;/form_action&amp;quot;, func(ctx *iris.Context) {
+        visitor := Visitor{}
+        err := ctx.ReadForm(&amp;amp;visitor)
+        if err != nil {
+            fmt.Println(&amp;quot;Error when reading form: &amp;quot; + err.Error())
+        }
+        fmt.Printf(&amp;quot;\n Visitor: %v&amp;quot;, visitor)
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;
+&amp;lt;!-- ./templates/form.html --&amp;gt;
+&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;meta charset=&amp;quot;utf-8&amp;quot;&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+&amp;lt;form action=&amp;quot;/form_action&amp;quot; method=&amp;quot;post&amp;quot;&amp;gt;
+&amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;Username&amp;quot; /&amp;gt;
+&amp;lt;br/&amp;gt;
+&amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;Mail&amp;quot; /&amp;gt;&amp;lt;br/&amp;gt;
+&amp;lt;select multiple=&amp;quot;multiple&amp;quot; name=&amp;quot;mydata&amp;quot;&amp;gt;
+&amp;lt;option value=&#39;one&#39;&amp;gt;One&amp;lt;/option&amp;gt;
+&amp;lt;option value=&#39;two&#39;&amp;gt;Two&amp;lt;/option&amp;gt;
+&amp;lt;option value=&#39;three&#39;&amp;gt;Three&amp;lt;/option&amp;gt;
+&amp;lt;option value=&#39;four&#39;&amp;gt;Four&amp;lt;/option&amp;gt;
+&amp;lt;/select&amp;gt;
+&amp;lt;hr/&amp;gt;
+&amp;lt;input type=&amp;quot;submit&amp;quot; value=&amp;quot;Send data&amp;quot; /&amp;gt;
+
+&amp;lt;/form&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;example-1&#34;&gt;Example&lt;/h4&gt;
+
+&lt;h5 id=&#34;in-form-html&#34;&gt;In form html&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Use symbol &lt;code&gt;.&lt;/code&gt; for access a field/key of a structure or map. (i.e, &lt;code&gt;struct.key&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;[int_here]&lt;/code&gt; for access to index of a slice/array. (i.e, &lt;code&gt;struct.array[0]&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;form method=&amp;quot;POST&amp;quot;&amp;gt;
+  &amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;Name&amp;quot; value=&amp;quot;Sony&amp;quot;/&amp;gt;
+  &amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;Location.Country&amp;quot; value=&amp;quot;Japan&amp;quot;/&amp;gt;
+  &amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;Location.City&amp;quot; value=&amp;quot;Tokyo&amp;quot;/&amp;gt;
+  &amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;Products[0].Name&amp;quot; value=&amp;quot;Playstation 4&amp;quot;/&amp;gt;
+  &amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;Products[0].Type&amp;quot; value=&amp;quot;Video games&amp;quot;/&amp;gt;
+  &amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;Products[1].Name&amp;quot; value=&amp;quot;TV Bravia 32&amp;quot;/&amp;gt;
+  &amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;Products[1].Type&amp;quot; value=&amp;quot;TVs&amp;quot;/&amp;gt;
+  &amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;Founders[0]&amp;quot; value=&amp;quot;Masaru Ibuka&amp;quot;/&amp;gt;
+  &amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;Founders[0]&amp;quot; value=&amp;quot;Akio Morita&amp;quot;/&amp;gt;
+  &amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;Employees&amp;quot; value=&amp;quot;90000&amp;quot;/&amp;gt;
+  &amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;public&amp;quot; value=&amp;quot;true&amp;quot;/&amp;gt;
+  &amp;lt;input type=&amp;quot;url&amp;quot; name=&amp;quot;website&amp;quot; value=&amp;quot;http://www.sony.net&amp;quot;/&amp;gt;
+  &amp;lt;input type=&amp;quot;date&amp;quot; name=&amp;quot;foundation&amp;quot; value=&amp;quot;1946-05-07&amp;quot;/&amp;gt;
+  &amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;Interface.ID&amp;quot; value=&amp;quot;12&amp;quot;/&amp;gt;
+  &amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;Interface.Name&amp;quot; value=&amp;quot;Go Programming Language&amp;quot;/&amp;gt;
+  &amp;lt;input type=&amp;quot;submit&amp;quot;/&amp;gt;
+&amp;lt;/form&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;backend&#34;&gt;Backend&lt;/h5&gt;
+
+&lt;p&gt;You can use the tag &lt;code&gt;form&lt;/code&gt; if the name of a input of form starts lowercase.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+type InterfaceStruct struct {
+    ID   int
+    Name string
+}
+
+type Company struct {
+  Public     bool      `form:&amp;quot;public&amp;quot;`
+  Website    url.URL   `form:&amp;quot;website&amp;quot;`
+  Foundation time.Time `form:&amp;quot;foundation&amp;quot;`
+  Name       string
+  Location   struct {
+    Country  string
+    City     string
+  }
+  Products   []struct {
+    Name string
+    Type string
+  }
+  Founders   []string
+  Employees  int64
+  
+  Interface interface{}
+}
+
+func MyHandler(c *iris.Context) {
+  m := Company{
+      Interface: &amp;amp;InterfaceStruct{},
+  }
+  
+  if err := c.ReadForm(&amp;amp;m); err != nil {
+        panic(err.Error())
+  }
+}
+  
+func main() {
+  iris.Get(&amp;quot;/bind_form&amp;quot;, MyHandler)
+  iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

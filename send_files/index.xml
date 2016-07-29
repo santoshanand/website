@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Send_files on Iris - Documentation</title>
+    <link>http://iris-go.com/send_files/</link>
+    <description>Recent content in Send_files on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Jul 2016 03:13:00 +0200</lastBuildDate>
+    <atom:link href="http://iris-go.com/send_files/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Send Files</title>
+      <link>http://iris-go.com/send_files/</link>
+      <pubDate>Fri, 29 Jul 2016 03:13:00 +0200</pubDate>
+      
+      <guid>http://iris-go.com/send_files/</guid>
+      <description>&lt;p&gt;Send a file, force-download to the client&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// You can define your own &amp;quot;Content-Type&amp;quot; header also, after this function call
+// for example: ctx.Response.Header.Set(&amp;quot;Content-Type&amp;quot;,&amp;quot;thecontent/type&amp;quot;)
+SendFile(filename string, destinationName string) error
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+
+    iris.Get(&amp;quot;/servezip&amp;quot;, func(c *iris.Context) {
+        file := &amp;quot;./files/first.zip&amp;quot;
+        err := c.SendFile(file, &amp;quot;saveAsName.zip&amp;quot;)
+        if err != nil {
+            println(&amp;quot;error: &amp;quot; + err.Error())
+        }
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can also send bytes manually, which will be downloaded by the user:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+
+    iris.Get(&amp;quot;/servezip&amp;quot;, func(c *iris.Context) {
+        // read your file or anything
+        var binary data[]
+        ctx.Data(iris.StatusOK, data)
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

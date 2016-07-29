@@ -8,18 +8,18 @@
   <head lang="en-us">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
-    <title>Iris - Documentation</title>
+    <title>Plugins - Iris - Documentation</title>
     <meta name="generator" content="Hugo 0.16" />
 
     
     <meta name="description" content="The fastest web framework.">
     
-    <link rel="canonical" href="http://iris-go.com/">
+    <link rel="canonical" href="http://iris-go.com/plugins/">
     
     <meta name="author" content="kataras">
     
 
-    <meta property="og:url" content="http://iris-go.com/">
+    <meta property="og:url" content="http://iris-go.com/plugins/">
     <meta property="og:title" content="Iris - Documentation">
     <meta property="og:image" content="http://iris-go.com/images/logo.png">
     <meta name="apple-mobile-web-app-title" content="Iris - Documentation">
@@ -68,9 +68,6 @@
     <script src="http://iris-go.com/javascripts/modernizr.js"></script>
 
     
-    <link href="http://iris-go.com/index.xml" rel="alternate" type="application/rss+xml" title="Iris - Documentation" />
-    <link href="http://iris-go.com/index.xml" rel="feed" type="application/rss+xml" title="Iris - Documentation" />
-    
 
   </head>
   <body class="palette-primary-cyan palette-accent-deep orange">
@@ -99,7 +96,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        Iris - Documentation
+        Plugin
       </div>
     </div>
 
@@ -186,14 +183,11 @@
 
 
 
-<a class="current" title="Introduction" href="http://iris-go.com/">
+<a  title="Introduction" href="http://iris-go.com/">
 	
 	Introduction
 </a>
 
-
-<ul id="scrollspy">
-</ul>
 
   
 </li>
@@ -784,11 +778,14 @@
 
 
 
-<a  title="Plugins" href="http://iris-go.com/plugins/">
+<a class="current" title="Plugins" href="http://iris-go.com/plugins/">
 	
 	Plugins
 </a>
 
+
+<ul id="scrollspy">
+</ul>
 
   
 </li>
@@ -913,140 +910,153 @@
 
 	<article class="article">
 		<div class="wrapper">
-			
-				<h1>Introduction </h1>
+			<h1>Plugins </h1>
 
-				
+			<p>Plugins are modules that you can build to inject the Iris&rsquo; flow. Think it like a middleware for the Iris framework itself, not the requests. Middleware starts it&rsquo;s actions after the server listen and executes itself on every request, Plugin on the other hand starts working when you registered it, it has to do with framework&rsquo;s code, it has access to the *iris.Framework, so it can register routes, start a second server, read the iris&rsquo; configs or edit them and all things you can do with Iris. Look how it&rsquo;s interface looks:</p>
 
-<p><a href ="https://github.com/kataras/iris"> <img src="http://iris-go.com/assets/book/cover_4.jpg" /> </a></p>
+<pre><code class="language-go">type (
+    // Plugin just an empty base for plugins
+    // A Plugin can be added with: .Add(PreListenFunc(func(*Framework))) and so on... or
+    // .Add(myPlugin{},myPlugin2{}) which myPlugin is  a struct with any of the methods below or
+    //.PostListen(func(*Framework)) and so on...
+    Plugin interface {
+    }
 
-<h2 id="table-of-contents">Table of Contents</h2>
+    // pluginGetName implements the GetName() string method
+    pluginGetName interface {
+        // GetName has to returns the name of the plugin, a name is unique
+        // name has to be not dependent from other methods of the plugin,
+        // because it is being called even before the Activate
+        GetName() string
+    }
 
-<ul>
-<li><a href="http://iris-go.com/">Introduction</a>
+    // pluginGetDescription implements the GetDescription() string method
+    pluginGetDescription interface {
+        // GetDescription has to returns the description of what the plugins is used for
+        GetDescription() string
+    }
 
-<ul>
-<li><a href="#why">Why</a></li>
-</ul></li>
-<li><a href="features/">Features</a></li>
-<li><a href="versioning/">Versioning</a></li>
-<li><a href="install/">Install</a></li>
-<li><a href="hi/">Hi</a></li>
-<li><a href="tls/">Transport Layer Security</a></li>
-<li><a href="handlers/">Handlers</a>
+    // pluginActivate implements the Activate(pluginContainer) error method
+    pluginActivate interface {
+        // Activate called BEFORE the plugin being added to the plugins list,
+        // if Activate returns none nil error then the plugin is not being added to the list
+        // it is being called only one time
+        //
+        // PluginContainer parameter used to add other plugins if that's necessary by the plugin
+        Activate(PluginContainer) error
+    }
+    // pluginPreListen implements the PreListen(*Framework) method
+    pluginPreListen interface {
+        // PreListen it's being called only one time, BEFORE the Server is started (if .Listen called)
+        // is used to do work at the time all other things are ready to go
+        //  parameter is the station
+        PreListen(*Framework)
+    }
+    // PreListenFunc implements the simple function listener for the PreListen(*Framework)
+    PreListenFunc func(*Framework)
+    // pluginPostListen implements the PostListen(*Framework) method
+    pluginPostListen interface {
+        // PostListen it's being called only one time, AFTER the Server is started (if .Listen called)
+        // parameter is the station
+        PostListen(*Framework)
+    }
+    // PostListenFunc implements the simple function listener for the PostListen(*Framework)
+    PostListenFunc func(*Framework)
+    // pluginPreClose implements the PreClose(*Framework) method
+    pluginPreClose interface {
+        // PreClose it's being called only one time, BEFORE the Iris .Close method
+        // any plugin cleanup/clear memory happens here
+        //
+        // The plugin is deactivated after this state
+        PreClose(*Framework)
+    }
+    // PreCloseFunc implements the simple function listener for the PreClose(*Framework)
+    PreCloseFunc func(*Framework)
 
-<ul>
-<li><a href="handlers/#using-handlers">Using Handlers</a></li>
-<li><a href="handlers/#using-handlerfuncs">Using HandlerFuncs</a></li>
-<li><a href="handlers/#using-handlerapi">Using custom struct for a complete API</a></li>
-<li><a href="handlers/#using-native-httphandler">Using native http.Handler</a>
+    // pluginPreDownload It's for the future, not being used, I need to create
+    // and return an ActivatedPlugin type which will have it's methods, and pass it on .Activate
+    // but now we return the whole pluginContainer, which I can't determinate which plugin tries to
+    // download something, so we will leave it here for the future.
+    pluginPreDownload interface {
+        // PreDownload it's being called every time a plugin tries to download something
+        //
+        // first parameter is the plugin
+        // second parameter is the download url
+        // must return a boolean, if false then the plugin is not permmited to download this file
+        PreDownload(plugin Plugin, downloadURL string) // bool
+    }
 
-<ul>
-<li><a href="handlers/#using-native-httphandler-via-tohandlerfunc">Using native http.Handler via iris.ToHandlerFunc()</a></li>
-</ul></li>
-<li><a href="handlers/#routing">Routing and reverse lookups</a></li>
-</ul></li>
-<li><a href="middleware/">Middleware</a></li>
-<li><a href="api/">API</a></li>
-<li><a href="declaration/">Declaration</a></li>
-<li><a href="configuration/">Configuration</a></li>
-<li><a href="party/">Party</a></li>
-<li><a href="subdomains/">Subdomains</a></li>
-<li><a href="named_parameters/">Named Parameters</a></li>
-<li><a href="static_files/">Static files</a></li>
-<li><a href="send_files/">Send files</a></li>
-<li><a href="send_emails/">Send e-mails</a></li>
-<li><a href="render/">Render</a>
+    // PreDownloadFunc implements the simple function listener for the PreDownload(plugin,string)
+    PreDownloadFunc func(Plugin, string)
 
-<ul>
-<li><a href="render/#response-engines">Response Engines</a></li>
-<li><a href="render/#template-engines">Template Engines</a></li>
-</ul></li>
-<li><a href="gzip/">Gzip</a></li>
-<li><a href="streaming/">Streaming</a></li>
-<li><a href="flash_messages/">Flash messages</a></li>
-<li><a href="body_binder/">Body binder</a></li>
-<li><a href="custom_http_errors/">Custom HTTP Errors</a></li>
-<li><a href="context/">Context</a></li>
-<li><a href="logger/">Logger</a></li>
-<li><a href="http_access_control/">HTTP access control</a></li>
-<li><a href="basic_authentication/">Basic Authentication</a></li>
-<li><a href="oauth_oauth2/">OAuth, OAuth2</a></li>
-<li><a href="jwt/">JSON Web Tokens(JWT)</a></li>
-<li><a href="secure/">Secure</a></li>
-<li><a href="sessions/">Sessions</a></li>
-<li><a href="websockets/">Websockets</a></li>
-<li><a href="graceful/">Graceful</a></li>
-<li><a href="recovery/">Recovery</a></li>
-<li><a href="plugins/">Plugins</a></li>
-<li><a href="internationalization_and_localization/">Internationalization and Localization</a></li>
-<li><a href="typescript/">Easy Typescript</a></li>
-<li><a href="browser_based_editor/">Browser based Editor</a></li>
-<li><a href="control_panel/">Control panel</a></li>
-<li><a href="examples/">Examples</a></li>
-</ul>
+)
+</code></pre>
 
-<h2 id="why">Why</h2>
+<pre><code class="language-go">package main
 
-<p>Go is a great technology stack for building scalable, web-based, back-end systems for web
-applications.</p>
+import (
+    &quot;fmt&quot;
 
-<p>When you think about building web applications and web APIs, or simply building HTTP servers in Go, does your mind go to the standard net/http package?
-Then you have to deal with some common situations like dynamic routing (a.k.a parameterized), security and authentication, real-time communication and many other issues that net/http doesn&rsquo;t solve.</p>
+    &quot;github.com/kataras/iris&quot;
+)
 
-<p>The net/http package is not complete enough to quickly build well-designed back-end web systems. When you realize this, you might be thinking along these lines:</p>
+func main() {
+    // first way:
+    // simple way for simple things
+    // PreListen before a station is listening ( iris.Listen/TLS...)
+    iris.Plugins.PreListen(func(s *iris.Framework) {
+        for _, route := range s.Lookups() {
+            fmt.Printf(&quot;Func: Route Method: %s | Subdomain %s | Path: %s is going to be registed with %d handler(s). \n&quot;, route.Method(), route.Subdomain(), route.Path(), len(route.Middleware()))
+        }
+    })
 
-<ul>
-<li>Ok, the net/http package doesn&rsquo;t suit me, but there are so many frameworks, which one will work for me?!</li>
-<li>Each one of them tells me that it is the best. I don&rsquo;t know what to do!</li>
-</ul>
+    // second way:
+    // structured way for more things
+    plugin := myPlugin{}
+    iris.Plugins.Add(plugin)
 
-<h5 id="the-truth">The truth</h5>
+    iris.Get(&quot;/first_route&quot;, aHandler)
 
-<p>I did some deep research and benchmarks with &lsquo;wrk&rsquo; and &lsquo;ab&rsquo; in order to choose which framework would suit me and my new project. The results, sadly, were really disappointing to me.</p>
+    iris.Post(&quot;/second_route&quot;, aHandler)
 
-<p>I started wondering if golang wasn&rsquo;t as fast on the web as I had read&hellip; but, before I let Golang go and continued to develop with nodejs, I told myself:</p>
+    iris.Put(&quot;/third_route&quot;, aHandler)
 
-<blockquote>
-<p>&lsquo;<strong>Makis, don&rsquo;t lose hope, give at least a chance to Golang. Try to build something totally new without basing it off the &ldquo;slow&rdquo; code you saw earlier; learn the secrets of this language and make <em>others</em> follow your steps!</strong>&rsquo;.</p>
-</blockquote>
+    iris.Get(&quot;/fourth_route&quot;, aHandler)
 
-<p>These are the words I told myself that day [<strong>13 March 2016</strong>].</p>
+    iris.Listen(&quot;:8080&quot;)
+}
 
-<p>The same day, later the night, I was reading a book about Greek mythology. I saw an ancient goddess&rsquo; name and was inspired immediately to give a name to this new web framework (which I had already started writing) - <strong>Iris</strong>.</p>
+func aHandler(ctx *iris.Context) {
+    ctx.Write(&quot;Hello from: %s&quot;, ctx.PathString())
+}
 
-<p><strong>Two months later</strong>, I&rsquo;m writing this intro.</p>
+type myPlugin struct{}
 
-<p>I&rsquo;m still here <a href="https://github.com/kataras/iris#benchmarks">because Iris has succeed in being the fastest go web framework</a></p>
+// PostListen after a station is listening ( iris.Listen/TLS...)
+func (pl myPlugin) PostListen(s *iris.Framework) {
+    fmt.Printf(&quot;myPlugin: server is listening on host: %s&quot;, s.HTTPServer.Host())
+}
 
-<p><img src="comment1.png" alt="" />
-<img src="comment2.png" alt="" />
-<img src="comment3.png" alt="" />
-<img src="comment4.png" alt="" />
-<img src="comment5.png" alt="" />
-<img src="comment6.png" alt="" />
-<img src="comment7.png" alt="" />
-<img src="comment8.png" alt="" /></p>
+//list:
+/*
+    Activate(iris.PluginContainer)
+    GetName() string
+    GetDescription() string
+    PreListen(*iris.Framework)
+    PostListen(*iris.Framework)
+    PreClose(*iris.Framework)
+    PreDownload(thePlugin iris.Plugin, downloadUrl string)
+    // for custom events
+    On(string,...func())
+    Call(string)
+*/
 
-<p><img src="comment10.png" alt="" /></p>
+</code></pre>
 
-<p><img src="comment12.png" alt="" /></p>
+<p>An example of one plugin which is under development is the Iris control, a web interface that gives you control to your server remotely. You can find it&rsquo;s code <a href="https://github.com/kataras/iris/tree/master/plugins/iriscontrol">here</a>.</p>
 
-<p><img src="comment13.png" alt="" /></p>
+<p>Take a look at <a href="https://github.com/iris-contrib/plugin">the real plugins</a>, easy to make your own.</p>
 
-<p><img src="comment14.png" alt="" /></p>
-
-<p><img src="comment17.png" alt="" /></p>
-
-<p><img src="comment21.png" alt="" /></p>
-
-<p><img src="comment22.png" alt="" /></p>
-
-<p><img src="comment24.png" alt="" /></p>
-
-<p><img src="comment23.png" alt="" /></p>
-
-			
 
 			<aside class="copyright" role="note">
 				
@@ -1061,23 +1071,37 @@ Then you have to deal with some common situations like dynamic routing (a.k.a pa
 			<footer class="footer">
 				
 
-
-
 <nav class="pagination" aria-label="Footer">
   <div class="previous">
+  
+      <a href="http://iris-go.com/recovery/" title="Recovery">
+        <span class="direction">
+          Previous
+        </span>
+        <div class="page">
+          <div class="button button-previous" role="button" aria-label="Previous">
+            <i class="icon icon-back"></i>
+          </div>
+          <div class="stretch">
+            <div class="title">
+              Recovery
+            </div>
+          </div>
+        </div>
+      </a>
+  
   </div>
 
-  
-  
   <div class="next">
-      <a href="http://iris-go.com/install/" title="Install">
+  
+      <a href="http://iris-go.com/internationalization_and_localization/" title="Internationalization and Localization">
         <span class="direction">
           Next
         </span>
         <div class="page">
           <div class="stretch">
             <div class="title">
-              Install
+              Internationalization and Localization
             </div>
           </div>
           <div class="button button-next" role="button" aria-label="Next">
@@ -1085,8 +1109,11 @@ Then you have to deal with some common situations like dynamic routing (a.k.a pa
           </div>
         </div>
       </a>
+  
   </div>
 </nav>
+
+
 
 
 

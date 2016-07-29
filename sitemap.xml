@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://iris-go.com/</loc>
+    <lastmod>2016-07-29T00:00:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/</loc>
+    <lastmod>2016-07-29T00:00:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/features/</loc>
+    <lastmod>2016-07-29T00:00:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/versioning/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/install/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/hi/</loc>
+    <lastmod>2016-07-29T00:00:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/tls/</loc>
+    <lastmod>2016-07-29T00:00:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/handlers/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/middleware/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/api/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/declaration/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/configuration/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/party/</loc>
+    <lastmod>2016-07-29T03:13:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/subdomains/</loc>
+    <lastmod>2016-07-29T03:13:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/named_parameters/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/static_files/</loc>
+    <lastmod>2016-07-29T03:13:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/send_files/</loc>
+    <lastmod>2016-07-29T03:13:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/send_emails/</loc>
+    <lastmod>2016-07-29T03:13:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/render/</loc>
+    <lastmod>2016-07-29T03:13:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/gzip/</loc>
+    <lastmod>2016-07-29T03:13:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/streaming/</loc>
+    <lastmod>2016-07-29T03:13:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/cookies/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/flash_messages/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/body_binder/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/custom_http_errors/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/context/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/logger/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/http_access_control/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/basic_authentication/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/oauth_oauth2/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/jwt/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/secure/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/sessions/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/websockets/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/graceful/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/recovery/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/plugins/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/internationalization_and_localization/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/typescript/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/browser_based_editor/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/control_panel/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://iris-go.com/examples/</loc>
+    <lastmod>2016-03-09T00:11:02+01:00</lastmod>
+  </url>
+  
+</urlset>

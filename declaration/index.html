@@ -8,18 +8,18 @@
   <head lang="en-us">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
-    <title>Iris - Documentation</title>
+    <title>Declaration - Iris - Documentation</title>
     <meta name="generator" content="Hugo 0.16" />
 
     
     <meta name="description" content="The fastest web framework.">
     
-    <link rel="canonical" href="http://iris-go.com/">
+    <link rel="canonical" href="http://iris-go.com/declaration/">
     
     <meta name="author" content="kataras">
     
 
-    <meta property="og:url" content="http://iris-go.com/">
+    <meta property="og:url" content="http://iris-go.com/declaration/">
     <meta property="og:title" content="Iris - Documentation">
     <meta property="og:image" content="http://iris-go.com/images/logo.png">
     <meta name="apple-mobile-web-app-title" content="Iris - Documentation">
@@ -68,9 +68,6 @@
     <script src="http://iris-go.com/javascripts/modernizr.js"></script>
 
     
-    <link href="http://iris-go.com/index.xml" rel="alternate" type="application/rss+xml" title="Iris - Documentation" />
-    <link href="http://iris-go.com/index.xml" rel="feed" type="application/rss+xml" title="Iris - Documentation" />
-    
 
   </head>
   <body class="palette-primary-cyan palette-accent-deep orange">
@@ -99,7 +96,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        Iris - Documentation
+        Declaration
       </div>
     </div>
 
@@ -186,14 +183,11 @@
 
 
 
-<a class="current" title="Introduction" href="http://iris-go.com/">
+<a  title="Introduction" href="http://iris-go.com/">
 	
 	Introduction
 </a>
 
-
-<ul id="scrollspy">
-</ul>
 
   
 </li>
@@ -342,11 +336,14 @@
 
 
 
-<a  title="Declaration" href="http://iris-go.com/declaration/">
+<a class="current" title="Declaration" href="http://iris-go.com/declaration/">
 	
 	Declaration
 </a>
 
+
+<ul id="scrollspy">
+</ul>
 
   
 </li>
@@ -913,140 +910,174 @@
 
 	<article class="article">
 		<div class="wrapper">
-			
-				<h1>Introduction </h1>
+			<h1>Declaration </h1>
 
-				
-
-<p><a href ="https://github.com/kataras/iris"> <img src="http://iris-go.com/assets/book/cover_4.jpg" /> </a></p>
-
-<h2 id="table-of-contents">Table of Contents</h2>
+			<p>You have wondered this:</p>
 
 <ul>
-<li><a href="http://iris-go.com/">Introduction</a>
+<li>Q: Other frameworks need more lines to start a server, why is Iris different?</li>
 
-<ul>
-<li><a href="#why">Why</a></li>
-</ul></li>
-<li><a href="features/">Features</a></li>
-<li><a href="versioning/">Versioning</a></li>
-<li><a href="install/">Install</a></li>
-<li><a href="hi/">Hi</a></li>
-<li><a href="tls/">Transport Layer Security</a></li>
-<li><a href="handlers/">Handlers</a>
+<li><p>A: Iris gives you the freedom to choose between three ways to use Iris</p>
 
-<ul>
-<li><a href="handlers/#using-handlers">Using Handlers</a></li>
-<li><a href="handlers/#using-handlerfuncs">Using HandlerFuncs</a></li>
-<li><a href="handlers/#using-handlerapi">Using custom struct for a complete API</a></li>
-<li><a href="handlers/#using-native-httphandler">Using native http.Handler</a>
-
-<ul>
-<li><a href="handlers/#using-native-httphandler-via-tohandlerfunc">Using native http.Handler via iris.ToHandlerFunc()</a></li>
-</ul></li>
-<li><a href="handlers/#routing">Routing and reverse lookups</a></li>
-</ul></li>
-<li><a href="middleware/">Middleware</a></li>
-<li><a href="api/">API</a></li>
-<li><a href="declaration/">Declaration</a></li>
-<li><a href="configuration/">Configuration</a></li>
-<li><a href="party/">Party</a></li>
-<li><a href="subdomains/">Subdomains</a></li>
-<li><a href="named_parameters/">Named Parameters</a></li>
-<li><a href="static_files/">Static files</a></li>
-<li><a href="send_files/">Send files</a></li>
-<li><a href="send_emails/">Send e-mails</a></li>
-<li><a href="render/">Render</a>
-
-<ul>
-<li><a href="render/#response-engines">Response Engines</a></li>
-<li><a href="render/#template-engines">Template Engines</a></li>
-</ul></li>
-<li><a href="gzip/">Gzip</a></li>
-<li><a href="streaming/">Streaming</a></li>
-<li><a href="flash_messages/">Flash messages</a></li>
-<li><a href="body_binder/">Body binder</a></li>
-<li><a href="custom_http_errors/">Custom HTTP Errors</a></li>
-<li><a href="context/">Context</a></li>
-<li><a href="logger/">Logger</a></li>
-<li><a href="http_access_control/">HTTP access control</a></li>
-<li><a href="basic_authentication/">Basic Authentication</a></li>
-<li><a href="oauth_oauth2/">OAuth, OAuth2</a></li>
-<li><a href="jwt/">JSON Web Tokens(JWT)</a></li>
-<li><a href="secure/">Secure</a></li>
-<li><a href="sessions/">Sessions</a></li>
-<li><a href="websockets/">Websockets</a></li>
-<li><a href="graceful/">Graceful</a></li>
-<li><a href="recovery/">Recovery</a></li>
-<li><a href="plugins/">Plugins</a></li>
-<li><a href="internationalization_and_localization/">Internationalization and Localization</a></li>
-<li><a href="typescript/">Easy Typescript</a></li>
-<li><a href="browser_based_editor/">Browser based Editor</a></li>
-<li><a href="control_panel/">Control panel</a></li>
-<li><a href="examples/">Examples</a></li>
+<ol>
+<li>global <strong>iris.</strong></li>
+<li>declare a new iris station with default config: <strong>iris.New()</strong></li>
+<li>declare a new iris station with custom config: ** api := iris.New(config.Iris{&hellip;})**</li>
+</ol></li>
 </ul>
 
-<h2 id="why">Why</h2>
+<p>Config can change after declaration with 1&amp;2. <code>iris.Config.</code> 3. \/ <code>api.Config.</code></p>
 
-<p>Go is a great technology stack for building scalable, web-based, back-end systems for web
-applications.</p>
+<pre><code class="language-go">import &quot;github.com/kataras/iris&quot;
 
-<p>When you think about building web applications and web APIs, or simply building HTTP servers in Go, does your mind go to the standard net/http package?
-Then you have to deal with some common situations like dynamic routing (a.k.a parameterized), security and authentication, real-time communication and many other issues that net/http doesn&rsquo;t solve.</p>
+// 1.
+func firstWay() {
 
-<p>The net/http package is not complete enough to quickly build well-designed back-end web systems. When you realize this, you might be thinking along these lines:</p>
+    iris.Get(&quot;/home&quot;,func(c *iris.Context){})
+    iris.Listen(&quot;:8080&quot;)
+}
+// 2.
+func secondWay() {
 
-<ul>
-<li>Ok, the net/http package doesn&rsquo;t suit me, but there are so many frameworks, which one will work for me?!</li>
-<li>Each one of them tells me that it is the best. I don&rsquo;t know what to do!</li>
-</ul>
+    api := iris.New()
+    api.Get(&quot;/home&quot;,func(c *iris.Context){})
+    api.Listen(&quot;:8080&quot;)
+}
+</code></pre>
 
-<h5 id="the-truth">The truth</h5>
+<p>Before looking at the 3rd way, let&rsquo;s take a quick look at the <a href="configuration.md"><strong>config</strong></a><strong>**</strong>.Iris**:</p>
 
-<p>I did some deep research and benchmarks with &lsquo;wrk&rsquo; and &lsquo;ab&rsquo; in order to choose which framework would suit me and my new project. The results, sadly, were really disappointing to me.</p>
+<pre><code class="language-go">type (
+    // Iris configs for the station
+    Iris struct {
 
-<p>I started wondering if golang wasn&rsquo;t as fast on the web as I had read&hellip; but, before I let Golang go and continued to develop with nodejs, I told myself:</p>
+        // DisablePathCorrection corrects and redirects the requested path to the registed path
+        // for example, if /home/ path is requested but no handler for this Route found,
+        // then the Router checks if /home handler exists, if yes,
+        // (permant)redirects the client to the correct path /home
+        //
+        // Default is false
+        DisablePathCorrection bool
+
+        // DisablePathEscape when is false then its escapes the path, the named parameters (if any).
+        // Change to true it if you want something like this https://github.com/kataras/iris/issues/135 to work
+        //
+        // When do you need to Disable(true) it:
+        // accepts parameters with slash '/'
+        // Request: http://localhost:8080/details/Project%2FDelta
+        // ctx.Param(&quot;project&quot;) returns the raw named parameter: Project%2FDelta
+        // which you can escape it manually with net/url:
+        // projectName, _ := url.QueryUnescape(c.Param(&quot;project&quot;).
+        // Look here: https://github.com/kataras/iris/issues/135 for more
+        //
+        // Default is false
+        DisablePathEscape bool
+
+        // DisableBanner outputs the iris banner at startup
+        //
+        // Default is false
+        DisableBanner bool
+
+        // ProfilePath a the route path, set it to enable http pprof tool
+        // Default is empty, if you set it to a $path, these routes will handled:
+        // $path/cmdline
+        // $path/profile
+        // $path/symbol
+        // $path/goroutine
+        // $path/heap
+        // $path/threadcreate
+        // $path/pprof/block
+        // for example if '/debug/pprof'
+        // http://yourdomain:PORT/debug/pprof/
+        // http://yourdomain:PORT/debug/pprof/cmdline
+        // http://yourdomain:PORT/debug/pprof/profile
+        // http://yourdomain:PORT/debug/pprof/symbol
+        // http://yourdomain:PORT/debug/pprof/goroutine
+        // http://yourdomain:PORT/debug/pprof/heap
+        // http://yourdomain:PORT/debug/pprof/threadcreate
+        // http://yourdomain:PORT/debug/pprof/pprof/block
+        // it can be a subdomain also, for example, if 'debug.'
+        // http://debug.yourdomain:PORT/
+        // http://debug.yourdomain:PORT/cmdline
+        // http://debug.yourdomain:PORT/profile
+        // http://debug.yourdomain:PORT/symbol
+        // http://debug.yourdomain:PORT/goroutine
+        // http://debug.yourdomain:PORT/heap
+        // http://debug.yourdomain:PORT/threadcreate
+        // http://debug.yourdomain:PORT/pprof/block
+        ProfilePath string
+        // DisableTemplateEngines set to true to disable loading the default template engine (html/template) and disallow the use of iris.UseEngine
+        // default is false
+        DisableTemplateEngines bool
+        // IsDevelopment iris will act like a developer, for example
+        // If true then re-builds the templates on each request
+        // default is false
+        IsDevelopment bool
+
+        // Charset character encoding for various rendering
+        // used for templates and the rest of the responses
+        // defaults to &quot;UTF-8&quot;
+        Charset string
+
+        // Gzip enables gzip compression on your Render actions, this includes any type of render, templates and pure/raw content
+        // If you don't want to enable it globaly, you could just use the third parameter on context.Render(&quot;myfileOrResponse&quot;, structBinding{}, iris.RenderOptions{&quot;gzip&quot;: true})
+        // defaults to false
+        Gzip bool
+
+        // Sessions contains the configs for sessions
+        Sessions Sessions
+
+        // Websocket contains the configs for Websocket's server integration
+        Websocket *Websocket
+
+        // Tester contains the configs for the test framework, so far we have only one because all test framework's configs are setted by the iris itself
+        // You can find example on the https://github.com/kataras/iris/glob/master/context_test.go
+        Tester Tester
+    }
+)
+</code></pre>
+
+<pre><code class="language-go">// 3.
+package main 
+
+import (
+  &quot;github.com/kataras/iris&quot;
+  &quot;github.com/kataras/iris/config&quot;
+)
+
+func main() {
+    c := config.Iris{
+        ProfilePath:        &quot;/mypath/debug&quot;,
+    }
+    // to get the default: c := config.Default()
+
+    api := iris.New(c)
+    api.Listen(&quot;:8080&quot;)
+}
+
+</code></pre>
 
 <blockquote>
-<p>&lsquo;<strong>Makis, don&rsquo;t lose hope, give at least a chance to Golang. Try to build something totally new without basing it off the &ldquo;slow&rdquo; code you saw earlier; learn the secrets of this language and make <em>others</em> follow your steps!</strong>&rsquo;.</p>
+<p>Note that with 2. &amp; 3. you <strong>can define and Listen with more than one Iris server</strong> in the
+same app, when it&rsquo;s necessary.</p>
 </blockquote>
 
-<p>These are the words I told myself that day [<strong>13 March 2016</strong>].</p>
+<p>For profiling there are eight (8) generated routes with pages filled with info:</p>
 
-<p>The same day, later the night, I was reading a book about Greek mythology. I saw an ancient goddess&rsquo; name and was inspired immediately to give a name to this new web framework (which I had already started writing) - <strong>Iris</strong>.</p>
+<ul>
+<li>\/mypath\/debug\/</li>
+<li>\/mypath\/debug\/cmdline</li>
+<li>\/mypath\/debug\/profile</li>
+<li>\/mypath\/debug\/symbol</li>
+<li>\/mypath\/debug\/goroutine</li>
+<li>\/mypath\/debug\/heap</li>
+<li>\/mypath\/debug\/threadcreate</li>
 
-<p><strong>Two months later</strong>, I&rsquo;m writing this intro.</p>
+<li><p>\/mypath\/debug\/pprof\/block</p></li>
 
-<p>I&rsquo;m still here <a href="https://github.com/kataras/iris#benchmarks">because Iris has succeed in being the fastest go web framework</a></p>
+<li><p>More about configuration <a href="configuration.md">here</a></p></li>
+</ul>
 
-<p><img src="comment1.png" alt="" />
-<img src="comment2.png" alt="" />
-<img src="comment3.png" alt="" />
-<img src="comment4.png" alt="" />
-<img src="comment5.png" alt="" />
-<img src="comment6.png" alt="" />
-<img src="comment7.png" alt="" />
-<img src="comment8.png" alt="" /></p>
-
-<p><img src="comment10.png" alt="" /></p>
-
-<p><img src="comment12.png" alt="" /></p>
-
-<p><img src="comment13.png" alt="" /></p>
-
-<p><img src="comment14.png" alt="" /></p>
-
-<p><img src="comment17.png" alt="" /></p>
-
-<p><img src="comment21.png" alt="" /></p>
-
-<p><img src="comment22.png" alt="" /></p>
-
-<p><img src="comment24.png" alt="" /></p>
-
-<p><img src="comment23.png" alt="" /></p>
-
-			
 
 			<aside class="copyright" role="note">
 				
@@ -1061,23 +1092,37 @@ Then you have to deal with some common situations like dynamic routing (a.k.a pa
 			<footer class="footer">
 				
 
-
-
 <nav class="pagination" aria-label="Footer">
   <div class="previous">
+  
+      <a href="http://iris-go.com/api/" title="API">
+        <span class="direction">
+          Previous
+        </span>
+        <div class="page">
+          <div class="button button-previous" role="button" aria-label="Previous">
+            <i class="icon icon-back"></i>
+          </div>
+          <div class="stretch">
+            <div class="title">
+              API
+            </div>
+          </div>
+        </div>
+      </a>
+  
   </div>
 
-  
-  
   <div class="next">
-      <a href="http://iris-go.com/install/" title="Install">
+  
+      <a href="http://iris-go.com/configuration/" title="Configuration">
         <span class="direction">
           Next
         </span>
         <div class="page">
           <div class="stretch">
             <div class="title">
-              Install
+              Configuration
             </div>
           </div>
           <div class="button button-next" role="button" aria-label="Next">
@@ -1085,8 +1130,11 @@ Then you have to deal with some common situations like dynamic routing (a.k.a pa
           </div>
         </div>
       </a>
+  
   </div>
 </nav>
+
+
 
 
 

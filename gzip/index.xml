@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gzips on Iris - Documentation</title>
+    <link>http://iris-go.com/gzip/</link>
+    <description>Recent content in Gzips on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Jul 2016 03:13:00 +0200</lastBuildDate>
+    <atom:link href="http://iris-go.com/gzip/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Gzip</title>
+      <link>http://iris-go.com/gzip/</link>
+      <pubDate>Fri, 29 Jul 2016 03:13:00 +0200</pubDate>
+      
+      <guid>http://iris-go.com/gzip/</guid>
+      <description>
+
+&lt;p&gt;Gzip compression is easy.&lt;/p&gt;
+
+&lt;p&gt;For &lt;strong&gt;auto-gzip&lt;/strong&gt; to all response and template engines,
+just set the &lt;code&gt;iris.Config.Gzip = true&lt;/code&gt;, which you can also change for specific render options:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;//...
+context.Render(&amp;quot;mytemplate.html&amp;quot;, bindingStruct{}, iris.RenderOptions{&amp;quot;gzip&amp;quot;: false})
+context.Render(&amp;quot;my-custom-response&amp;quot;, iris.Map{&amp;quot;anything&amp;quot;:&amp;quot;everything&amp;quot;} , iris.RenderOptions{&amp;quot;gzip&amp;quot;: false}) 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// WriteGzip writes response with gzipped body to w.
+//
+// The method gzips response body and sets &#39;Content-Encoding: gzip&#39;
+// header before writing response to w.
+//
+// WriteGzip doesn&#39;t flush response to w for performance reasons.
+WriteGzip(w *bufio.Writer) error 
+
+
+// WriteGzipLevel writes response with gzipped body to w.
+//
+// Level is the desired compression level:
+//
+//     * CompressNoCompression
+//     * CompressBestSpeed
+//     * CompressBestCompression
+//     * CompressDefaultCompression
+//
+// The method gzips response body and sets &#39;Content-Encoding: gzip&#39;
+// header before writing response to w.
+//
+// WriteGzipLevel doesn&#39;t flush response to w for performance reasons.
+WriteGzipLevel(w *bufio.Writer, level int) error
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;How to use&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;iris.Get(&amp;quot;/something&amp;quot;, func(ctx *iris.Context){
+    ctx.Response.WriteGzip(...) 
+})
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;other&#34;&gt;Other&lt;/h3&gt;
+
+&lt;p&gt;See &lt;a href=&#34;static-files.md&#34;&gt;Static files&lt;/a&gt; and learn how you can serve big files, assets or webpages with gzip compression.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

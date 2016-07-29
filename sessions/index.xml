@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sessions on Iris - Documentation</title>
+    <link>http://iris-go.com/sessions/</link>
+    <description>Recent content in Sessions on Iris - Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    <atom:link href="http://iris-go.com/sessions/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Sessions</title>
+      <link>http://iris-go.com/sessions/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>http://iris-go.com/sessions/</guid>
+      <description>
+
+&lt;p&gt;If you notice a bug or issue &lt;a href=&#34;https://github.com/kataras/iris/issues&#34;&gt;post it here&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Cleans the temp memory when a sessions is iddle, and re-allocate it , fast, to the temp memory when it&amp;rsquo;s necessary. Also most used/regular sessions are going front in the memory&amp;rsquo;s list.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Supports any type of database, currently only &lt;a href=&#34;https://github.com/iris-contrib/sessiondb/&#34;&gt;redis&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;A session can be defined as a server-side storage of information that is desired to persist throughout the user&amp;rsquo;s interaction with the web site&lt;/strong&gt; or web application.&lt;/p&gt;
+
+&lt;p&gt;Instead of storing large and constantly changing information via cookies in the user&amp;rsquo;s browser, &lt;strong&gt;only a unique identifier is stored on the client side&lt;/strong&gt; (called a &amp;ldquo;session id&amp;rdquo;). This session id is passed to the web server every time the browser makes an HTTP request (ie a page link or AJAX request). The web application pairs this session id with it&amp;rsquo;s internal database/memory and retrieves the stored variables for use by the requested page.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;You will see two different ways to use the sessions, I&amp;rsquo;m using the first. No performance differences.&lt;/p&gt;
+
+&lt;h3 id=&#34;how-to-use&#34;&gt;How to use&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import  &amp;quot;github.com/kataras/iris&amp;quot;
+
+func main() {
+
+    /*  These are the optionally fields to configurate the sessions, using the station&#39;s Config field (iris.Config.Sessions)
+
+    // Cookie string, the session&#39;s client cookie name, for example: &amp;quot;irissessionid&amp;quot;
+    Cookie string
+    // DecodeCookie set it to true to decode the cookie key with base64 URLEncoding
+    // Defaults to false
+    DecodeCookie bool
+    // Expires the duration of which the cookie must expires (created_time.Add(Expires)).
+    // Default infinitive/unlimited life duration(0)
+    Expires time.Duration
+    // GcDuration every how much duration(GcDuration) the memory should be clear for unused cookies (GcDuration)
+    // for example: time.Duration(2)*time.Hour. it will check every 2 hours if cookie hasn&#39;t be used for 2 hours,
+    // deletes it from backend memory until the user comes back, then the session continue to work as it was
+    //
+    // Default 2 hours
+    GcDuration time.Duration
+    // DisableSubdomainPersistence set it to true in order dissallow your iris subdomains to have access to the session cookie
+    // defaults to false
+    DisableSubdomainPersistence bool
+    */
+    iris.Get(&amp;quot;/&amp;quot;, func(c *iris.Context) {
+        c.Write(&amp;quot;You should navigate to the /set, /get, /delete, /clear,/destroy instead&amp;quot;)
+    })
+    iris.Get(&amp;quot;/set&amp;quot;, func(c *iris.Context) {
+
+        //set session values
+        c.Session().Set(&amp;quot;name&amp;quot;, &amp;quot;iris&amp;quot;)
+
+        //test if setted here
+        c.Write(&amp;quot;All ok session setted to: %s&amp;quot;, c.Session().GetString(&amp;quot;name&amp;quot;))
+    })
+
+    iris.Get(&amp;quot;/get&amp;quot;, func(c *iris.Context) {
+        // get a specific key, as string, if no found returns just an empty string
+        name := c.Session().GetString(&amp;quot;name&amp;quot;)
+
+        c.Write(&amp;quot;The name on the /set was: %s&amp;quot;, name)
+    })
+
+    iris.Get(&amp;quot;/delete&amp;quot;, func(c *iris.Context) {
+        // delete a specific key
+        c.Session().Delete(&amp;quot;name&amp;quot;)
+    })
+
+    iris.Get(&amp;quot;/clear&amp;quot;, func(c *iris.Context) {
+        // removes all entries
+        c.Session().Clear()
+    })
+
+    iris.Get(&amp;quot;/destroy&amp;quot;, func(c *iris.Context) {
+        //destroy, removes the entire session and cookie
+        c.SessionDestroy()
+        c.Log(&amp;quot;You have to refresh the page to completely remove the session (on browsers), so the name should NOT be empty NOW, is it?\n ame: %s\n\nAlso check your cookies in your browser&#39;s cookies, should be no field for localhost/127.0.0.1 (or what ever you use)&amp;quot;, c.Session().GetString(&amp;quot;name&amp;quot;))
+        c.Write(&amp;quot;You have to refresh the page to completely remove the session (on browsers), so the name should NOT be empty NOW, is it?\nName: %s\n\nAlso check your cookies in your browser&#39;s cookies, should be no field for localhost/127.0.0.1 (or what ever you use)&amp;quot;, c.Session().GetString(&amp;quot;name&amp;quot;))
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+    //iris.ListenTLS(&amp;quot;0.0.0.0:443&amp;quot;, &amp;quot;mycert.cert&amp;quot;, &amp;quot;mykey.key&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Example with &lt;strong&gt;redis session database&lt;/strong&gt;, which located &lt;a href=&#34;https://github.com/iris-contrib/sessiondb/tree/master/redis&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;github.com/iris-contrib/sessiondb/redis&amp;quot;
+    &amp;quot;github.com/iris-contrib/sessiondb/redis/service&amp;quot;
+    &amp;quot;github.com/kataras/iris&amp;quot;
+)
+
+func main() {
+    db := redis.New(service.Config{Network: service.DefaultRedisNetwork,
+        Addr:          service.DefaultRedisAddr,
+        Password:      &amp;quot;&amp;quot;,
+        Database:      &amp;quot;&amp;quot;,
+        MaxIdle:       0,
+        MaxActive:     0,
+        IdleTimeout:   service.DefaultRedisIdleTimeout,
+        Prefix:        &amp;quot;&amp;quot;,
+        MaxAgeSeconds: service.DefaultRedisMaxAgeSeconds}) // optionally configure the bridge between your redis server
+
+    iris.UseSessionDB(db)
+
+    iris.Get(&amp;quot;/set&amp;quot;, func(c *iris.Context) {
+
+        //set session values
+        c.Session().Set(&amp;quot;name&amp;quot;, &amp;quot;iris&amp;quot;)
+
+        //test if setted here
+        c.Write(&amp;quot;All ok session setted to: %s&amp;quot;, c.Session().GetString(&amp;quot;name&amp;quot;))
+    })
+
+    iris.Get(&amp;quot;/get&amp;quot;, func(c *iris.Context) {
+        // get a specific key, as string, if no found returns just an empty string
+        name := c.Session().GetString(&amp;quot;name&amp;quot;)
+
+        c.Write(&amp;quot;The name on the /set was: %s&amp;quot;, name)
+    })
+
+    iris.Get(&amp;quot;/delete&amp;quot;, func(c *iris.Context) {
+        // delete a specific key
+        c.Session().Delete(&amp;quot;name&amp;quot;)
+    })
+
+    iris.Get(&amp;quot;/clear&amp;quot;, func(c *iris.Context) {
+        // removes all entries
+        c.Session().Clear()
+    })
+
+    iris.Get(&amp;quot;/destroy&amp;quot;, func(c *iris.Context) {
+        //destroy, removes the entire session and cookie
+        c.SessionDestroy()
+        c.Log(&amp;quot;You have to refresh the page to completely remove the session (on browsers), so the name should NOT be empty NOW, is it?\n ame: %s\n\nAlso check your cookies in your browser&#39;s cookies, should be no field for localhost/127.0.0.1 (or what ever you use)&amp;quot;, c.Session().GetString(&amp;quot;name&amp;quot;))
+        c.Write(&amp;quot;You have to refresh the page to completely remove the session (on browsers), so the name should NOT be empty NOW, is it?\nName: %s\n\nAlso check your cookies in your browser&#39;s cookies, should be no field for localhost/127.0.0.1 (or what ever you use)&amp;quot;, c.Session().GetString(&amp;quot;name&amp;quot;))
+
+    })
+
+    iris.Listen(&amp;quot;:8080&amp;quot;)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
