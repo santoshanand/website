@@ -987,10 +987,10 @@ To(&quot;otherConnectionId&quot;).Emit/EmitMessage...
 To(&quot;anyCustomRoom&quot;).Emit/EmitMessage...
 
 // Send to all opened connections/clients
-To(websocket.All).Emit/EmitMessage...
+To(iris.All).Emit/EmitMessage...
 
 // Send to all opened connections/clients EXCEPT this client(c)
-To(websocket.NotMe).Emit/EmitMessage...
+To(iris.NotMe).Emit/EmitMessage...
 
 // Rooms, group of connections/clients
 Join(&quot;anyCustomRoom&quot;)
@@ -1039,7 +1039,7 @@ func main() {
 
         c.On(&quot;chat&quot;, func(message string) {
             // to all except this connection -&gt;
-            //c.To(websocket.Broadcast).Emit(&quot;chat&quot;, &quot;Message from: &quot;+c.ID()+&quot;-&gt; &quot;+message)
+            //c.To(iris.Broadcast).Emit(&quot;chat&quot;, &quot;Message from: &quot;+c.ID()+&quot;-&gt; &quot;+message)
 
             // to the client -&gt;
             //c.Emit(&quot;chat&quot;, &quot;Message from myself: &quot;+message)
