@@ -1007,10 +1007,6 @@ var configs = oauth.Config{
     FacebookName:   &quot;facebook&quot;, // defaults to facebook
 }
 
-func init() {
-    iris.Config.Sessions.Provider = &quot;memory&quot;
-}
-
 // ProviderIndex ...
 type ProviderIndex struct {
     Providers    []string
@@ -1128,9 +1124,6 @@ import (
     &quot;github.com/markbates/goth/providers/yammer&quot;
 )
 
-func init() {
-    iris.Config.Sessions.Provider = &quot;memory&quot; // or &quot;redis&quot; and configure the Redis Provider
-}
 
 func main() {
     goth.UseProviders(
