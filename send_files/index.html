@@ -141,7 +141,7 @@
         </div>
       
       <div class="name">
-        <strong>Iris - Documentation <span class="version">4.0.0-alpha.5</span></strong>
+        <strong>Iris - Documentation <span class="version">4.1.1</span></strong>
         
           <br>
           kataras/iris
@@ -927,10 +927,7 @@ func main() {
 
     iris.Get(&quot;/servezip&quot;, func(c *iris.Context) {
         file := &quot;./files/first.zip&quot;
-        err := c.SendFile(file, &quot;saveAsName.zip&quot;)
-        if err != nil {
-            println(&quot;error: &quot; + err.Error())
-        }
+        c.SendFile(file, &quot;saveAsName.zip&quot;)
     })
 
     iris.Listen(&quot;:8080&quot;)
