@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Iris</title>
+        <meta charset="utf-8">
+        <meta name="description" content="Iris-go - The fastest backend web framework for Go.">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+        <meta property="og:type" content="article">
+        <meta property="og:title" content="Iris">
+        <meta property="og:description" content="Iris-go - The fastest backend web framework for Go.">
+        <meta property="og:image" content="https://iris-go.com//images/icon.svg">
+
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="Iris">
+        <meta name="twitter:description" content="Iris-go - The fastest backend web framework for Go.">
+        <meta name="twitter:image" content="https://iris-go.com/images/icon.svg">
+
+        <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+        <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600|Roboto Mono' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Dosis:500&text=Iris' rel='stylesheet' type='text/css'>
+        <link href='/css/prism.css' rel='stylesheet' type='text/css'>
+        <link href='/css/terminal.css' rel='stylesheet' type='text/css'>
+        
+        <!-- main page styles -->
+        <link rel="stylesheet" href="/css/page.css">
+
+        <!-- this needs to be loaded before guide's inline scripts -->
+        <script>window.PAGE_TYPE = "Recipe"</script>
+
+        <!-- ga -->
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-46045347-6', 'iris-go.com');
+          ga('send', 'pageview');
+        </script>
+    </head>
+    <body class="docs">        <div id="mobile-bar" >
+            <a class="menu-button"></a>
+            <a class="logo" href="/"></a>
+        </div>
+        <div id="header">
+  <a id="logo" href="/">
+    <img src="/images/logo.png">
+    <span>IRIS</span>
+  </a>
+  <ul id="nav">
+    <li><a href="/vnext/start/" class="nav-link">Start</a></li>
+<li><a href="/vnext/guide/" class="nav-link">Guide</a></li>
+<!--<li><a href="/vnext/post/" class="nav-link">Blog</a></li>-->
+<!--<li><a href="/vnext/tutorial/" class="nav-link">Tutorial</a></li>-->
+<li><a href="/vnext/recipe/" class="nav-link current">Recipe</a></li>
+<li><a target="_blank" href="https://kataras.rocket.chat/channel/iris" class="nav-link">Chat</a></li>
+<li><a class="donate" style="color:#ff6666;" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=kataras2006%40hotmail%2ecom&lc=GR&item_name=Iris%20web%20framework&item_number=iriswebframeworkdonationid2016&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">Donate</a></li>
+<!--
+<li>
+  <form id="search-form">
+    <input type="text" id="search-query-nav" 
+      class="search-query st-default-search-input"/>
+  </form>
+</li>
+-->
+  </ul>
+</div>
+
+        
+            <div id="main" class="fix-sidebar">
+                
+                    
+    <div class="sidebar">
+    <ul class="main-menu">
+        <li><a href="/vnext/start/" class="nav-link">Start</a></li>
+<li><a href="/vnext/guide/" class="nav-link">Guide</a></li>
+<!--<li><a href="/vnext/post/" class="nav-link">Blog</a></li>-->
+<!--<li><a href="/vnext/tutorial/" class="nav-link">Tutorial</a></li>-->
+<li><a href="/vnext/recipe/" class="nav-link current">Recipe</a></li>
+<li><a target="_blank" href="https://kataras.rocket.chat/channel/iris" class="nav-link">Chat</a></li>
+<li><a class="donate" style="color:#ff6666;" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=kataras2006%40hotmail%2ecom&lc=GR&item_name=Iris%20web%20framework&item_number=iriswebframeworkdonationid2016&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">Donate</a></li>
+<!--
+<li>
+  <form id="search-form">
+    <input type="text" id="search-query-sidebar" 
+      class="search-query st-default-search-input"/>
+  </form>
+</li>
+-->
+    </ul>
+    <div class="list">
+        <h2>
+            Recipe
+            
+        </h2>
+        <ul class="menu-root">
+            
+                
+                
+                
+                <li>
+                    <a href="/vnext/recipe/index.html" class="sidebar-link current"></a>
+                </li>
+            
+            
+
+        </ul>
+    </div>
+</div>
+
+
+<div class="content Recipe with-sidebar ">
+    
+    
+ <script>
+  const rootUrl = 'https://raw.githubusercontent.com/kataras/iris/v6/_examples/';
+  document.addEventListener('DOMContentLoaded', function(e) {
+    Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+				var src = pre.getAttribute('data-src');
+        pre.setAttribute("data-src", rootUrl+pre.getAttribute('data-src'));
+        pre.setAttribute("class", 'line-numbers codepre');
+    })
+
+  });
+
+  
+ </script>
+
+<h2 id="Beginner"><a href="#Beginner" class="headerlink" title="Beginner"></a>Beginner</h2><h3 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h3>  
+    <pre data-src="beginner/hello-world/main.go" data-visible="true"></pre>
+  
+<h3 id="Routes-using-httprouter"><a href="#Routes-using-httprouter" class="headerlink" title="Routes using httprouter"></a>Routes using httprouter</h3>  
+    <pre data-src="beginner/routes-using-httprouter/main.go">
+    </pre>
+  
+<h3 id="Routes-using-gorillamux"><a href="#Routes-using-gorillamux" class="headerlink" title="Routes using gorillamux"></a>Routes using gorillamux</h3>  
+    <pre data-src="beginner/routes-using-gorillamux/main.go"></pre>
+  
+<h3 id="Internal-Application-File-Logger"><a href="#Internal-Application-File-Logger" class="headerlink" title="Internal Application File Logger"></a>Internal Application File Logger</h3>  
+    <pre data-src="beginner/file-logger/main.go"></pre>
+  
+<h3 id="Write-JSON"><a href="#Write-JSON" class="headerlink" title="Write JSON"></a>Write JSON</h3>  
+    <pre data-src="beginner/write-json/main.go"></pre>
+  
+<h3 id="Read-JSON"><a href="#Read-JSON" class="headerlink" title="Read JSON"></a>Read JSON</h3>  
+    <pre data-src="beginner/read-json/main.go"></pre>
+  
+<h3 id="Read-Form"><a href="#Read-Form" class="headerlink" title="Read Form"></a>Read Form</h3>  
+    <pre data-src="beginner/read-form/main.go"></pre>
+  
+<h3 id="Favicon"><a href="#Favicon" class="headerlink" title="Favicon"></a>Favicon</h3>  
+    <pre data-src="beginner/favicon/main.go"></pre>
+  
+<h3 id="File-Server"><a href="#File-Server" class="headerlink" title="File Server"></a>File Server</h3>  
+    <pre data-src="beginner/file-server/main.go"></pre>
+  
+<h3 id="Send-Files"><a href="#Send-Files" class="headerlink" title="Send Files"></a>Send Files</h3>  
+    <pre data-src="beginner/send-files/main.go"></pre>
+  
+<h3 id="Stream-Writer"><a href="#Stream-Writer" class="headerlink" title="Stream Writer"></a>Stream Writer</h3>  
+    <pre data-src="beginner/stream-writer/main.go"></pre>
+  
+<h3 id="Listen-UNIX-Socket"><a href="#Listen-UNIX-Socket" class="headerlink" title="Listen UNIX Socket"></a>Listen UNIX Socket</h3>  
+    <pre data-src="beginner/listen-unix/main.go"></pre>
+  
+<h3 id="Listen-TLS"><a href="#Listen-TLS" class="headerlink" title="Listen TLS"></a>Listen TLS</h3>  
+    <pre data-src="beginner/listen-tls/main.go"></pre>
+  
+<h3 id="Listen-Letsencrypt-Automatic-Certifications"><a href="#Listen-Letsencrypt-Automatic-Certifications" class="headerlink" title="Listen Letsencrypt (Automatic Certifications)"></a>Listen Letsencrypt (Automatic Certifications)</h3>  
+    <pre data-src="beginner/listen-letsencrypt/main.go"></pre>
+  
+<h2 id="Intermediate"><a href="#Intermediate" class="headerlink" title="Intermediate"></a>Intermediate</h2><h3 id="Send-an-email"><a href="#Send-an-email" class="headerlink" title="Send an email"></a>Send an email</h3>  
+    <pre data-src="intermediate/e-mail/main.go"></pre>
+  
+<h3 id="Upload-Read-Files"><a href="#Upload-Read-Files" class="headerlink" title="Upload/Read Files"></a>Upload/Read Files</h3>  
+    <pre data-src="intermediate/upload-files/main.go"></pre>
+  
+<h3 id="Request-Logger"><a href="#Request-Logger" class="headerlink" title="Request Logger"></a>Request Logger</h3>  
+    <pre data-src="intermediate/request-logger/main.go"></pre>
+  
+<h3 id="Profiling-pprof"><a href="#Profiling-pprof" class="headerlink" title="Profiling (pprof)"></a>Profiling (pprof)</h3>  
+    <pre data-src="intermediate/pprof/main.go"></pre>
+  
+<h3 id="Basic-Authentication"><a href="#Basic-Authentication" class="headerlink" title="Basic Authentication"></a>Basic Authentication</h3>  
+    <pre data-src="intermediate/basicauth/main.go"></pre>
+  
+<h3 id="HTTP-Access-Control"><a href="#HTTP-Access-Control" class="headerlink" title="HTTP Access Control"></a>HTTP Access Control</h3>  
+    <pre data-src="intermediate/cors/main.go"></pre>
+  
+<h3 id="Cache-Markdown"><a href="#Cache-Markdown" class="headerlink" title="Cache Markdown"></a>Cache Markdown</h3>  
+    <pre data-src="intermediate/cache-markdown/main.go"></pre>
+  
+<h3 id="Localization-and-Internationalization"><a href="#Localization-and-Internationalization" class="headerlink" title="Localization and Internationalization"></a>Localization and Internationalization</h3>  
+    <pre data-src="intermediate/i18n/main.go"></pre>
+  
+<h3 id="Recovery"><a href="#Recovery" class="headerlink" title="Recovery"></a>Recovery</h3>  
+    <pre data-src="intermediate/recover/main.go"></pre>
+  
+<h3 id="Graceful-Shutdown"><a href="#Graceful-Shutdown" class="headerlink" title="Graceful Shutdown"></a>Graceful Shutdown</h3>  
+    <pre data-src="intermediate/graceful-shutdown/main.go"></pre>
+  
+<h3 id="Custom-TCP-Listener"><a href="#Custom-TCP-Listener" class="headerlink" title="Custom TCP Listener"></a>Custom TCP Listener</h3>  
+    <pre data-src="intermediate/custom-listener/main.go"></pre>
+  
+<h3 id="Custom-HTTP-Server"><a href="#Custom-HTTP-Server" class="headerlink" title="Custom HTTP Server"></a>Custom HTTP Server</h3>  
+    <pre data-src="intermediate/custom-httpserver/main.go"></pre>
+  
+<h3 id="Password-Hashing"><a href="#Password-Hashing" class="headerlink" title="Password Hashing"></a>Password Hashing</h3>  
+    <pre data-src="intermediate/password-hashing/main.go"></pre>
+  
+<h3 id="Flash-Messages"><a href="#Flash-Messages" class="headerlink" title="Flash Messages"></a>Flash Messages</h3>  
+    <pre data-src="intermediate/flash-messages/main.go"></pre>
+  
+<h2 id="Advance"><a href="#Advance" class="headerlink" title="Advance"></a>Advance</h2><h3 id="Transactions"><a href="#Transactions" class="headerlink" title="Transactions"></a>Transactions</h3>  
+    <pre data-src="advanced/transactions/main.go"></pre>
+  
+<h3 id="HTTP-Testing"><a href="#HTTP-Testing" class="headerlink" title="HTTP Testing"></a>HTTP Testing</h3>  
+    <pre data-src="advanced/httptest/main_test.go"></pre>
+  
+<h3 id="Watch-amp-Compile-Typescript-source-files"><a href="#Watch-amp-Compile-Typescript-source-files" class="headerlink" title="Watch &amp; Compile Typescript source files"></a>Watch &amp; Compile Typescript source files</h3>  
+    <pre data-src="advanced/typescript/main.go"></pre>
+  
+<h3 id="Cloud-Editor"><a href="#Cloud-Editor" class="headerlink" title="Cloud Editor"></a>Cloud Editor</h3>  
+    <pre data-src="advanced/cloud-editor/main.go"></pre>
+  
+<h3 id="Online-Visitors"><a href="#Online-Visitors" class="headerlink" title="Online Visitors"></a>Online Visitors</h3>  
+    <pre data-src="advanced/online-visitors/main.go"></pre>
+  
+<h3 id="URL-Shortener-using-BoltDB"><a href="#URL-Shortener-using-BoltDB" class="headerlink" title="URL Shortener using BoltDB"></a>URL Shortener using BoltDB</h3>  
+    <pre data-src="advanced/url-shortener/main.go"></pre>
+  
+
+    
+    <div class="footer">
+      Contribute to the documentation?
+      <a href="https://github.com/iris-contrib/website/vnext/recipe/index.md" target="_blank">
+        Edit this page on Github!
+      </a>
+    </div>
+</div>
+
+                
+            </div>
+            <script src="/js/smooth-scroll.min.js"></script>
+        
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- main custom script for sidebars, version selects etc. -->        
+        <script src="/js/css.escape.js"></script>
+        <script src="/js/common.js"></script>
+        <script src="/js/prism.js"></script>
+        <!-- fastclick -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          FastClick.attach(document.body)
+        }, false)
+        </script>
+    </body>
+</html>

@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Iris</title>
+        <meta charset="utf-8">
+        <meta name="description" content="Iris-go - The fastest backend web framework for Go.">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+        <meta property="og:type" content="article">
+        <meta property="og:title" content="Iris">
+        <meta property="og:description" content="Iris-go - The fastest backend web framework for Go.">
+        <meta property="og:image" content="https://iris-go.com//images/icon.svg">
+
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="Iris">
+        <meta name="twitter:description" content="Iris-go - The fastest backend web framework for Go.">
+        <meta name="twitter:image" content="https://iris-go.com/images/icon.svg">
+
+        <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+        <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600|Roboto Mono' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Dosis:500&text=Iris' rel='stylesheet' type='text/css'>
+        <link href='/css/prism.css' rel='stylesheet' type='text/css'>
+        <link href='/css/terminal.css' rel='stylesheet' type='text/css'>
+        
+        <!-- main page styles -->
+        <link rel="stylesheet" href="/css/page.css">
+
+        <!-- this needs to be loaded before guide's inline scripts -->
+        <script>window.PAGE_TYPE = "guide"</script>
+
+        <!-- ga -->
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-46045347-6', 'iris-go.com');
+          ga('send', 'pageview');
+        </script>
+    </head>
+    <body class="docs">        <div id="mobile-bar" >
+            <a class="menu-button"></a>
+            <a class="logo" href="/"></a>
+        </div>
+        <div id="header">
+  <a id="logo" href="/">
+    <img src="/images/logo.png">
+    <span>IRIS</span>
+  </a>
+  <ul id="nav">
+    <li><a href="/vnext/start/" class="nav-link">Start</a></li>
+<li><a href="/vnext/guide/" class="nav-link current">Guide</a></li>
+<!--<li><a href="/vnext/post/" class="nav-link">Blog</a></li>-->
+<!--<li><a href="/vnext/tutorial/" class="nav-link">Tutorial</a></li>-->
+<li><a href="/vnext/recipe/" class="nav-link">Recipe</a></li>
+<li><a target="_blank" href="https://kataras.rocket.chat/channel/iris" class="nav-link">Chat</a></li>
+<li><a class="donate" style="color:#ff6666;" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=kataras2006%40hotmail%2ecom&lc=GR&item_name=Iris%20web%20framework&item_number=iriswebframeworkdonationid2016&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">Donate</a></li>
+<!--
+<li>
+  <form id="search-form">
+    <input type="text" id="search-query-nav" 
+      class="search-query st-default-search-input"/>
+  </form>
+</li>
+-->
+  </ul>
+</div>
+
+        
+            <div id="main" class="fix-sidebar">
+                
+                    
+    <div class="sidebar">
+    <ul class="main-menu">
+        <li><a href="/vnext/start/" class="nav-link">Start</a></li>
+<li><a href="/vnext/guide/" class="nav-link current">Guide</a></li>
+<!--<li><a href="/vnext/post/" class="nav-link">Blog</a></li>-->
+<!--<li><a href="/vnext/tutorial/" class="nav-link">Tutorial</a></li>-->
+<li><a href="/vnext/recipe/" class="nav-link">Recipe</a></li>
+<li><a target="_blank" href="https://kataras.rocket.chat/channel/iris" class="nav-link">Chat</a></li>
+<li><a class="donate" style="color:#ff6666;" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=kataras2006%40hotmail%2ecom&lc=GR&item_name=Iris%20web%20framework&item_number=iriswebframeworkdonationid2016&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">Donate</a></li>
+<!--
+<li>
+  <form id="search-form">
+    <input type="text" id="search-query-sidebar" 
+      class="search-query st-default-search-input"/>
+  </form>
+</li>
+-->
+    </ul>
+    <div class="list">
+        <h2>
+            Guide
+            
+                <select class="version-select">
+                    <option value="SELF" selected>√Νεxτ</option>
+                </select>
+            
+        </h2>
+        <ul class="menu-root">
+            
+                
+                
+                    
+                    
+                    
+                    
+                
+                
+                <li>
+                    <a href="/vnext/guide/index.html" class="sidebar-link current"></a>
+                </li>
+            
+            
+
+        </ul>
+    </div>
+</div>
+
+
+<div class="content guide with-sidebar index-guide">
+    
+    <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>I did some deep research and benchmarks with ‘wrk’ and ‘ab’ in order to choose which framework would suit me and my new project. The results were really disappointing to me.</p>
+<p>I started wondering if golang wasn’t as fast on the web as I had read… but, before I let Google Golang and continued to develop with nodejs.<br><strong>[13 March 2016]</strong> was the day when I said these word to my self.</p>
+<blockquote><br>‘Makis, don’t lose hope, give at least a chance to Golang. Try to build something totally new without basing it off the “slow” code you saw earlier; learn the secrets of this language and make others follow your steps!’.<br></blockquote>
+
+<p><strong>Birth of Iris Name</strong></p>
+<p>The same day (13 March 2016), later the night, I was reading a book about Greek mythology. I saw an ancient goddess’ name and was inspired immediately to give a name to this new web framework (which I had already started writing) - Iris.</p>
+<h2 id="Handlers"><a href="#Handlers" class="headerlink" title="Handlers"></a>Handlers</h2><h2 id="Middleware"><a href="#Middleware" class="headerlink" title="Middleware"></a>Middleware</h2><h2 id="Routing-API"><a href="#Routing-API" class="headerlink" title="Routing API"></a>Routing API</h2><h2 id="Declaration"><a href="#Declaration" class="headerlink" title="Declaration"></a>Declaration</h2><h2 id="Subdomains"><a href="#Subdomains" class="headerlink" title="Subdomains"></a>Subdomains</h2><h2 id="Named-Parameters"><a href="#Named-Parameters" class="headerlink" title="Named Parameters"></a>Named Parameters</h2><h2 id="Static-files"><a href="#Static-files" class="headerlink" title="Static files"></a>Static files</h2><h2 id="Send-files"><a href="#Send-files" class="headerlink" title="Send files"></a>Send files</h2><h2 id="Custom-Responses"><a href="#Custom-Responses" class="headerlink" title="Custom Responses"></a>Custom Responses</h2><h2 id="Render"><a href="#Render" class="headerlink" title="Render"></a>Render</h2><h3 id="Serialize-Engines"><a href="#Serialize-Engines" class="headerlink" title="Serialize Engines"></a>Serialize Engines</h3><h3 id="Template-Engines"><a href="#Template-Engines" class="headerlink" title="Template Engines"></a>Template Engines</h3><h2 id="Streaming"><a href="#Streaming" class="headerlink" title="Streaming"></a>Streaming</h2><h2 id="Cookies"><a href="#Cookies" class="headerlink" title="Cookies"></a>Cookies</h2><h2 id="Flash-messages"><a href="#Flash-messages" class="headerlink" title="Flash messages"></a>Flash messages</h2><h2 id="Body-binder"><a href="#Body-binder" class="headerlink" title="Body binder"></a>Body binder</h2><h2 id="Context"><a href="#Context" class="headerlink" title="Context"></a>Context</h2><h2 id="Logger"><a href="#Logger" class="headerlink" title="Logger"></a>Logger</h2><h2 id="Secure"><a href="#Secure" class="headerlink" title="Secure"></a>Secure</h2><h2 id="Sessions"><a href="#Sessions" class="headerlink" title="Sessions"></a>Sessions</h2><h2 id="Websockets"><a href="#Websockets" class="headerlink" title="Websockets"></a>Websockets</h2><h2 id="Graceful"><a href="#Graceful" class="headerlink" title="Graceful"></a>Graceful</h2><h2 id="Recovery"><a href="#Recovery" class="headerlink" title="Recovery"></a>Recovery</h2><h2 id="Internationalization-and-Localization"><a href="#Internationalization-and-Localization" class="headerlink" title="Internationalization and Localization"></a>Internationalization and Localization</h2><h2 id="Control-panel"><a href="#Control-panel" class="headerlink" title="Control panel"></a>Control panel</h2>
+    
+      <div class="guide-links">
+        
+        
+      </div>
+    
+    <div class="footer">
+      Contribute to the documentation?
+      <a href="https://github.com/iris-contrib/website/vnext/guide/index.md" target="_blank">
+        Edit this page on Github!
+      </a>
+    </div>
+</div>
+
+                
+            </div>
+            <script src="/js/smooth-scroll.min.js"></script>
+        
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- main custom script for sidebars, version selects etc. -->        
+        <script src="/js/css.escape.js"></script>
+        <script src="/js/common.js"></script>
+        <script src="/js/prism.js"></script>
+        <!-- fastclick -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          FastClick.attach(document.body)
+        }, false)
+        </script>
+    </body>
+</html>
